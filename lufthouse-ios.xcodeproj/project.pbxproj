@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770335196ED3B2001F658B /* Foundation.framework */; };
+		9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770337196ED3B2001F658B /* CoreGraphics.framework */; };
+		9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770339196ED3B2001F658B /* UIKit.framework */; };
+		9B770340196ED3B2001F658B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B77033E196ED3B2001F658B /* InfoPlist.strings */; };
+		9B770342196ED3B2001F658B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770341196ED3B2001F658B /* main.m */; };
+		9B770346196ED3B2001F658B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770345196ED3B2001F658B /* AppDelegate.m */; };
+		9B770349196ED3B2001F658B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B770347196ED3B2001F658B /* Main_iPhone.storyboard */; };
+		9B77034C196ED3B2001F658B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B77034A196ED3B2001F658B /* Main_iPad.storyboard */; };
+		9B77034F196ED3B2001F658B /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B77034E196ED3B2001F658B /* FirstViewController.m */; };
+		9B770352196ED3B2001F658B /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770351196ED3B2001F658B /* SecondViewController.m */; };
+		9B770354196ED3B2001F658B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B770353196ED3B2001F658B /* Images.xcassets */; };
+		9B77035B196ED3B2001F658B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B77035A196ED3B2001F658B /* XCTest.framework */; };
+		9B77035C196ED3B2001F658B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770335196ED3B2001F658B /* Foundation.framework */; };
+		9B77035D196ED3B2001F658B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770339196ED3B2001F658B /* UIKit.framework */; };
+		9B770365196ED3B2001F658B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B770363196ED3B2001F658B /* InfoPlist.strings */; };
+		9B770367196ED3B2001F658B /* lufthouse_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770366196ED3B2001F658B /* lufthouse_iosTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9B77035E196ED3B2001F658B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B77032A196ED3B2001F658B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B770331196ED3B2001F658B;
+			remoteInfo = "lufthouse-ios";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9B770332196ED3B2001F658B /* lufthouse-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lufthouse-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B770335196ED3B2001F658B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9B770337196ED3B2001F658B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9B770339196ED3B2001F658B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9B77033D196ED3B2001F658B /* lufthouse-ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "lufthouse-ios-Info.plist"; sourceTree = "<group>"; };
+		9B77033F196ED3B2001F658B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9B770341196ED3B2001F658B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9B770343196ED3B2001F658B /* lufthouse-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "lufthouse-ios-Prefix.pch"; sourceTree = "<group>"; };
+		9B770344196ED3B2001F658B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9B770345196ED3B2001F658B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9B770348196ED3B2001F658B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		9B77034B196ED3B2001F658B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		9B77034D196ED3B2001F658B /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		9B77034E196ED3B2001F658B /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		9B770350196ED3B2001F658B /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		9B770351196ED3B2001F658B /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		9B770353196ED3B2001F658B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9B770359196ED3B2001F658B /* lufthouse-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lufthouse-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B77035A196ED3B2001F658B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9B770362196ED3B2001F658B /* lufthouse-iosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "lufthouse-iosTests-Info.plist"; sourceTree = "<group>"; };
+		9B770364196ED3B2001F658B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9B770366196ED3B2001F658B /* lufthouse_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lufthouse_iosTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9B77032F196ED3B2001F658B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */,
+				9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */,
+				9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B770356196ED3B2001F658B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B77035B196ED3B2001F658B /* XCTest.framework in Frameworks */,
+				9B77035D196ED3B2001F658B /* UIKit.framework in Frameworks */,
+				9B77035C196ED3B2001F658B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9B770329196ED3B2001F658B = {
+			isa = PBXGroup;
+			children = (
+				9B77033B196ED3B2001F658B /* lufthouse-ios */,
+				9B770360196ED3B2001F658B /* lufthouse-iosTests */,
+				9B770334196ED3B2001F658B /* Frameworks */,
+				9B770333196ED3B2001F658B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9B770333196ED3B2001F658B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B770332196ED3B2001F658B /* lufthouse-ios.app */,
+				9B770359196ED3B2001F658B /* lufthouse-iosTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B770334196ED3B2001F658B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9B770335196ED3B2001F658B /* Foundation.framework */,
+				9B770337196ED3B2001F658B /* CoreGraphics.framework */,
+				9B770339196ED3B2001F658B /* UIKit.framework */,
+				9B77035A196ED3B2001F658B /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9B77033B196ED3B2001F658B /* lufthouse-ios */ = {
+			isa = PBXGroup;
+			children = (
+				9B770344196ED3B2001F658B /* AppDelegate.h */,
+				9B770345196ED3B2001F658B /* AppDelegate.m */,
+				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
+				9B77034A196ED3B2001F658B /* Main_iPad.storyboard */,
+				9B77034D196ED3B2001F658B /* FirstViewController.h */,
+				9B77034E196ED3B2001F658B /* FirstViewController.m */,
+				9B770350196ED3B2001F658B /* SecondViewController.h */,
+				9B770351196ED3B2001F658B /* SecondViewController.m */,
+				9B770353196ED3B2001F658B /* Images.xcassets */,
+				9B77033C196ED3B2001F658B /* Supporting Files */,
+			);
+			path = "lufthouse-ios";
+			sourceTree = "<group>";
+		};
+		9B77033C196ED3B2001F658B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9B77033D196ED3B2001F658B /* lufthouse-ios-Info.plist */,
+				9B77033E196ED3B2001F658B /* InfoPlist.strings */,
+				9B770341196ED3B2001F658B /* main.m */,
+				9B770343196ED3B2001F658B /* lufthouse-ios-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9B770360196ED3B2001F658B /* lufthouse-iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				9B770366196ED3B2001F658B /* lufthouse_iosTests.m */,
+				9B770361196ED3B2001F658B /* Supporting Files */,
+			);
+			path = "lufthouse-iosTests";
+			sourceTree = "<group>";
+		};
+		9B770361196ED3B2001F658B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9B770362196ED3B2001F658B /* lufthouse-iosTests-Info.plist */,
+				9B770363196ED3B2001F658B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9B770331196ED3B2001F658B /* lufthouse-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B77036A196ED3B2001F658B /* Build configuration list for PBXNativeTarget "lufthouse-ios" */;
+			buildPhases = (
+				9B77032E196ED3B2001F658B /* Sources */,
+				9B77032F196ED3B2001F658B /* Frameworks */,
+				9B770330196ED3B2001F658B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "lufthouse-ios";
+			productName = "lufthouse-ios";
+			productReference = 9B770332196ED3B2001F658B /* lufthouse-ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9B770358196ED3B2001F658B /* lufthouse-iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B77036D196ED3B2001F658B /* Build configuration list for PBXNativeTarget "lufthouse-iosTests" */;
+			buildPhases = (
+				9B770355196ED3B2001F658B /* Sources */,
+				9B770356196ED3B2001F658B /* Frameworks */,
+				9B770357196ED3B2001F658B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9B77035F196ED3B2001F658B /* PBXTargetDependency */,
+			);
+			name = "lufthouse-iosTests";
+			productName = "lufthouse-iosTests";
+			productReference = 9B770359196ED3B2001F658B /* lufthouse-iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9B77032A196ED3B2001F658B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Lufthouse;
+				TargetAttributes = {
+					9B770358196ED3B2001F658B = {
+						TestTargetID = 9B770331196ED3B2001F658B;
+					};
+				};
+			};
+			buildConfigurationList = 9B77032D196ED3B2001F658B /* Build configuration list for PBXProject "lufthouse-ios" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9B770329196ED3B2001F658B;
+			productRefGroup = 9B770333196ED3B2001F658B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9B770331196ED3B2001F658B /* lufthouse-ios */,
+				9B770358196ED3B2001F658B /* lufthouse-iosTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B770330196ED3B2001F658B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B77034C196ED3B2001F658B /* Main_iPad.storyboard in Resources */,
+				9B770354196ED3B2001F658B /* Images.xcassets in Resources */,
+				9B770349196ED3B2001F658B /* Main_iPhone.storyboard in Resources */,
+				9B770340196ED3B2001F658B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B770357196ED3B2001F658B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B770365196ED3B2001F658B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9B77032E196ED3B2001F658B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B770352196ED3B2001F658B /* SecondViewController.m in Sources */,
+				9B770346196ED3B2001F658B /* AppDelegate.m in Sources */,
+				9B77034F196ED3B2001F658B /* FirstViewController.m in Sources */,
+				9B770342196ED3B2001F658B /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9B770355196ED3B2001F658B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B770367196ED3B2001F658B /* lufthouse_iosTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9B77035F196ED3B2001F658B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9B770331196ED3B2001F658B /* lufthouse-ios */;
+			targetProxy = 9B77035E196ED3B2001F658B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9B77033E196ED3B2001F658B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B77033F196ED3B2001F658B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9B770347196ED3B2001F658B /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B770348196ED3B2001F658B /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		9B77034A196ED3B2001F658B /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B77034B196ED3B2001F658B /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		9B770363196ED3B2001F658B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B770364196ED3B2001F658B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9B770368196ED3B2001F658B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9B770369196ED3B2001F658B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9B77036B196ED3B2001F658B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
+				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9B77036C196ED3B2001F658B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
+				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9B77036E196ED3B2001F658B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/lufthouse-ios.app/lufthouse-ios";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "lufthouse-iosTests/lufthouse-iosTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9B77036F196ED3B2001F658B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/lufthouse-ios.app/lufthouse-ios";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
+				INFOPLIST_FILE = "lufthouse-iosTests/lufthouse-iosTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9B77032D196ED3B2001F658B /* Build configuration list for PBXProject "lufthouse-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B770368196ED3B2001F658B /* Debug */,
+				9B770369196ED3B2001F658B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9B77036A196ED3B2001F658B /* Build configuration list for PBXNativeTarget "lufthouse-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B77036B196ED3B2001F658B /* Debug */,
+				9B77036C196ED3B2001F658B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9B77036D196ED3B2001F658B /* Build configuration list for PBXNativeTarget "lufthouse-iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B77036E196ED3B2001F658B /* Debug */,
+				9B77036F196ED3B2001F658B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9B77032A196ED3B2001F658B /* Project object */;
+}
