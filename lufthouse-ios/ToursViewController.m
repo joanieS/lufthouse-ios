@@ -11,7 +11,7 @@
 
 @interface ToursViewController ()
 
-@property (nonatomic, strong) NSData *contentForSegue;
+@property (nonatomic, strong) NSMutableArray *contentForSegue;
 
 @end
 
@@ -39,6 +39,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.hidden = NO;
+    self.contentForSegue = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,8 +81,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSError *error;
-    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: @"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"] options:0 error:&error];
-    self.contentForSegue = imageData;
+    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
+    self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, nil];
     
     [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
 }
@@ -94,7 +96,8 @@
 {
     if ([[segue identifier] isEqualToString:@"tourToTourImage"]) {
         TourImageViewController *destination = [segue destinationViewController];
-        destination.tourLandingImageData = self.contentForSegue;
+        destination.tourLandingImageData = [self.contentForSegue objectAtIndex:0];
+        destination.tourID = [self.contentForSegue objectAtIndex:1];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

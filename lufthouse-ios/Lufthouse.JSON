@@ -1,11 +1,13 @@
 {
     "Western Reserve Historical Society" : {
         "tours": ["Cleveland Browns", "Around the Museum in 90 Minutes"],
-        "tourID": ["1", "2"]
+        "tourID": ["1", "2"],
+        "tourLandingImage" : ["http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg", "http://critterbabies.com/wp-content/gallery/elephants/cute-baby-elephant-5.jpg"]
     },
     
     "Spangler" : {
         "tours": ["Catch the Candy Cane Crook!", "Stroll Down Memory Lane"],
-        "tourID": ["3", "4"]
+        "tourID": ["3", "4"],
+        "tourLandingImage" : ["https://missgallo.wikispaces.com/file/view/Lemur_300web.jpg/323983464/Lemur_300web.jpg", "http://eofdreams.com/data_images/dreams/orange/orange-02.jpg"]
     }
 }
