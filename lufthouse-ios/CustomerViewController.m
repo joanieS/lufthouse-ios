@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSArray *contentForSegue;
 @property (nonatomic) NSInteger numberOfRows;
 
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, strong) NSMutableData *receivedData;
 
 @end
 
@@ -24,32 +27,46 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    self.tableContent = [self loadNearbyTours];
+    
     self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
     
     self.customerTableView.dataSource = self;
     self.customerTableView.delegate = self;
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    
+    [self.locationManager startUpdatingLocation];
+    CLLocationDegrees latitude = self.locationManager.location.coordinate.latitude;
+    CLLocationDegrees longitude = self.locationManager.location.coordinate.longitude;
+    [self.locationManager stopUpdatingLocation];
+    
+    NSString *latLong = [NSString stringWithFormat:@"%f/%f", latitude, longitude];
+    
+    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", latLong]]];
+    [getCustJSON setHTTPMethod:@"GET"];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
+    self.receivedData = [NSMutableData dataWithCapacity: 0];
+    if (!connection) {
+        // Release the receivedData object.
+        self.receivedData = nil;
+        
+        // Inform the user that the connection failed.
+    }
+    
+    
+    
+    
 //    [self.view addSubview:self.tableView];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (NSMutableArray *)loadNearbyTours
+
+
+- (NSMutableArray *)loadNearbyTours: (NSDictionary*) results
 {
-    // Create filepath to the local JSON
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Lufthouse" ofType:@"JSON"];
-    // Begin reading JSON
-    NSData *toursJSON = [[NSData alloc] initWithContentsOfFile:filePath];
-    NSError *error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:toursJSON options:0 error:&error];
     
-    // If JSON didn't blow up
-    if([json isKindOfClass:[NSDictionary class]]){
-        // Create a dictionary out of the JSON
-        NSDictionary *results = json;
-        
         // All key values for the three layers to the JSON
         NSArray *outterKeys = [results allKeys];
         NSArray *innerKeys;
@@ -58,32 +75,33 @@
         returnArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
         
         for (NSString *outterKey in outterKeys) {
-            innerKeys = [[results objectForKey:outterKey] allKeys];
-            tours = [NSMutableArray array];
-            tourIDs = [NSMutableArray array];
-            tourLandingImages = [NSMutableArray array];
-            for (NSString *innerKey in innerKeys) {
-                for (NSInteger i = 0; i < [[[results objectForKey:outterKey] objectForKey:innerKey] count]; i++) {
-                    if ([innerKey isEqualToString: @"tours"]) {
-                        [tours addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
+            if ([[results objectForKey:outterKey] isKindOfClass:[NSDictionary class]]) {
+        
+                innerKeys = [[results objectForKey:outterKey] allKeys];
+                tours = [NSMutableArray array];
+                tourIDs = [NSMutableArray array];
+                tourLandingImages = [NSMutableArray array];
+                for (NSString *innerKey in innerKeys) {
+                    for (NSInteger i = 0; i < [[[results objectForKey:outterKey] objectForKey:innerKey] count]; i++) {
+                        if ([innerKey isEqualToString: @"tours"]) {
+                            [tours addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
+                        }
+                        else if ([innerKey isEqualToString:@"tourID"]) {
+                            [tourIDs addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
+                        }
+                        else if ([innerKey isEqualToString:@"tourLandingImage"]) {
+                            [tourLandingImages addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
+                        }
+                        
                     }
-                    else if ([innerKey isEqualToString:@"tourID"]) {
-                        [tourIDs addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
-                    }
-                    else if ([innerKey isEqualToString:@"tourLandingImage"]) {
-                        [tourLandingImages addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
-                    }
-                    
                 }
+                [[returnArray objectAtIndex:0] addObject:outterKey];
+                [[returnArray objectAtIndex:1] addObject:tours];
+                [[returnArray objectAtIndex:2] addObject:tourIDs];
+                [[returnArray objectAtIndex:3] addObject:tourLandingImages];
             }
-            [[returnArray objectAtIndex:0] addObject:outterKey];
-            [[returnArray objectAtIndex:1] addObject:tours];
-            [[returnArray objectAtIndex:2] addObject:tourIDs];
-            [[returnArray objectAtIndex:3] addObject:tourLandingImages];
         }
         return returnArray;
-    }
-    return nil;
 }
 
     
@@ -132,6 +150,75 @@
     
     [self performSegueWithIdentifier:@"customerToTours" sender:self];
 }
+
+#pragma mark - URL Connection
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // This method is called when the server has determined that it
+    // has enough information to create the NSURLResponse object.
+    
+    // It can be called multiple times, for example in the case of a
+    // redirect, so each time we reset the data.
+    
+    // receivedData is an instance variable declared elsewhere.
+    [self.receivedData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Append the new data to receivedData.
+    // receivedData is an instance variable declared elsewhere.
+    [self.receivedData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection
+  didFailWithError:(NSError *)error
+{
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    connection = nil;
+    self.receivedData = nil;
+    
+    // inform the user
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // do something with the data
+    // receivedData is declared as a property elsewhere
+    NSError *error = nil;
+    id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
+    
+    // If JSON didn't blow up
+    if([json isKindOfClass:[NSDictionary class]]){
+        // Create a dictionary out of the JSON
+        NSDictionary *results = json;
+        self.tableContent = [self loadNearbyTours:results];
+    } else {
+        NSLog(@"Error: JSON is corrupt");
+    }
+
+    
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    connection = nil;
+    self.receivedData = nil;
+}
+
 
 #pragma mark - Navigation
 

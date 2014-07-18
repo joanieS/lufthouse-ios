@@ -10,6 +10,7 @@
 		9B15E733196F1A6000FB29E6 /* testImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E732196F1A6000FB29E6 /* testImage.jpg */; };
 		9B15E735196F1BC300FB29E6 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E734196F1BC300FB29E6 /* back.png */; };
 		9B15E738196F267C00FB29E6 /* TourImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B15E737196F267C00FB29E6 /* TourImageViewController.m */; };
+		9B5DDAE71976D7E00029CBA6 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */; };
 		9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770335196ED3B2001F658B /* Foundation.framework */; };
 		9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770337196ED3B2001F658B /* CoreGraphics.framework */; };
 		9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770339196ED3B2001F658B /* UIKit.framework */; };
@@ -103,6 +104,8 @@
 		9B15E734196F1BC300FB29E6 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = SOURCE_ROOT; };
 		9B15E736196F267C00FB29E6 /* TourImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourImageViewController.h; sourceTree = "<group>"; };
 		9B15E737196F267C00FB29E6 /* TourImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourImageViewController.m; sourceTree = "<group>"; };
+		9B5DDAE51976D7E00029CBA6 /* StoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoriesViewController.h; sourceTree = "<group>"; };
+		9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoriesViewController.m; sourceTree = "<group>"; };
 		9B770332196ED3B2001F658B /* lufthouse-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lufthouse-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B770335196ED3B2001F658B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9B770337196ED3B2001F658B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -320,6 +323,8 @@
 				9B770344196ED3B2001F658B /* AppDelegate.h */,
 				9B770345196ED3B2001F658B /* AppDelegate.m */,
 				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
+				9B5DDAE51976D7E00029CBA6 /* StoriesViewController.h */,
+				9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */,
 				9B15E736196F267C00FB29E6 /* TourImageViewController.h */,
 				9B15E737196F267C00FB29E6 /* TourImageViewController.m */,
 				9B15E732196F1A6000FB29E6 /* testImage.jpg */,
@@ -696,6 +701,7 @@
 				9BF9EC7B19702EE8008B73CA /* NSData+ImageContentType.m in Sources */,
 				9BF9EC6B19702EE8008B73CA /* PSTCollectionView.m in Sources */,
 				9BF9EC8619702EE8008B73CA /* UIImage+WebP.m in Sources */,
+				9B5DDAE71976D7E00029CBA6 /* StoriesViewController.m in Sources */,
 				9BF9EC6F19702EE8008B73CA /* PSTCollectionViewFlowLayout.m in Sources */,
 				9BF9EBF419702B1C008B73CA /* WebContentViewController.m in Sources */,
 				9BF9EC6219702EE8008B73CA /* MWPhoto.m in Sources */,

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface CustomerViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface CustomerViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, NSURLConnectionDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *customerTableView;
 

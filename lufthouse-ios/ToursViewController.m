@@ -82,6 +82,9 @@
 {
     NSError *error;
     NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    if (imageData == nil) {
+        imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testImage" ofType:@"jpg"]];
+    }
     NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
     self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, nil];
     

@@ -17,6 +17,8 @@
         
         "5" : ["http://dierenplaatjes.us/walrussen/walrussen01/walrus-plaatje-003.jpg", "image", "nil"],
         
-        "6" : ["testImage.jpg", "image", "nil"]
+        "6" : ["testImage.jpg", "image", "nil"],
+        
+        "7" : ["nil", "create-story", "nil"]
     }
 }

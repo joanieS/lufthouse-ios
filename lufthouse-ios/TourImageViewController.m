@@ -8,6 +8,7 @@
 
 #import "TourImageViewController.h"
 #import "WebContentViewController.h"
+#import "StoriesViewController.h"
 
 @interface TourImageViewController ()
 
@@ -299,6 +300,9 @@
                 //Create the photo gallery and display it
                 [self createPhotoGallery:photoArray];
             }
+            else if(!([beaconArray[2][i] rangeOfString:@"create-story"].location == NSNotFound)) {
+                [self performSegueWithIdentifier:@"tourImageToStoriesPost" sender:self];
+            }
             
 //            if([beaconArray[2][i] rangeOfString:@"local-video"].location == NSNotFound) {
 //                self.isLocalVideo = false;
@@ -432,6 +436,11 @@
         WebContentViewController *destination = [segue destinationViewController];
         destination.segueContentURL = self.urlContentForSegue;
         destination.segueContentHTML = self.htmlContentForSegue;
+    }
+    else if ([[segue identifier] isEqualToString:@"tourImageToStoriesPost"]) {
+        [self popToThisController];
+//        [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+//        [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
     }
     
     // Get the new view controller using [segue destinationViewController].
