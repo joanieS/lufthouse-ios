@@ -23,13 +23,19 @@
  * Takes arrays for all values necessary for a tour and creates the object. Returns a 
  * pointer to itself once it's done.
  */
--(LufthouseTour *)initTourWithName: (NSString *) tourName beaconIDArray: (NSMutableArray *) beaconIDs beaconContentArray: (NSMutableArray *) beaconContent beaconContentTypeArray: (NSMutableArray *) beaconContentType beaconAudioArray: (NSMutableArray *) beaconAudio
+-(LufthouseTour *)initTourWithName: (NSString *) tourName
+                     beaconIDArray: (NSMutableArray *) beaconIDs
+                beaconContentArray: (NSMutableArray *) beaconContent
+            beaconContentTypeArray: (NSMutableArray *) beaconContentType
+                  beaconAudioArray: (NSMutableArray *) beaconAudio
+               installationIDArray: (NSMutableArray *) installationID
 {
     self.tourName = tourName;
     self.beaconIDs = beaconIDs;
     self.beaconContent = beaconContent;
     self.beaconContentType = beaconContentType;
     self.beaconAudio = beaconAudio;
+    self.installationID = installationID;
     
     return self;
 }
@@ -62,6 +68,11 @@
 -(NSString *)getBeaconAudioAtIndex: (NSInteger) index
 {
     return [self.beaconAudio objectAtIndex:index];
+}
+
+-(NSString *)getInstallationIDAtIndex: (NSInteger) index
+{
+    return [self.installationID objectAtIndex:index];
 }
 
 /* findIndexOfID 

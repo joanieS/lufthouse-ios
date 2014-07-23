@@ -86,7 +86,8 @@
         imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testImage" ofType:@"jpg"]];
     }
     NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
-    self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, nil];
+    NSString *customerID = [self.tableContent objectAtIndex:4];
+    self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
     
     [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
 }
@@ -101,6 +102,7 @@
         TourImageViewController *destination = [segue destinationViewController];
         destination.tourLandingImageData = [self.contentForSegue objectAtIndex:0];
         destination.tourID = [self.contentForSegue objectAtIndex:1];
+        destination.customerID = [self.contentForSegue objectAtIndex:2];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

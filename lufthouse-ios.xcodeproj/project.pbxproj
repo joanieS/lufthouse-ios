@@ -10,6 +10,7 @@
 		9B15E733196F1A6000FB29E6 /* testImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E732196F1A6000FB29E6 /* testImage.jpg */; };
 		9B15E735196F1BC300FB29E6 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E734196F1BC300FB29E6 /* back.png */; };
 		9B15E738196F267C00FB29E6 /* TourImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B15E737196F267C00FB29E6 /* TourImageViewController.m */; };
+		9B2E7772198006CB000FF6F6 /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */; };
 		9B5DDAE71976D7E00029CBA6 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */; };
 		9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770335196ED3B2001F658B /* Foundation.framework */; };
 		9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770337196ED3B2001F658B /* CoreGraphics.framework */; };
@@ -27,6 +28,32 @@
 		9B770367196ED3B2001F658B /* lufthouse_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770366196ED3B2001F658B /* lufthouse_iosTests.m */; };
 		9B770373196ED896001F658B /* CustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770372196ED896001F658B /* CustomerViewController.m */; };
 		9B770375196EDE21001F658B /* Lufthouse.JSON in Resources */ = {isa = PBXBuildFile; fileRef = 9B770374196EDE21001F658B /* Lufthouse.JSON */; };
+		9B907A82197EDDAD0044BA1E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7A197EDDAD0044BA1E /* Bolts.framework */; };
+		9B907A83197EDDAD0044BA1E /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */; };
+		9B907A84197EDDAD0044BA1E /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7C197EDDAD0044BA1E /* Mantle.framework */; };
+		9B907A85197EDDAD0044BA1E /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7D197EDDAD0044BA1E /* Reachability.framework */; };
+		9B907A86197EDDAD0044BA1E /* TMCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7E197EDDAD0044BA1E /* TMCache.framework */; };
+		9B907A87197EDDAD0044BA1E /* UICKeyChainStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */; };
+		9B907A88197EDDAD0044BA1E /* XMLDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */; };
+		9B907A8A197EE8CA0044BA1E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */; };
+		9B907A8C197EE8D60044BA1E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A8B197EE8D60044BA1E /* libz.dylib */; };
+		9B907A9C197EE9520044BA1E /* autoscaling-2011-01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A8D197EE9520044BA1E /* autoscaling-2011-01-01.json */; };
+		9B907A9D197EE9520044BA1E /* cib-2014-06-30.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A8E197EE9520044BA1E /* cib-2014-06-30.json */; };
+		9B907A9E197EE9520044BA1E /* css-2014-06-30.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A8F197EE9520044BA1E /* css-2014-06-30.json */; };
+		9B907A9F197EE9520044BA1E /* dynamodb-2012-08-10.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A90197EE9520044BA1E /* dynamodb-2012-08-10.json */; };
+		9B907AA0197EE9520044BA1E /* ec2-2014-05-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A91197EE9520044BA1E /* ec2-2014-05-01.json */; };
+		9B907AA1197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A92197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json */; };
+		9B907AA2197EE9520044BA1E /* email-2010-12-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A93197EE9520044BA1E /* email-2010-12-01.json */; };
+		9B907AA3197EE9520044BA1E /* kinesis-2013-12-02.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A94197EE9520044BA1E /* kinesis-2013-12-02.json */; };
+		9B907AA4197EE9520044BA1E /* mobileanalytics-2014-06-30.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A95197EE9520044BA1E /* mobileanalytics-2014-06-30.json */; };
+		9B907AA5197EE9520044BA1E /* monitoring-2010-08-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A96197EE9520044BA1E /* monitoring-2010-08-01.json */; };
+		9B907AA6197EE9520044BA1E /* s3-2006-03-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A97197EE9520044BA1E /* s3-2006-03-01.json */; };
+		9B907AA7197EE9520044BA1E /* sdb-2009-04-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A98197EE9520044BA1E /* sdb-2009-04-15.json */; };
+		9B907AA8197EE9520044BA1E /* sns-2010-03-31.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A99197EE9520044BA1E /* sns-2010-03-31.json */; };
+		9B907AA9197EE9520044BA1E /* sqs-2012-11-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A9A197EE9520044BA1E /* sqs-2012-11-05.json */; };
+		9B907AAA197EE9520044BA1E /* sts-2011-06-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A9B197EE9520044BA1E /* sts-2011-06-15.json */; };
+		9B907AAD197EF04E0044BA1E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B907AAC197EF04E0044BA1E /* Constants.m */; };
+		9BDB00F2197D63A900F7B8A2 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDB00F1197D63A900F7B8A2 /* settings.png */; };
 		9BF9EBEB19702752008B73CA /* ToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEA19702752008B73CA /* ToursViewController.m */; };
 		9BF9EBED197028D2008B73CA /* 1.JSON in Resources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEC197028D2008B73CA /* 1.JSON */; };
 		9BF9EBF419702B1C008B73CA /* WebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEF19702B1C008B73CA /* WebContentViewController.m */; };
@@ -127,6 +154,34 @@
 		9B770371196ED896001F658B /* CustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerViewController.h; sourceTree = "<group>"; };
 		9B770372196ED896001F658B /* CustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerViewController.m; sourceTree = "<group>"; };
 		9B770374196EDE21001F658B /* Lufthouse.JSON */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Lufthouse.JSON; sourceTree = "<group>"; };
+		9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDKv2.framework; path = "AWS Frameworks/AWSiOSSDKv2.framework"; sourceTree = "<group>"; };
+		9B907A7A197EDDAD0044BA1E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "AWS Frameworks/Bolts.framework"; sourceTree = "<group>"; };
+		9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSURITemplate.framework; path = "AWS Frameworks/CSURITemplate.framework"; sourceTree = "<group>"; };
+		9B907A7C197EDDAD0044BA1E /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = "AWS Frameworks/Mantle.framework"; sourceTree = "<group>"; };
+		9B907A7D197EDDAD0044BA1E /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "AWS Frameworks/Reachability.framework"; sourceTree = "<group>"; };
+		9B907A7E197EDDAD0044BA1E /* TMCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMCache.framework; path = "AWS Frameworks/TMCache.framework"; sourceTree = "<group>"; };
+		9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICKeyChainStore.framework; path = "AWS Frameworks/UICKeyChainStore.framework"; sourceTree = "<group>"; };
+		9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XMLDictionary.framework; path = "AWS Frameworks/XMLDictionary.framework"; sourceTree = "<group>"; };
+		9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		9B907A8B197EE8D60044BA1E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9B907A8D197EE9520044BA1E /* autoscaling-2011-01-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "autoscaling-2011-01-01.json"; sourceTree = "<group>"; };
+		9B907A8E197EE9520044BA1E /* cib-2014-06-30.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cib-2014-06-30.json"; sourceTree = "<group>"; };
+		9B907A8F197EE9520044BA1E /* css-2014-06-30.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "css-2014-06-30.json"; sourceTree = "<group>"; };
+		9B907A90197EE9520044BA1E /* dynamodb-2012-08-10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "dynamodb-2012-08-10.json"; sourceTree = "<group>"; };
+		9B907A91197EE9520044BA1E /* ec2-2014-05-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ec2-2014-05-01.json"; sourceTree = "<group>"; };
+		9B907A92197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "elasticloadbalancing-2012-06-01.json"; sourceTree = "<group>"; };
+		9B907A93197EE9520044BA1E /* email-2010-12-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "email-2010-12-01.json"; sourceTree = "<group>"; };
+		9B907A94197EE9520044BA1E /* kinesis-2013-12-02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "kinesis-2013-12-02.json"; sourceTree = "<group>"; };
+		9B907A95197EE9520044BA1E /* mobileanalytics-2014-06-30.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "mobileanalytics-2014-06-30.json"; sourceTree = "<group>"; };
+		9B907A96197EE9520044BA1E /* monitoring-2010-08-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "monitoring-2010-08-01.json"; sourceTree = "<group>"; };
+		9B907A97197EE9520044BA1E /* s3-2006-03-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "s3-2006-03-01.json"; sourceTree = "<group>"; };
+		9B907A98197EE9520044BA1E /* sdb-2009-04-15.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sdb-2009-04-15.json"; sourceTree = "<group>"; };
+		9B907A99197EE9520044BA1E /* sns-2010-03-31.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sns-2010-03-31.json"; sourceTree = "<group>"; };
+		9B907A9A197EE9520044BA1E /* sqs-2012-11-05.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sqs-2012-11-05.json"; sourceTree = "<group>"; };
+		9B907A9B197EE9520044BA1E /* sts-2011-06-15.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sts-2011-06-15.json"; sourceTree = "<group>"; };
+		9B907AAB197EF04E0044BA1E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		9B907AAC197EF04E0044BA1E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		9BDB00F1197D63A900F7B8A2 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		9BF9EBE919702752008B73CA /* ToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToursViewController.h; sourceTree = "<group>"; };
 		9BF9EBEA19702752008B73CA /* ToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToursViewController.m; sourceTree = "<group>"; };
 		9BF9EBEC197028D2008B73CA /* 1.JSON */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 1.JSON; sourceTree = "<group>"; };
@@ -248,17 +303,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B2E7772198006CB000FF6F6 /* AWSiOSSDKv2.framework in Frameworks */,
+				9B907A8C197EE8D60044BA1E /* libz.dylib in Frameworks */,
+				9B907A8A197EE8CA0044BA1E /* libsqlite3.dylib in Frameworks */,
 				9BF9EC96197052C9008B73CA /* CoreBluetooth.framework in Frameworks */,
 				9BF9EC94197052BE008B73CA /* CoreLocation.framework in Frameworks */,
 				9BF9EC92197052B2008B73CA /* SystemConfiguration.framework in Frameworks */,
+				9B907A85197EDDAD0044BA1E /* Reachability.framework in Frameworks */,
 				9BF9EC90197052A0008B73CA /* Security.framework in Frameworks */,
+				9B907A86197EDDAD0044BA1E /* TMCache.framework in Frameworks */,
 				9BF9EC8E19705295008B73CA /* CFNetwork.framework in Frameworks */,
 				9BF9EC8C1970528B008B73CA /* AVFoundation.framework in Frameworks */,
+				9B907A82197EDDAD0044BA1E /* Bolts.framework in Frameworks */,
 				9BF9EC8A19705280008B73CA /* AssetsLibrary.framework in Frameworks */,
 				9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */,
+				9B907A87197EDDAD0044BA1E /* UICKeyChainStore.framework in Frameworks */,
 				9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */,
+				9B907A88197EDDAD0044BA1E /* XMLDictionary.framework in Frameworks */,
+				9B907A84197EDDAD0044BA1E /* Mantle.framework in Frameworks */,
 				9BF9EBFF19702EBA008B73CA /* libEstimoteSDK.a in Frameworks */,
 				9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */,
+				9B907A83197EDDAD0044BA1E /* CSURITemplate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +343,7 @@
 		9B770329196ED3B2001F658B = {
 			isa = PBXGroup;
 			children = (
+				9BDB00F1197D63A900F7B8A2 /* settings.png */,
 				9BF9EC0019702EE8008B73CA /* MWPhotoBrowser */,
 				9BF9EBF719702EBA008B73CA /* EstimoteSDK */,
 				9B77033B196ED3B2001F658B /* lufthouse-ios */,
@@ -299,6 +365,16 @@
 		9B770334196ED3B2001F658B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9B907A8B197EE8D60044BA1E /* libz.dylib */,
+				9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */,
+				9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */,
+				9B907A7A197EDDAD0044BA1E /* Bolts.framework */,
+				9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */,
+				9B907A7C197EDDAD0044BA1E /* Mantle.framework */,
+				9B907A7D197EDDAD0044BA1E /* Reachability.framework */,
+				9B907A7E197EDDAD0044BA1E /* TMCache.framework */,
+				9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */,
+				9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */,
 				9BF9EC95197052C9008B73CA /* CoreBluetooth.framework */,
 				9BF9EC93197052BE008B73CA /* CoreLocation.framework */,
 				9BF9EC91197052B2008B73CA /* SystemConfiguration.framework */,
@@ -317,19 +393,25 @@
 		9B77033B196ED3B2001F658B /* lufthouse-ios */ = {
 			isa = PBXGroup;
 			children = (
-				9BF9EBE919702752008B73CA /* ToursViewController.h */,
-				9BF9EBEA19702752008B73CA /* ToursViewController.m */,
-				9B15E734196F1BC300FB29E6 /* back.png */,
+				9B907AAB197EF04E0044BA1E /* Constants.h */,
+				9B907AAC197EF04E0044BA1E /* Constants.m */,
 				9B770344196ED3B2001F658B /* AppDelegate.h */,
 				9B770345196ED3B2001F658B /* AppDelegate.m */,
-				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
-				9B5DDAE51976D7E00029CBA6 /* StoriesViewController.h */,
-				9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */,
-				9B15E736196F267C00FB29E6 /* TourImageViewController.h */,
-				9B15E737196F267C00FB29E6 /* TourImageViewController.m */,
-				9B15E732196F1A6000FB29E6 /* testImage.jpg */,
+				9BF9EBF219702B1C008B73CA /* NavigationController.h */,
+				9BF9EBF319702B1C008B73CA /* NavigationController.m */,
 				9B770371196ED896001F658B /* CustomerViewController.h */,
 				9B770372196ED896001F658B /* CustomerViewController.m */,
+				9BF9EBE919702752008B73CA /* ToursViewController.h */,
+				9BF9EBEA19702752008B73CA /* ToursViewController.m */,
+				9B15E736196F267C00FB29E6 /* TourImageViewController.h */,
+				9B15E737196F267C00FB29E6 /* TourImageViewController.m */,
+				9BF9EBEE19702B1C008B73CA /* WebContentViewController.h */,
+				9BF9EBEF19702B1C008B73CA /* WebContentViewController.m */,
+				9B5DDAE51976D7E00029CBA6 /* StoriesViewController.h */,
+				9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */,
+				9B15E734196F1BC300FB29E6 /* back.png */,
+				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
+				9B15E732196F1A6000FB29E6 /* testImage.jpg */,
 				9B770374196EDE21001F658B /* Lufthouse.JSON */,
 				9BF9EBEC197028D2008B73CA /* 1.JSON */,
 				9BF9EC9F197075BB008B73CA /* Browns Play.mov */,
@@ -337,12 +419,6 @@
 				9BF9EC9719705FC7008B73CA /* 2.JSON */,
 				9BF9EC9919705FD4008B73CA /* 3.JSON */,
 				9BF9EC9B19705FDB008B73CA /* 4.JSON */,
-				9BF9EBEE19702B1C008B73CA /* WebContentViewController.h */,
-				9BF9EBEF19702B1C008B73CA /* WebContentViewController.m */,
-				9BF9EBF019702B1C008B73CA /* LufthouseTour.h */,
-				9BF9EBF119702B1C008B73CA /* LufthouseTour.m */,
-				9BF9EBF219702B1C008B73CA /* NavigationController.h */,
-				9BF9EBF319702B1C008B73CA /* NavigationController.m */,
 				9B77034A196ED3B2001F658B /* Main_iPad.storyboard */,
 				9B770353196ED3B2001F658B /* Images.xcassets */,
 				9B77033C196ED3B2001F658B /* Supporting Files */,
@@ -353,6 +429,23 @@
 		9B77033C196ED3B2001F658B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9B907A8D197EE9520044BA1E /* autoscaling-2011-01-01.json */,
+				9B907A8E197EE9520044BA1E /* cib-2014-06-30.json */,
+				9B907A8F197EE9520044BA1E /* css-2014-06-30.json */,
+				9B907A90197EE9520044BA1E /* dynamodb-2012-08-10.json */,
+				9B907A91197EE9520044BA1E /* ec2-2014-05-01.json */,
+				9B907A92197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json */,
+				9B907A93197EE9520044BA1E /* email-2010-12-01.json */,
+				9B907A94197EE9520044BA1E /* kinesis-2013-12-02.json */,
+				9B907A95197EE9520044BA1E /* mobileanalytics-2014-06-30.json */,
+				9B907A96197EE9520044BA1E /* monitoring-2010-08-01.json */,
+				9B907A97197EE9520044BA1E /* s3-2006-03-01.json */,
+				9B907A98197EE9520044BA1E /* sdb-2009-04-15.json */,
+				9B907A99197EE9520044BA1E /* sns-2010-03-31.json */,
+				9B907A9A197EE9520044BA1E /* sqs-2012-11-05.json */,
+				9B907A9B197EE9520044BA1E /* sts-2011-06-15.json */,
+				9BF9EBF019702B1C008B73CA /* LufthouseTour.h */,
+				9BF9EBF119702B1C008B73CA /* LufthouseTour.m */,
 				9B77033D196ED3B2001F658B /* lufthouse-ios-Info.plist */,
 				9B77033E196ED3B2001F658B /* InfoPlist.strings */,
 				9B770341196ED3B2001F658B /* main.m */,
@@ -628,23 +721,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B907A9D197EE9520044BA1E /* cib-2014-06-30.json in Resources */,
 				9BF9EC9819705FC7008B73CA /* 2.JSON in Resources */,
 				9BF9EC9A19705FD4008B73CA /* 3.JSON in Resources */,
+				9B907A9C197EE9520044BA1E /* autoscaling-2011-01-01.json in Resources */,
 				9BF9EC6919702EE8008B73CA /* README.mdown in Resources */,
+				9B907AA9197EE9520044BA1E /* sqs-2012-11-05.json in Resources */,
 				9B77034C196ED3B2001F658B /* Main_iPad.storyboard in Resources */,
+				9B907AA0197EE9520044BA1E /* ec2-2014-05-01.json in Resources */,
 				9BF9EC9E19706A55008B73CA /* SongTitle.mp3 in Resources */,
 				9B770375196EDE21001F658B /* Lufthouse.JSON in Resources */,
+				9B907A9E197EE9520044BA1E /* css-2014-06-30.json in Resources */,
+				9BDB00F2197D63A900F7B8A2 /* settings.png in Resources */,
+				9B907AAA197EE9520044BA1E /* sts-2011-06-15.json in Resources */,
 				9BF9EC8819702EE8008B73CA /* MWPhotoBrowser.bundle in Resources */,
+				9B907A9F197EE9520044BA1E /* dynamodb-2012-08-10.json in Resources */,
 				9B770354196ED3B2001F658B /* Images.xcassets in Resources */,
 				9BF9EC7719702EE8008B73CA /* LICENSE in Resources */,
 				9BF9ECA0197075BB008B73CA /* Browns Play.mov in Resources */,
 				9B15E733196F1A6000FB29E6 /* testImage.jpg in Resources */,
+				9B907AA6197EE9520044BA1E /* s3-2006-03-01.json in Resources */,
 				9B15E735196F1BC300FB29E6 /* back.png in Resources */,
 				9BF9EC9C19705FDB008B73CA /* 4.JSON in Resources */,
+				9B907AA1197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json in Resources */,
+				9B907AA8197EE9520044BA1E /* sns-2010-03-31.json in Resources */,
 				9B770349196ED3B2001F658B /* Main_iPhone.storyboard in Resources */,
 				9B770340196ED3B2001F658B /* InfoPlist.strings in Resources */,
 				9BF9EC7819702EE8008B73CA /* README.md in Resources */,
+				9B907AA7197EE9520044BA1E /* sdb-2009-04-15.json in Resources */,
+				9B907AA3197EE9520044BA1E /* kinesis-2013-12-02.json in Resources */,
+				9B907AA2197EE9520044BA1E /* email-2010-12-01.json in Resources */,
 				9BF9EBED197028D2008B73CA /* 1.JSON in Resources */,
+				9B907AA4197EE9520044BA1E /* mobileanalytics-2014-06-30.json in Resources */,
+				9B907AA5197EE9520044BA1E /* monitoring-2010-08-01.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,6 +807,7 @@
 				9BF9EC8519702EE8008B73CA /* UIImage+MultiFormat.m in Sources */,
 				9BF9EC6819702EE8008B73CA /* MBProgressHUD.m in Sources */,
 				9BF9EC6719702EE8008B73CA /* DACircularProgressView.m in Sources */,
+				9B907AAD197EF04E0044BA1E /* Constants.m in Sources */,
 				9BF9EC7B19702EE8008B73CA /* NSData+ImageContentType.m in Sources */,
 				9BF9EC6B19702EE8008B73CA /* PSTCollectionView.m in Sources */,
 				9BF9EC8619702EE8008B73CA /* UIImage+WebP.m in Sources */,
@@ -844,6 +954,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AWS",
+					Frameworks,
+					"$(PROJECT_DIR)/AWS",
+					Frameworks,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
@@ -851,6 +969,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -861,6 +980,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AWS",
+					Frameworks,
+					"$(PROJECT_DIR)/AWS",
+					Frameworks,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
@@ -868,6 +995,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

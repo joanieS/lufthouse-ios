@@ -41,8 +41,11 @@
     [self.locationManager stopUpdatingLocation];
     
     NSString *latLong = [NSString stringWithFormat:@"%f/%f", latitude, longitude];
+    latLong = [latLong stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+    latLong = [NSString stringWithFormat:@"%@.json", latLong];
+//    NSString *latLong = [NSString stringWithFormat:@"123/456.json"];
     
-    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", latLong]]];
+    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/location/%@", latLong]]];
     [getCustJSON setHTTPMethod:@"GET"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
     self.receivedData = [NSMutableData dataWithCapacity: 0];
@@ -64,44 +67,48 @@
 
 
 
-- (NSMutableArray *)loadNearbyTours: (NSDictionary*) results
+- (NSMutableArray *)loadNearbyTours: (NSArray*) results
 {
     
         // All key values for the three layers to the JSON
-        NSArray *outterKeys = [results allKeys];
-        NSArray *innerKeys;
-        NSMutableArray *tours, *tourIDs, *tourLandingImages, *returnArray;
+    NSArray *outterKeys;// = [results allKeys];
+    NSArray *installations;
+    NSMutableArray *tours, *tourIDs, *tourLandingImages, *returnArray;
+    NSString *customerName, *customerID;
+    NSDictionary *installation;
 
-        returnArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+    returnArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
+    
+    for (NSDictionary *customer in results) {
         
-        for (NSString *outterKey in outterKeys) {
-            if ([[results objectForKey:outterKey] isKindOfClass:[NSDictionary class]]) {
+        customerName = [customer objectForKey:@"name"];
+        customerID = [NSString stringWithFormat:@"%@", [customer objectForKey:@"id"]];
+        installations = [customer objectForKey:@"installations"];
         
-                innerKeys = [[results objectForKey:outterKey] allKeys];
-                tours = [NSMutableArray array];
-                tourIDs = [NSMutableArray array];
-                tourLandingImages = [NSMutableArray array];
-                for (NSString *innerKey in innerKeys) {
-                    for (NSInteger i = 0; i < [[[results objectForKey:outterKey] objectForKey:innerKey] count]; i++) {
-                        if ([innerKey isEqualToString: @"tours"]) {
-                            [tours addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
-                        }
-                        else if ([innerKey isEqualToString:@"tourID"]) {
-                            [tourIDs addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
-                        }
-                        else if ([innerKey isEqualToString:@"tourLandingImage"]) {
-                            [tourLandingImages addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex:i]];
-                        }
-                        
-                    }
-                }
-                [[returnArray objectAtIndex:0] addObject:outterKey];
-                [[returnArray objectAtIndex:1] addObject:tours];
-                [[returnArray objectAtIndex:2] addObject:tourIDs];
-                [[returnArray objectAtIndex:3] addObject:tourLandingImages];
+        tours = [NSMutableArray array];
+        tourIDs = [NSMutableArray array];
+        tourLandingImages = [NSMutableArray array];
+        
+        
+        for (int i = 0; i < [installations count]; i++) {
+            installation = [installations objectAtIndex:i];
+            if ([installation objectForKey:@"active"]) {
+                [tours addObject:[installation objectForKey:@"name"]];
+                [tourIDs addObject:[installation objectForKey:@"id"]];
+                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];//[[installations objectAtIndex:i] objectForKey:@"landingImage"]];
             }
         }
-        return returnArray;
+        
+        if ([tours count] > 0) {
+            [[returnArray objectAtIndex:0] addObject:customerName];
+            [[returnArray objectAtIndex:1] addObject:tours];
+            [[returnArray objectAtIndex:2] addObject:tourIDs];
+            [[returnArray objectAtIndex:3] addObject:tourLandingImages];
+            [[returnArray objectAtIndex:4] addObject:customerID];
+        }
+    }
+    
+    return returnArray;
 }
 
     
@@ -145,7 +152,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *segueContent = [NSMutableArray array];
-    segueContent = [NSMutableArray arrayWithObjects:[[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row] , [[self.tableContent objectAtIndex:1] objectAtIndex:indexPath.row], [[self.tableContent objectAtIndex:2] objectAtIndex:indexPath.row], [[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row], nil];
+    segueContent = [NSMutableArray arrayWithObjects:
+                    [[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row] ,
+                    [[self.tableContent objectAtIndex:1] objectAtIndex:indexPath.row],
+                    [[self.tableContent objectAtIndex:2] objectAtIndex:indexPath.row],
+                    [[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row],
+                    [[self.tableContent objectAtIndex:4] objectAtIndex:indexPath.row],
+                    nil];
     self.contentForSegue = segueContent;
     
     [self performSegueWithIdentifier:@"customerToTours" sender:self];
@@ -199,10 +212,12 @@
     id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
     
     // If JSON didn't blow up
-    if([json isKindOfClass:[NSDictionary class]]){
+    if([json isKindOfClass:[NSArray class]]){
         // Create a dictionary out of the JSON
-        NSDictionary *results = json;
+        NSArray *results = json;
         self.tableContent = [self loadNearbyTours:results];
+        self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
+        [self.customerTableView reloadData];
     } else {
         NSLog(@"Error: JSON is corrupt");
     }

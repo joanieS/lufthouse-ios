@@ -7,6 +7,13 @@
 //
 
 #import "StoriesViewController.h"
+#import "Constants.h"
+#import <AWSiOSSDKv2/AWSCore.h>
+#import <AWSiOSSDKv2/S3.h>
+#import <AWSiOSSDKv2/DynamoDB.h>
+#import <AWSiOSSDKv2/SQS.h>
+#import <AWSiOSSDKv2/SNS.h>
+#import <AWSiOSSDKv2/AmazonCore.h>
 
 @interface StoriesViewController ()
 
@@ -15,9 +22,13 @@
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @property (nonatomic, strong) NSData *audioData;
-@property (nonatomic, strong) NSString *audioDataPath;
+@property (nonatomic, strong) NSURL *audioURL;
 
 @property (nonatomic, strong) NSMutableData *receivedData;
+
+@property (nonatomic, strong) AWSS3TransferManagerUploadRequest *uploadRequest;
+
+@property (nonatomic, strong) NSURL *testFileURL;
 
 @end
 
@@ -32,17 +43,17 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidLoad];
+    [super viewDidAppear:true];
+    
+    self.testFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:S3KeyUploadName]];
     
     self.postTextField.delegate = self;
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *soundDir = paths[0];
-    NSString *soundPath = [soundDir stringByAppendingPathComponent:@"sound.wav"];
-    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
-    self.audioDataPath = soundPath;
+    NSURL *tmpDirURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
+    NSURL *soundURL = [[tmpDirURL URLByAppendingPathComponent:@"audio"] URLByAppendingPathExtension:@".caf"];
+    self.audioURL = soundURL;
     NSError *error = nil;
     NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
@@ -114,26 +125,52 @@
 
 - (IBAction)sendButtonActivate:(id)sender {
     
-    NSData *audioData = [[NSData alloc] initWithContentsOfFile:self.audioDataPath];
+    __weak typeof(self) weakSelf = self;
     
-    NSMutableURLRequest *audioPostRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", nil]]];
-    [audioPostRequest setHTTPMethod:@"POST"];
-    [audioPostRequest setValue:@"audio-recording" forHTTPHeaderField:@"Content-Type"];
-    [audioPostRequest setHTTPBody:audioData];
+    self.uploadRequest = [AWSS3TransferManagerUploadRequest new];
+    self.uploadRequest.bucket = S3BucketName;
+    self.uploadRequest.key = [NSString stringWithFormat:@"%@/%@/%@/%@.caf", self.custID, self.tourID, self.instID, [self.postTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
+    self.uploadRequest.body = self.audioURL;
+//    self.uploadRequest.uploadProgress =  ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend){
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            weakSelf.file1AlreadyUpload = totalBytesSent;
+//            [weakSelf updateProgress];
+//        });
+//    };
+
+    self.uploadStatusLabel.text = StatusLabelUploading;
+    [self uploadFiles];
     
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:audioPostRequest delegate:self];
-    self.receivedData = [NSMutableData dataWithCapacity: 0];
-    if (!connection) {
-        // Release the receivedData object.
-        self.receivedData = nil;
-        
-        // Inform the user that the connection failed.
-    }
+    
+//    
+//    NSMutableURLRequest *audioPostRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", nil]]];
+//    [audioPostRequest setHTTPMethod:@"POST"];
+//    [audioPostRequest setValue:@"audio-recording" forHTTPHeaderField:@"Content-Type"];
+//    [audioPostRequest setHTTPBody:audioData];
+//    
+//    NSURLConnection *connection = [NSURLConnection connectionWithRequest:audioPostRequest delegate:self];
+//    self.receivedData = [NSMutableData dataWithCapacity: 0];
+//    if (!connection) {
+//        // Release the receivedData object.
+//        self.receivedData = nil;
+//        
+//        // Inform the user that the connection failed.
+//    }
 }
 
 //- (IBAction)commentDidEnter:(id)sender {
 //    [self.postTextField resignFirstResponder];
 //}
+
+#define ACCEPTABLE_CHARACTERS @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string  {
+    NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:ACCEPTABLE_CHARACTERS] invertedSet];
+    
+    NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+    
+    return [string isEqualToString:filtered];
+}
 
 -(BOOL) textFieldShouldReturn: (UITextField *) textField {
     [textField resignFirstResponder];
@@ -144,6 +181,29 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - AWS S3 Uploading
+
+- (void) uploadFiles {
+    AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
+    
+    __block int uploadCount = 0;
+    [[transferManager upload:self.uploadRequest] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
+        if (task.error != nil) {
+            if( task.error.code != AWSS3TransferManagerErrorCancelled
+               &&
+               task.error.code != AWSS3TransferManagerErrorPaused
+               )
+            {
+                self.uploadStatusLabel.text = StatusLabelFailed;
+            }
+        } else {
+            self.uploadRequest = nil;
+            self.uploadStatusLabel.text = StatusLabelCompleted;
+        }
+        return nil;
+    }];
 }
 
 /*

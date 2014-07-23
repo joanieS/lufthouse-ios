@@ -278,7 +278,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="sad">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="toolTip"/>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
@@ -293,7 +293,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="sad">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="toolTip"/>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>

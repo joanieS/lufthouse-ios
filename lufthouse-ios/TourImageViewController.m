@@ -41,6 +41,9 @@
 
 @property (nonatomic, strong) NSURL *urlContentForSegue;
 @property (nonatomic, strong) NSString *htmlContentForSegue;
+@property (nonatomic, strong) NSString *installationIDForSegue;
+
+@property (nonatomic, strong) NSMutableData *receivedData;
 
 @end
 
@@ -94,38 +97,56 @@
 {
     //If content hasn't been loaded
     if (self.beaconContent == nil) {
-        [self loadBeaconData];
+        NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
+        [getCustJSON setHTTPMethod:@"GET"];
+        NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
+        self.receivedData = [NSMutableData dataWithCapacity: 0];
+        if (!connection) {
+            // Release the receivedData object.
+//            self.receivedData = nil;
+            
+            // Inform the user that the connection failed.
+        }
         NSLog(@"Beacon content loaded");
     }
     
-    ESTBeacon *currentBeacon;       //Beacon to check against
-    NSString *stringifiedMinor;     //String type of currentBeacon's minor value
-    //Create array containing all relevant information about the matched beacon and its content
-    NSMutableArray *beaconAssignment = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
-    NSInteger beaconIndex = -1;
-    LufthouseTour *currentTour;
+    if (self.beaconContent != nil) {
     
-    currentTour = self.beaconContent;
-    //For each beacon in range
-    for(int i = 0; i < [beacons count]; i++){
-        currentBeacon = [beacons objectAtIndex:i];
-        stringifiedMinor = [NSString stringWithFormat:@"%@", [currentBeacon minor]];
+        ESTBeacon *currentBeacon;       //Beacon to check against
+        NSString *stringifiedMinor;     //String type of currentBeacon's minor value
+        //Create array containing all relevant information about the matched beacon and its content
+        NSMutableArray *beaconAssignment = [NSMutableArray arrayWithObjects:
+                                            [NSMutableArray array],
+                                            [NSMutableArray array],
+                                            [NSMutableArray array],
+                                            [NSMutableArray array],
+                                            [NSMutableArray array],nil];
+        NSInteger beaconIndex = -1;
+        LufthouseTour *currentTour;
         
-        beaconIndex = [currentTour findIndexOfID:stringifiedMinor];
-        //If we can find the beacon, grab the data
-        if (beaconIndex != -1) {
-            [beaconAssignment[0] addObject:currentBeacon];
-            [beaconAssignment[1] addObject:[currentTour getBeaconContentAtIndex:beaconIndex]];
-            [beaconAssignment[2] addObject:[currentTour getBeaconContentTypeAtIndex:beaconIndex]];
-            [beaconAssignment[3] addObject:[currentTour getBeaconAudioAtIndex:beaconIndex]];
-            NSLog(@"Beacon matched! %@", [currentBeacon minor] );
+        currentTour = self.beaconContent;
+        //For each beacon in range
+        for(int i = 0; i < [beacons count]; i++){
+            currentBeacon = [beacons objectAtIndex:i];
+            stringifiedMinor = [NSString stringWithFormat:@"%@", [currentBeacon minor]];
+            
+            beaconIndex = [currentTour findIndexOfID:stringifiedMinor];
+            //If we can find the beacon, grab the data
+            if (beaconIndex != -1) {
+                [beaconAssignment[0] addObject:currentBeacon];
+                [beaconAssignment[1] addObject:[currentTour getBeaconContentAtIndex:beaconIndex]];
+                [beaconAssignment[2] addObject:[currentTour getBeaconContentTypeAtIndex:beaconIndex]];
+                [beaconAssignment[3] addObject:[currentTour getBeaconAudioAtIndex:beaconIndex]];
+                [beaconAssignment[4] addObject:[currentTour getInstallationIDAtIndex:beaconIndex]];
+                NSLog(@"Beacon matched! %@", [currentBeacon minor] );
+            }
+        }
+        //If we found a matched beacon, then set it up for loading
+        NSMutableArray *matchedBeacons = beaconAssignment[0];
+        if ([matchedBeacons count] > 0) {
+            self.contentBeaconArray = beaconAssignment;
         }
     }
-    //If we found a matched beacon, then set it up for loading
-    if ([beaconAssignment[0] count] > 0) {
-        self.contentBeaconArray = beaconAssignment;
-    }
-    
     [self performSelectorOnMainThread:@selector(updateUI:) withObject:[beacons firstObject] waitUntilDone:YES];
 }
 
@@ -133,67 +154,49 @@
  * Retrieves JSON file from a source (currently local Lufthouse.JSON) and reads
  * the file into LufthouseCustomer and LufthouseTour objects.
  */
--(void)loadBeaconData
+-(void)loadBeaconData: (NSDictionary*) json
 {
-    // Create filepath to the local JSON
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:self.tourID ofType:@"JSON"];
-    // Begin reading JSON
-    NSData *beaconJSON = [[NSData alloc] initWithContentsOfFile:filePath];
-    NSError *error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:beaconJSON options:0 error:&error];
-    
+    NSString *tourName;
     // If JSON didn't blow up
     if([json isKindOfClass:[NSDictionary class]]){
         // Create a dictionary out of the JSON
         NSDictionary *results = json;
-        // All key values for the three layers to the JSON
-        NSArray *outterKeys = [results allKeys];
-        NSArray *innerKeys;
+
+        NSArray *beacons;
         
         /* Arrays to hold data before storing it into tours, customers, and ulimately
          * self.beaconContent
          */
-        NSMutableArray *beaconIDs, *beaconValues, *beaconAudio, *beaconTypes;
-        
-        //Temporary customer and tour
-        
-        LufthouseTour *tempTour;
+        NSMutableArray *beaconIDs, *beaconValues, *beaconAudio, *beaconTypes, *installationIDs;
+        beaconIDs = [NSMutableArray array];
+        beaconValues = [NSMutableArray array];
+        beaconTypes = [NSMutableArray array];
+        beaconAudio = [NSMutableArray array];
+        installationIDs = [NSMutableArray array];
         
         //Clear customers for all incoming new customers
         
-        if ([outterKeys count] > 1) {
-            [NSException raise:@"Invalid number of tours" format:@"Only one tour should exist"];
-        }
+//        if ([outterKeys count] > 1) {
+//            [NSException raise:@"Invalid number of tours" format:@"Only one tour should exist"];
+//        }
+//
+        tourName = [results objectForKey:@"name"];
+        beacons = [results objectForKey:@"beacons"];
         
         //For each customer in the JSON
-        for (NSString *outterKey in outterKeys) {
-            //Get the tour names
-            innerKeys = [[results objectForKey:outterKey] allKeys];
-            //Prep tours for storing new tours
+        
+        for (NSDictionary *beacon in beacons) {
             
-            
-            //Prep for data
-            beaconIDs = [NSMutableArray array];
-            beaconValues = [NSMutableArray array];
-            beaconTypes = [NSMutableArray array];
-            beaconAudio = [NSMutableArray array];
-            
-            //For each tour in a customer
-            for (NSString *innerKey in innerKeys) {
-                //Add the id, content, content type, and audio
-                [beaconIDs addObject:innerKey];
-                [beaconValues addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex: 0]];
-                [beaconTypes addObject:[[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex: 1]];
-                [beaconAudio addObject: [[[results objectForKey:outterKey] objectForKey:innerKey] objectAtIndex: 2]];
-            }
-            
-            //Create a tour out of all the data just loaded
-            tempTour = [[LufthouseTour alloc] initTourWithName:outterKey beaconIDArray:beaconIDs beaconContentArray:beaconValues beaconContentTypeArray:beaconTypes beaconAudioArray:beaconAudio];
+            [beaconIDs addObject:[NSString stringWithFormat:@"%@", [beacon objectForKey:@"minor_id"]]];
+            [beaconValues addObject:[beacon objectForKey:@"content"]];
+            [beaconTypes addObject:[beacon objectForKey:@"content_type"]];
+            [beaconAudio addObject:[beacon objectForKey:@"audio"]];
+            [installationIDs addObject:[beacon objectForKey:@"id"]];
+        
         }
         
-        
         //Assign the beacon content for access elsewhere
-        self.beaconContent = tempTour;
+        self.beaconContent = [[LufthouseTour alloc] initTourWithName:tourName beaconIDArray:beaconIDs beaconContentArray:beaconValues beaconContentTypeArray:beaconTypes beaconAudioArray:beaconAudio installationIDArray:installationIDs];
     }
 }
 
@@ -208,14 +211,14 @@
     NSURL *beaconURL;
     NSString *url, *htmlString, *beaconHTML;
     NSMutableArray *photoArray;
-    
+    NSMutableArray *matchedBeacons = beaconArray[0];
     //For each beacon we ranged and matched
-    for(int i = 0; i < [beaconArray[0] count]; i++) {
+    for(int i = 0; i < [matchedBeacons count]; i++) {
         //If our proximity is immediate, the beacon isn't currently on display, and the beacon is the closest
         if((self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate) && !([checkBeacon.minor isEqual:self.activeMinor]) && [checkBeacon.minor isEqual:[[[beaconArray objectAtIndex:0] objectAtIndex:i] minor]]) {
             
             //If there is no audio to play, then send no audio
-            if ([[[beaconArray objectAtIndex:3] objectAtIndex:i] isEqualToString:@"nil"]) {
+            if ([[[beaconArray objectAtIndex:3] objectAtIndex:i] isKindOfClass:[NSNull class]]) {
                 url = nil;
             }
             else { //Otherwise, play that funky music, white boy
@@ -279,7 +282,8 @@
                 photoArray = [NSMutableArray array];
                 
                 //For each image in the gallery
-                for(int j = 0; j < [beaconArray[1][i] count]; j = j + 2) {
+                NSMutableArray *galleryImages = beaconArray[1][i];
+                for(int j = 0; j < [galleryImages count]; j = j + 2) {
                     //If it's local, create a local URL
                     if ([beaconArray[1][i][j] rangeOfString:@"http"].location == NSNotFound && [beaconArray[1][i][j] rangeOfString:@"www."].location == NSNotFound) {
                         [photoArray addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i][j]]]]];
@@ -301,6 +305,8 @@
                 [self createPhotoGallery:photoArray];
             }
             else if(!([beaconArray[2][i] rangeOfString:@"create-story"].location == NSNotFound)) {
+                self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
+                self.installationIDForSegue = [[beaconArray objectAtIndex:4] objectAtIndex:i];
                 [self performSegueWithIdentifier:@"tourImageToStoriesPost" sender:self];
             }
             
@@ -426,6 +432,73 @@
     return nil;
 }
 
+#pragma mark - URL Connection
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // This method is called when the server has determined that it
+    // has enough information to create the NSURLResponse object.
+    
+    // It can be called multiple times, for example in the case of a
+    // redirect, so each time we reset the data.
+    
+    // receivedData is an instance variable declared elsewhere.
+    [self.receivedData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Append the new data to receivedData.
+    // receivedData is an instance variable declared elsewhere.
+    [self.receivedData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection
+  didFailWithError:(NSError *)error
+{
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    connection = nil;
+    self.receivedData = nil;
+    
+    // inform the user
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // do something with the data
+    // receivedData is declared as a property elsewhere
+    NSError *error = nil;
+    id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
+    
+    // If JSON didn't blow up
+    if([json isKindOfClass:[NSDictionary class]]){
+        [self loadBeaconData: json];
+    } else {
+        NSLog(@"Error: JSON is corrupt");
+    }
+    
+    
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    connection = nil;
+    self.receivedData = nil;
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -439,6 +512,10 @@
     }
     else if ([[segue identifier] isEqualToString:@"tourImageToStoriesPost"]) {
         [self popToThisController];
+        StoriesViewController *destination = [segue destinationViewController];
+        destination.custID = self.customerID;
+        destination.tourID = self.tourID;
+        destination.instID = self.installationIDForSegue;
 //        [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
 //        [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
     }

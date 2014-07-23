@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+
+
 @interface StoriesViewController : UIViewController <AVAudioPlayerDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *postTextField;
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
@@ -16,5 +18,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 
+@property (nonatomic, weak) IBOutlet UILabel *uploadStatusLabel;
+
+@property (nonatomic, weak) NSString *custID;
+@property (nonatomic, weak) NSString *tourID;
+@property (nonatomic, weak) NSString *instID;
 
 @end

@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSData *tourLandingImageData;
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) NSMutableArray *thumbs;
+@property (nonatomic, strong) NSString *customerID;
 @property (nonatomic, strong) NSString *tourID;
 
 

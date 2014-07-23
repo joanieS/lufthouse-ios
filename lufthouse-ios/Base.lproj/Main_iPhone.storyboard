@@ -20,6 +20,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="tourCell" textLabel="998-dS-wGt" detailTextLabel="0cu-kb-M8c" style="IBUITableViewCellStyleSubtitle" id="PSH-sK-HTW">
                                         <rect key="frame" x="0.0" y="86" width="320" height="44"/>
@@ -52,7 +53,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Lufthouse" id="iFW-Yf-zAM">
                         <barButtonItem key="backBarButtonItem" title="Back" id="yuj-2m-qVO"/>
-                        <barButtonItem key="rightBarButtonItem" image="first" id="PRY-eM-0XK">
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" id="PRY-eM-0XK">
+                            <inset key="imageInsets" minX="40" minY="25" maxX="10" maxY="25"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="Inn-uB-juH" kind="push" id="gIU-oJ-3d3"/>
                             </connections>
@@ -65,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qWe-hH-3Wf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="192" y="194"/>
+            <point key="canvasLocation" x="164" y="194"/>
         </scene>
         <!--Tours View Controller - Lufthouse-->
         <scene sceneID="Uq1-XX-dJT">
@@ -119,10 +122,9 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Lufthouse" id="ruz-cF-e7P">
                         <barButtonItem key="backBarButtonItem" title="Back" id="717-8R-zU4"/>
-                        <barButtonItem key="rightBarButtonItem" image="first" id="efo-7u-Tih">
-                            <connections>
-                                <segue destination="Inn-uB-juH" kind="push" id="S3W-0n-CGy"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" id="fPT-iA-MGK">
+                            <inset key="imageInsets" minX="40" minY="25" maxX="10" maxY="25"/>
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -149,7 +151,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPe-XD-LKx">
-                                <rect key="frame" x="20" y="0.0" width="280" height="233"/>
+                                <rect key="frame" x="20" y="66" width="280" height="233"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Insert about information here. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
@@ -157,7 +159,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QlF-VL-i4U">
-                                <rect key="frame" x="20" y="265" width="280" height="120"/>
+                                <rect key="frame" x="20" y="314" width="280" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Insert legal information here. Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
@@ -237,7 +239,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMt-ke-R2H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1514" y="928"/>
+            <point key="canvasLocation" x="1516" y="937"/>
         </scene>
         <!--Tour Image View Controller-->
         <scene sceneID="djv-iT-Oac">
@@ -313,8 +315,8 @@
                                     <action selector="sendButtonActivate:" destination="EOE-sD-uYc" eventType="touchUpInside" id="qNW-qe-XEe"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jCB-di-Tmc">
-                                <rect key="frame" x="23" y="89" width="275" height="181"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jCB-di-Tmc">
+                                <rect key="frame" x="23" y="225" width="275" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -344,6 +346,19 @@
                                     <action selector="stopButtonActivate:" destination="EOE-sD-uYc" eventType="touchUpInside" id="V6s-tA-3ie"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ready" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGk-rV-032">
+                                <rect key="frame" x="71" y="322" width="179" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I remember when..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHK-Xg-saY">
+                                <rect key="frame" x="23" y="196" width="148" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -353,6 +368,7 @@
                         <outlet property="recordButton" destination="JVE-Al-kn0" id="YiL-Q9-aUU"/>
                         <outlet property="sendButton" destination="Ftm-ld-CcX" id="uO8-LL-Exp"/>
                         <outlet property="stopButton" destination="dSi-Pp-Wu9" id="2ed-MY-dMk"/>
+                        <outlet property="uploadStatusLabel" destination="eGk-rV-032" id="WCF-3A-LY9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AMm-Bl-qGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -401,6 +417,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Y5l-AG-MCz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.054901960784313725" green="0.26666666666666666" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -414,14 +434,11 @@
     </scenes>
     <resources>
         <image name="back.png" width="120" height="120"/>
-        <image name="first" width="30" height="30"/>
+        <image name="settings.png" width="82" height="82"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="gIU-oJ-3d3"/>
-    </inferredMetricsTieBreakers>
 </document>
