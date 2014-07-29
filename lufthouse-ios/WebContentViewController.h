@@ -28,9 +28,11 @@
 
 @interface WebContentViewController : UIViewController<UIWebViewDelegate>
 
+//Web view and loading image
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *waiting;
 
+//Input segue data
 @property (nonatomic, strong) NSURL *segueContentURL;
 @property (nonatomic, strong) NSString *segueContentHTML;
 

@@ -24,14 +24,18 @@
 #import "MWPhotoBrowser.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface TourImageViewController : UIViewController<ESTBeaconManagerDelegate , MWPhotoBrowserDelegate>
+@interface TourImageViewController : UIViewController<ESTBeaconManagerDelegate , MWPhotoBrowserDelegate, CBCentralManagerDelegate>
 
+//Display image for tour
 @property (strong, nonatomic) IBOutlet UIImageView *tourLandingImage;
 @property (nonatomic, strong) NSData *tourLandingImageData;
+
+//Data for MWPhotoBrowser
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) NSMutableArray *thumbs;
+
+//Info to further pass to StoriesViewController
 @property (nonatomic, strong) NSString *customerID;
 @property (nonatomic, strong) NSString *tourID;
-
 
 @end

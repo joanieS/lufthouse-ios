@@ -17,11 +17,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
-
-@property (nonatomic, weak) IBOutlet UILabel *uploadStatusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 
 @property (nonatomic, weak) NSString *custID;
 @property (nonatomic, weak) NSString *tourID;
 @property (nonatomic, weak) NSString *instID;
+
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tap;
+@property (weak, nonatomic) IBOutlet UILabel *timerDisplay;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 
 @end

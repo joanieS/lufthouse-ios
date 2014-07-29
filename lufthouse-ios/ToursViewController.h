@@ -10,8 +10,12 @@
 
 @interface ToursViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
+//Passed in content from CustomerViewController
 @property (nonatomic, strong) NSArray *tableContent;
+
+//Visual items
 @property (weak, nonatomic) IBOutlet UILabel *customerName;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfTours;
 @property (weak, nonatomic) IBOutlet UITableView *toursTableView;
 
 @end

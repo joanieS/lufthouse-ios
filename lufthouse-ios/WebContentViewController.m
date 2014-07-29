@@ -44,6 +44,7 @@
  */
 @implementation WebContentViewController
 
+#pragma mark - Setup Controller
 /* viewDidLoad
  * On starting up, start beacon managing and ranging
  */
@@ -69,30 +70,30 @@
     self.shouldRotate = NO;
     self.activeMinor = 0000;
     self.webView.delegate = self;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
-/* updateUI
- * Gets the closest beacon and displays content of the nearest beacon
- */
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+#pragma mark - UI Generation and Execution
+
 - (void)updateUI
 {
     //Variables for loading content in the UIWebView
     NSURLRequest *beaconRequest = nil;
 
+    //If we're loading HTML content, load it
     if (self.segueContentURL == nil && self.segueContentHTML != nil) {
         self.webView.scalesPageToFit = YES;
         [self.webView loadHTMLString:self.segueContentHTML baseURL:[[NSBundle mainBundle] resourceURL]];
-    } else {
+    } else { //If we want to load URL content
         beaconRequest = [NSURLRequest requestWithURL:self.segueContentURL];
         [self.webView loadRequest:beaconRequest];
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    NSLog(@"Error : %@",error);
-}
 
 
 /* playbackStateDidChange
@@ -114,6 +115,20 @@
     }
     else
         return self.shouldRotate;
+}
+
+#pragma  mark - Web View management
+
+//Manage any error by getting a user refresh
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    UIAlertView *webError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                       message:@"It appears something went wrong loading the content; please check your network connection and try again!"
+                                                      delegate:self
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles:nil];
+    [webError show];
+    webError = nil;
 }
 
 /* webViewDidStartLoad

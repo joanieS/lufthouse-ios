@@ -8,53 +8,82 @@
 
 #import "StoriesViewController.h"
 #import "Constants.h"
+
 #import <AWSiOSSDKv2/AWSCore.h>
 #import <AWSiOSSDKv2/S3.h>
-#import <AWSiOSSDKv2/DynamoDB.h>
-#import <AWSiOSSDKv2/SQS.h>
-#import <AWSiOSSDKv2/SNS.h>
-#import <AWSiOSSDKv2/AmazonCore.h>
 
 @interface StoriesViewController ()
 
+//Allows recording and audio playback
 @property (nonatomic, strong) AVAudioSession *audioSession;
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
+//Contains important data about the recording for later use
 @property (nonatomic, strong) NSData *audioData;
-@property (nonatomic, strong) NSURL *audioURL;
+@property (nonatomic, strong) NSString *audioPath;
+@property (nonatomic)   int audioLength;
 
-@property (nonatomic, strong) NSMutableData *receivedData;
-
+//S3 upload capability
 @property (nonatomic, strong) AWSS3TransferManagerUploadRequest *uploadRequest;
 
-@property (nonatomic, strong) NSURL *testFileURL;
+//Timer for countdown display and variable to allow countdown
+@property (nonatomic, strong) NSTimer *countdownTimer;
+@property (nonatomic) int remainingTicks;
+
+//Keep track of whether or not we should start or stop
+@property (nonatomic) BOOL isTiming;
 
 @end
 
 @implementation StoriesViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+#pragma mark - Setup View
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:true];
     
-    self.testFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:S3KeyUploadName]];
-    
+    //Establish text field manipulation
     self.postTextField.delegate = self;
     
-    NSURL *tmpDirURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
-    NSURL *soundURL = [[tmpDirURL URLByAppendingPathComponent:@"audio"] URLByAppendingPathExtension:@".caf"];
-    self.audioURL = soundURL;
+    //Initialize an audio recorder for this controller
+    [self initAudioRecorder];
+    
+    //Create a tap to allow keyboard dismissal
+    self.tap = [[UITapGestureRecognizer alloc]
+                initWithTarget:self
+                action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:self.tap];
+    
+}
+
+-(void) viewWillAppear:(BOOL)animated
+{
+    //Make a blue navigation bar
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0/255.0f green:87/255.0f blue:141/255.0f alpha:1.0f]];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    self.navigationController.navigationBar.hidden = NO;
+    
+    //Since we're at a beacon, restrict going back
+    self.navBar.backBarButtonItem.enabled = NO;
+    self.navBar.hidesBackButton = YES;
+    
+    //We start off not timing
+    self.isTiming = false;
+}
+
+#pragma mark - Audio Recording and Controls
+- (void)initAudioRecorder
+{
+    //Create a file to write audio to
+    self.audioPath = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:@"audio"] stringByAppendingPathExtension:@"caf"];
+    //Make a URL equivalent for the recorder
+    NSURL *soundURL = [[NSURL alloc] initFileURLWithPath:self.audioPath];
+    
     NSError *error = nil;
+    
+    //Should record audio as .caf
     NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
                                     [NSNumber numberWithInt:AVAudioQualityMin], AVEncoderAudioQualityKey,
@@ -64,10 +93,12 @@
                                     [NSNumber numberWithInt:8], AVLinearPCMBitDepthKey,
                                     nil];
     
+    //Create an audio session for teh recorder
     self.audioSession = [AVAudioSession sharedInstance];
-    [self.audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    [self.audioSession setActive:YES error:nil];
+    [self.audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+    [self.audioSession setActive:YES error:&error];
     
+    //Creates the recorder
     self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:soundURL settings:recordSettings error:&error];
     
     if (error)
@@ -76,145 +107,244 @@
     } else {
         [self.audioRecorder prepareToRecord];
     }
-
 }
+
 - (IBAction)recordButtonActivate:(id)sender {
+    //If we're recording, stop
     if ([self.audioRecorder isRecording]) {
         [self.audioRecorder stop];
+        //Get the length of our audio and stop the timer
+        self.audioLength = 6000 - self.remainingTicks;
+        [self doCountdown: 6000];
+        
+        //Display our audio clip length
+        self.remainingTicks = self.audioLength;
+        [self updateLabel];
+        
+        //Enable/Disable appropriate controls
         self.playButton.enabled = YES;
         self.stopButton.enabled = NO;
-    } else {
+        self.deleteButton.enabled = YES;
+    } else { //If we want to record
         [self.audioRecorder record];
+        //Set a 1 minute limit
+        [self doCountdown: 6000];
+        
         self.playButton.enabled = NO;
+        self.deleteButton.enabled = NO;
         self.stopButton.enabled = YES;
     }
 }
+
+- (IBAction)stopButtonActivate:(id)sender {
+    self.stopButton.enabled = NO;
+    self.playButton.enabled = YES;
+    self.recordButton.enabled = YES;
+    self.deleteButton.enabled = YES;
+    
+    //If we're recording, stop
+    if (self.audioRecorder.recording)
+    {
+        [self.audioRecorder stop];
+        [self doCountdown:self.remainingTicks];
+        
+        //Grab the length of our audio and reset display
+        self.audioLength = 6000 - self.remainingTicks;
+        self.remainingTicks = self.audioLength;
+        [self updateLabel];
+        //If we're playing, stop
+    } else if (self.audioPlayer.playing) {
+        [self.audioPlayer stop];
+        //Stop timer and update display
+        [self doCountdown:self.remainingTicks];
+        self.remainingTicks = self.audioLength;
+        [self updateLabel];
+    }
+}
+
 - (IBAction)playButtonActivate:(id)sender {
+    //If we're not recording
     if (!self.audioRecorder.recording)
     {
         self.stopButton.enabled = YES;
         self.recordButton.enabled = NO;
+        self.deleteButton.enabled = NO;
         
         NSError *error;
         
+        //Create a player using the generic file URL
         self.audioPlayer = [[AVAudioPlayer alloc]
-                        initWithContentsOfURL:self.audioRecorder.url
-                        error:&error];
+                            initWithContentsOfURL:self.audioRecorder.url
+                            error:&error];
         
         self.audioPlayer.delegate = self;
         
         if (error)
             NSLog(@"Error: %@",
                   [error localizedDescription]);
-        else
+        else {
+            //Play and countdown audio length
             [self.audioPlayer play];
+            [self doCountdown:self.audioLength];
+        }
     }
 }
-- (IBAction)stopButtonActivate:(id)sender {
+
+- (IBAction)deleteButtonActivate:(id)sender {
+    self.playButton.enabled = NO;
     self.stopButton.enabled = NO;
-    self.playButton.enabled = YES;
-    self.recordButton.enabled = YES;
     
-    if (self.audioRecorder.recording)
-    {
-        [self.audioRecorder stop];
-    } else if (self.audioPlayer.playing) {
-        [self.audioPlayer stop];
-    }
+    //Reset the label
+    self.remainingTicks = 6000;
+    [self updateLabel];
+    //Reset the length
+    self.audioLength = 0;
+    //Wipe out the recorder
+    [self initAudioRecorder];
 }
 
 - (IBAction)sendButtonActivate:(id)sender {
     
-    __weak typeof(self) weakSelf = self;
+    NSError *error;
+    NSString *oldPathName, *newPathName;
     
-    self.uploadRequest = [AWSS3TransferManagerUploadRequest new];
-    self.uploadRequest.bucket = S3BucketName;
-    self.uploadRequest.key = [NSString stringWithFormat:@"%@/%@/%@/%@.caf", self.custID, self.tourID, self.instID, [self.postTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
-    self.uploadRequest.body = self.audioURL;
-//    self.uploadRequest.uploadProgress =  ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend){
-//        dispatch_sync(dispatch_get_main_queue(), ^{
-//            weakSelf.file1AlreadyUpload = totalBytesSent;
-//            [weakSelf updateProgress];
-//        });
-//    };
-
-    self.uploadStatusLabel.text = StatusLabelUploading;
-    [self uploadFiles];
+    // Create file manager to rename audio.caf
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
     
+    //If we have a title AND audio
+    if ([self.postTextField.text length] > 0 && self.audioLength > 0) {
+        
+        //Rename file to slug with title text
+        oldPathName = self.audioPath;
+        newPathName = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:self.postTextField.text] stringByAppendingPathExtension:@"caf"];
+        if ([fileMgr fileExistsAtPath:oldPathName]) {
+            [fileMgr moveItemAtPath: oldPathName toPath:newPathName error:&error];
+        }
+        
+        //Create S3 request
+        self.uploadRequest = [AWSS3TransferManagerUploadRequest new];
+        self.uploadRequest.bucket = S3BucketName;
+        //Puts file in folders separated by customer, tour, and beacon
+        self.uploadRequest.key = [NSString stringWithFormat:@"%@/%@/%@/%@.caf", self.custID, self.tourID, self.instID, [self.postTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
+        self.uploadRequest.body = [[NSURL alloc] initFileURLWithPath:newPathName];
+        
+        //Set the timer display to a smaller font to display status messages
+        [self.timerDisplay setFont:[UIFont fontWithName:@"OpenSans" size:16]];
+        self.timerDisplay.text = StatusLabelUploading;
+        [self uploadFiles];
+    }
     
-//    
-//    NSMutableURLRequest *audioPostRequest = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", nil]]];
-//    [audioPostRequest setHTTPMethod:@"POST"];
-//    [audioPostRequest setValue:@"audio-recording" forHTTPHeaderField:@"Content-Type"];
-//    [audioPostRequest setHTTPBody:audioData];
-//    
-//    NSURLConnection *connection = [NSURLConnection connectionWithRequest:audioPostRequest delegate:self];
-//    self.receivedData = [NSMutableData dataWithCapacity: 0];
-//    if (!connection) {
-//        // Release the receivedData object.
-//        self.receivedData = nil;
-//        
-//        // Inform the user that the connection failed.
-//    }
 }
 
-//- (IBAction)commentDidEnter:(id)sender {
-//    [self.postTextField resignFirstResponder];
-//}
+
+
+#pragma mark - Timer Controls and Display
+
+-(void)doCountdown:(int)remainingTicks
+{
+    //If we aren't timing, start
+    if (!self.isTiming) {
+        //In case we've already sent a file
+        [self.timerDisplay setFont:[UIFont fontWithName:@"OpenSans" size:22]];
+        //Setup for visual countdown
+        self.remainingTicks = remainingTicks;
+        [self updateLabel];
+        self.isTiming = true;
+    
+        //Begin counting
+        self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval: .01 target: self selector: @selector(handleTimerTick) userInfo: nil repeats: YES];
+    } else {
+        //Stop the clock!
+        self.isTiming = false;
+        [self.countdownTimer invalidate];
+    }
+}
+
+-(void)handleTimerTick
+{
+    //If we're timing and haven't hit zero, decrement
+    if (self.isTiming && self.remainingTicks > 0) {
+        self.remainingTicks = self.remainingTicks - 1;
+        [self updateLabel];
+    } else {
+        //If we're recording and we hit zero, we need to stop
+        if ([self.audioRecorder isRecording]) {
+            [self recordButtonActivate:self];
+        }
+        //Kill the timer and stop timing
+        [self.countdownTimer invalidate];
+        self.countdownTimer = nil;
+        self.isTiming = false;
+        
+        self.remainingTicks = self.audioLength;
+        [self updateLabel];
+    }
+}
+
+-(void)updateLabel
+{
+    //Calculate total remaining minutes, seconds, and milliseconds
+    int total = self.remainingTicks;
+    
+    int minutes = floor(total / 6000);
+    total = total - minutes * 6000;
+    
+    int seconds = floor(total / 100);
+    total = total - seconds * 100;
+    
+    int milliseconds = total;
+    
+    //Display content like a stopwatch
+    self.timerDisplay.text = [NSString stringWithFormat:@"%02d:%02d:%02d", minutes, seconds, milliseconds];
+}
+
+#pragma mark - Keyboard Customization
 
 #define ACCEPTABLE_CHARACTERS @" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string  {
+    //To make an acceptable slug, we can't have periods or special characters
     NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:ACCEPTABLE_CHARACTERS] invertedSet];
-    
+    //Replace every attempted special character with a space
     NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
     
     return [string isEqualToString:filtered];
 }
 
+//Close keyboard on hitting return
 -(BOOL) textFieldShouldReturn: (UITextField *) textField {
     [textField resignFirstResponder];
     return YES;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//Close keyboard on outside tap
+-(void)dismissKeyboard {
+    [self.postTextField resignFirstResponder];
 }
 
 #pragma mark - AWS S3 Uploading
 
 - (void) uploadFiles {
+    //Create the transfer manager to begin
     AWSS3TransferManager *transferManager = [AWSS3TransferManager defaultS3TransferManager];
     
-    __block int uploadCount = 0;
+    //UPLOAD NAO
     [[transferManager upload:self.uploadRequest] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
-        if (task.error != nil) {
+        if (task.error != nil) { //If we did done messed up
             if( task.error.code != AWSS3TransferManagerErrorCancelled
                &&
                task.error.code != AWSS3TransferManagerErrorPaused
                )
             {
-                self.uploadStatusLabel.text = StatusLabelFailed;
+                self.timerDisplay.text = StatusLabelFailed;
+                NSLog(@"%@", task.error);
             }
-        } else {
+        } else { //SUCCESS!!!!!!!!
             self.uploadRequest = nil;
-            self.uploadStatusLabel.text = StatusLabelCompleted;
+            self.timerDisplay.text = StatusLabelCompleted;
         }
         return nil;
     }];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

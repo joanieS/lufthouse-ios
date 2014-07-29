@@ -7,98 +7,137 @@
 //
 
 #import "CustomerViewController.h"
-#import "ToursViewController.h"
+#import "ToursViewController.h"     //Make content passable to next controller
 
 @interface CustomerViewController ()
 
-@property (nonatomic, strong) NSArray *tableContent;
-@property (nonatomic, strong) NSArray *contentForSegue;
-@property (nonatomic) NSInteger numberOfRows;
-
+//Manager to grab current geographic location to query the server with
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
+//Raw data retrieved from URL connection
 @property (nonatomic, strong) NSMutableData *receivedData;
+
+//Data retrieved from JSON to populate table
+@property (nonatomic, strong) NSArray *tableContent;
+@property (nonatomic) NSInteger numberOfRows;
+
+//Select a customer to display tours in next controller
+@property (nonatomic, strong) NSArray *contentForSegue;
 
 @end
 
 @implementation CustomerViewController
 
-
+#pragma mark - Customer loading
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
+    //Hide the lines for UITableView
+    self.customerTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    //Whenever we get back from suspension or the background, get the nearby tours
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCustomerFromURL) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    //Everytime we get back to customer selection, check for nearby tours
+    [self loadCustomerFromURL];
+}
+
+/*  loadCustomerFromURL
+ *  Queries server for JSON based on current location and sets into motion the
+ *  table generation.
+ */
+- (void)loadCustomerFromURL
+{
+    //Set delegate to create the table
     self.customerTableView.dataSource = self;
     self.customerTableView.delegate = self;
     
+    //Create a location manager and get the current lat/long
     self.locationManager = [[CLLocationManager alloc] init];
-    
     [self.locationManager startUpdatingLocation];
+    
     CLLocationDegrees latitude = self.locationManager.location.coordinate.latitude;
     CLLocationDegrees longitude = self.locationManager.location.coordinate.longitude;
+    
     [self.locationManager stopUpdatingLocation];
     
+    //Construct an acceptable slug for the server by combining lat/long, replacing . with _, and appending filetype
     NSString *latLong = [NSString stringWithFormat:@"%f/%f", latitude, longitude];
     latLong = [latLong stringByReplacingOccurrencesOfString:@"." withString:@"_"];
     latLong = [NSString stringWithFormat:@"%@.json", latLong];
-//    NSString *latLong = [NSString stringWithFormat:@"123/456.json"];
     
+    //Format the URL request with location slug
     NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/location/%@", latLong]]];
     [getCustJSON setHTTPMethod:@"GET"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
     self.receivedData = [NSMutableData dataWithCapacity: 0];
+  
+    //  If the app fails, we need to stop and let someone know
     if (!connection) {
         // Release the receivedData object.
         self.receivedData = nil;
-        
-        // Inform the user that the connection failed.
+        UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                              message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+        [serverError show];
+        serverError = nil;
     }
-    
-    
-    
-    
-//    [self.view addSubview:self.tableView];
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 
-
+/*  loadNearbyTours
+ *  Parses the array of data that should be a customer/tour JSON and returns
+ *  a formatted array for displaying the customers
+ */
 - (NSMutableArray *)loadNearbyTours: (NSArray*) results
 {
-    
-        // All key values for the three layers to the JSON
-    NSArray *outterKeys;// = [results allKeys];
+    //Array to hold data from JSON that shouldn't be able to change, namely the installation data
     NSArray *installations;
+    //Arrays to hold pieces of data as we tranfer info from the results array to a more usable results array
     NSMutableArray *tours, *tourIDs, *tourLandingImages, *returnArray;
+    //Temp strings to hold important identifiers and display information
     NSString *customerName, *customerID;
+    //Temporary variable to hold an installation for active checking
     NSDictionary *installation;
 
+    //Format the array for adding the chunks
     returnArray = [NSMutableArray arrayWithObjects:[NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], [NSMutableArray array], nil];
     
+    //For each customer in the JSON results
     for (NSDictionary *customer in results) {
         
+        //Grab the name and ID
         customerName = [customer objectForKey:@"name"];
         customerID = [NSString stringWithFormat:@"%@", [customer objectForKey:@"id"]];
+        
+        //Load up all of the installations
         installations = [customer objectForKey:@"installations"];
         
+        //Clear the temps for new data
         tours = [NSMutableArray array];
         tourIDs = [NSMutableArray array];
         tourLandingImages = [NSMutableArray array];
         
         
+        //For each tour a customer has
         for (int i = 0; i < [installations count]; i++) {
+            //Select an installation, and if it's active, grab it's name, id, and landing image
             installation = [installations objectAtIndex:i];
             if ([installation objectForKey:@"active"]) {
                 [tours addObject:[installation objectForKey:@"name"]];
                 [tourIDs addObject:[installation objectForKey:@"id"]];
-                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];//[[installations objectAtIndex:i] objectForKey:@"landingImage"]];
+                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];
             }
         }
         
+        //If we have active tours, add them to the return array
         if ([tours count] > 0) {
             [[returnArray objectAtIndex:0] addObject:customerName];
             [[returnArray objectAtIndex:1] addObject:tours];
@@ -111,19 +150,11 @@
     return returnArray;
 }
 
-    
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
+    //We will always have only 1 section
     return 1;
 }
 
@@ -135,23 +166,35 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //Cell identifier correlates to prototype in Storyboard
     static NSString *cellIdentifier = @"tourCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tableView
+                             dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    }
+    //Set a clear background so we can use an image instead
+    cell.backgroundColor = [UIColor clearColor];
+    cell.opaque = NO;
     
+    //Sets backgroundView to display an image instead of a solid color
+    cell.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath],@"lh_tab_w_arrow.png"]]];
+    
+    //Set the cell text to a blue color
+    cell.textLabel.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
+    
+    //Print out relevant information regarting customer and his tours
     cell.textLabel.text = [[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu tours available", (unsigned long)[self.tableContent[1][indexPath.row] count]];
 
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //Setup array for transferrable content
     NSMutableArray *segueContent = [NSMutableArray array];
+    
+    //Copy content specific to the customer selected into array to be sent to the next controller
     segueContent = [NSMutableArray arrayWithObjects:
                     [[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row] ,
                     [[self.tableContent objectAtIndex:1] objectAtIndex:indexPath.row],
@@ -159,8 +202,9 @@
                     [[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row],
                     [[self.tableContent objectAtIndex:4] objectAtIndex:indexPath.row],
                     nil];
-    self.contentForSegue = segueContent;
     
+    self.contentForSegue = segueContent;
+    //PASS DAT
     [self performSegueWithIdentifier:@"customerToTours" sender:self];
 }
 
@@ -168,68 +212,67 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    // This method is called when the server has determined that it
-    // has enough information to create the NSURLResponse object.
-    
-    // It can be called multiple times, for example in the case of a
-    // redirect, so each time we reset the data.
-    
-    // receivedData is an instance variable declared elsewhere.
+    //Reset data each redirect
     [self.receivedData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    // Append the new data to receivedData.
-    // receivedData is an instance variable declared elsewhere.
-    [self.receivedData appendData:data];
+    //Add new data to recievedData
+    if (data != nil) {
+        [self.receivedData appendData:data];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection
   didFailWithError:(NSError *)error
 {
-    // Release the connection and the data object
-    // by setting the properties (declared elsewhere)
-    // to nil.  Note that a real-world app usually
-    // requires the delegate to manage more than one
-    // connection at a time, so these lines would
-    // typically be replaced by code to iterate through
-    // whatever data structures you are using.
+    //In case of failure, reset everything and tell the user that connection is impossible
     connection = nil;
     self.receivedData = nil;
     
-    // inform the user
+    // Let the user know things be messed up
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    UIAlertView *connectionError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                          message:@"It looks like you either don't have an internet connection or something has gone terribly wrong; please make sure you're connected to your network provider and try again!"
+                                                         delegate:self
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+    [connectionError show];
+    connectionError = nil;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // do something with the data
-    // receivedData is declared as a property elsewhere
+    //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
+    
     id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
     
-    // If JSON didn't blow up
+    // If JSON didn't blow up and if it's an array (because we're expecting one)
     if([json isKindOfClass:[NSArray class]]){
-        // Create a dictionary out of the JSON
+        //Grab the results into an array and parse it
         NSArray *results = json;
         self.tableContent = [self loadNearbyTours:results];
+        
+        //Reset the table with the appropriate info and dimensions
         self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
         [self.customerTableView reloadData];
     } else {
         NSLog(@"Error: JSON is corrupt");
+        //Tell the user something messed up
+        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                  message:@"It looks like the tour is currently unavailable; please try again later!"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+        [jsonError show];
+        jsonError = nil;
     }
 
-    
-    // Release the connection and the data object
-    // by setting the properties (declared elsewhere)
-    // to nil.  Note that a real-world app usually
-    // requires the delegate to manage more than one
-    // connection at a time, so these lines would
-    // typically be replaced by code to iterate through
-    // whatever data structures you are using.
+    //Once we're done, reset everything to free up space
     connection = nil;
     self.receivedData = nil;
 }
@@ -237,11 +280,9 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    //If it's the right segue and we aren't be hijacked, then GOGOGOGOGO
     if ([[segue identifier] isEqualToString:@"customerToTours"]) {
         ToursViewController *destination = [segue destinationViewController];
         destination.tableContent = self.contentForSegue;

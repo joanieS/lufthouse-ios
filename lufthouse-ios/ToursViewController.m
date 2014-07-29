@@ -11,48 +11,48 @@
 
 @interface ToursViewController ()
 
+//Property for sending data to next segue
 @property (nonatomic, strong) NSMutableArray *contentForSegue;
 
 @end
 
 @implementation ToursViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
+#pragma mark - Visual setup
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.customerName.text = [self.tableContent objectAtIndex:0];
+    
+    //Set this as the table delegate
     self.toursTableView.dataSource = self;
     self.toursTableView.delegate = self;
     
-    // Do any additional setup after loading the view.
+    //Turn off the lines on the table and initialize a background color
+    self.toursTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.toursTableView.backgroundView = nil;
+    self.toursTableView.backgroundView = [[UIView alloc] init];
+    self.toursTableView.backgroundView.backgroundColor = [UIColor colorWithRed:204/255.0f green:221/255.0f blue:232/255.0f alpha:1.0f];
+    self.toursTableView.opaque = NO;// backgroundView.opaque = NO;
+    
+    //Set the header text
+    self.customerName.text = [self.tableContent objectAtIndex:0];
+    self.numberOfTours.text = [NSString stringWithFormat:@"%lu tours available", (unsigned long)[[self.tableContent objectAtIndex:2] count]];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
+    //Whenever we come back to this view, make sure we have the correct style by setting it
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0/255.0f green:87/255.0f blue:141/255.0f alpha:1.0f]];
+    [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.hidden = NO;
     self.contentForSegue = nil;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
+    //One is the lonliest number that you ever do.
     return 1;
 }
 
@@ -64,49 +64,58 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //cellIdentifier correlated to protoype cell
     static NSString *cellIdentifier = @"tourCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    }
+    //Clear out the background so we can put an image there instead
+    cell.backgroundColor = [UIColor clearColor];
+    cell.opaque = NO;
+    cell.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath],@"lh_tour_cell.png"]]];
+    cell.textLabel.textColor = [UIColor whiteColor];
     
+    //Print out the tour title
     cell.textLabel.text = [[self.tableContent objectAtIndex:1] objectAtIndex:indexPath.row];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d tours available", [self.tableContent[1][indexPath.row] count]];
-    
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //On selection, start downloading the landing image for the tour and pass the data to the next segue
     NSError *error;
     NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    //If we don't have an image, FULL STOP
     if (imageData == nil) {
-        imageData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testImage" ofType:@"jpg"]];
+        UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                  message:@"Something has gone horribly wrong and this tour is unavailable; please try again later, though!"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+        [imageError show];
+        imageError = nil;
+    } else {
+        //Otherwise, let's get the show on the rode!
+        NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
+        NSString *customerID = [self.tableContent objectAtIndex:4];
+        self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
+        
+        [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
     }
-    NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
-    NSString *customerID = [self.tableContent objectAtIndex:4];
-    self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
-    
-    [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
 }
-
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"tourToTourImage"]) {
+        //Get our destination
         TourImageViewController *destination = [segue destinationViewController];
+        //Pass the image data and the IDs for later referencing
         destination.tourLandingImageData = [self.contentForSegue objectAtIndex:0];
         destination.tourID = [self.contentForSegue objectAtIndex:1];
         destination.customerID = [self.contentForSegue objectAtIndex:2];
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-
 
 @end

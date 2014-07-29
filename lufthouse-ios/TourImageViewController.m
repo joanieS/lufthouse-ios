@@ -7,6 +7,7 @@
 //
 
 #import "TourImageViewController.h"
+//For all possible routes
 #import "WebContentViewController.h"
 #import "StoriesViewController.h"
 
@@ -37,37 +38,59 @@
 
 //For testing on devices where you want to grab a beacon no matter the proximity
 @property (nonatomic) BOOL                      testBool;
-@property (nonatomic) BOOL                      isLocalVideo;
 
 @property (nonatomic, strong) NSURL *urlContentForSegue;
 @property (nonatomic, strong) NSString *htmlContentForSegue;
 @property (nonatomic, strong) NSString *installationIDForSegue;
 
+//Received data from URL connection
 @property (nonatomic, strong) NSMutableData *receivedData;
 
 @end
 
 @implementation TourImageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+#pragma mark - UI Setup
+-(void)viewWillAppear:(BOOL)animated
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    //Everytime we get to this contoller, make sure the nav bar is white transparent
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+    
+    //Set the text color to white
+    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+    
+    //Reset the active minor so we can reload a beacon if we accidentally backed
+    self.activeMinor = 0000;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+
+#pragma mark - BLE Beacon setup
 - (void)viewDidLoad
 {
-    self.testBool = true;
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = YES;
+    
+    //If we're returning from suspension, go to root
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToRootUnanimated) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    //If we're using beacons that don't broadcast distance, turn this on;
+    self.testBool = true;
   
+    //Grab the image from ToursViewController and display it
     UIImage *imageFromUrl = [UIImage imageWithData:self.tourLandingImageData];
     self.tourLandingImage.image = imageFromUrl;
-    // Do any additional setup after loading the view.
+
+    //Create a bluetooth manager to check if bluetooth is on
+    CBCentralManager *bluetoothManager = [[CBCentralManager alloc] init];
+    bluetoothManager = nil;
     
+    //Establish a beacon manager
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
     
@@ -78,42 +101,45 @@
         [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
     } @catch (NSException *exception) {
         NSLog(@"%@", exception.reason);
+        UIAlertView *bluetoothError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                             message:@"It looks like your bluetooth is either off or not cooperating. Please make sure it's on and try again!"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+        [bluetoothError show];
+        bluetoothError= nil;
     }
 }
-
--(void)viewDidAppear:(BOOL)animated
-{
-    self.activeMinor = 0000;
-    @try {
-        [self.beaconManager startMonitoringForRegion:self.beaconRegion];
-        [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
-    } @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
-    }
-}
-
 
 - (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region
 {
     //If content hasn't been loaded
     if (self.beaconContent == nil) {
+        //Setup a URL request
         NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
         [getCustJSON setHTTPMethod:@"GET"];
         NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
         self.receivedData = [NSMutableData dataWithCapacity: 0];
         if (!connection) {
-            // Release the receivedData object.
-//            self.receivedData = nil;
-            
+            //If the poop hit the oscillating aeroblade device
+            self.receivedData = nil;
             // Inform the user that the connection failed.
+            UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                  message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+            [serverError show];
+            serverError = nil;
+
+        } else { //We successfully got the data
+            NSLog(@"Beacon content loaded");
         }
-        NSLog(@"Beacon content loaded");
-    }
-    
-    if (self.beaconContent != nil) {
-    
+    } else {
+        
         ESTBeacon *currentBeacon;       //Beacon to check against
         NSString *stringifiedMinor;     //String type of currentBeacon's minor value
+        
         //Create array containing all relevant information about the matched beacon and its content
         NSMutableArray *beaconAssignment = [NSMutableArray arrayWithObjects:
                                             [NSMutableArray array],
@@ -121,15 +147,16 @@
                                             [NSMutableArray array],
                                             [NSMutableArray array],
                                             [NSMutableArray array],nil];
-        NSInteger beaconIndex = -1;
+
+        NSInteger beaconIndex = -1; //Establish an impossible index
+        //Current tour you'll be experiencing
         LufthouseTour *currentTour;
-        
+        //Grab the tour from the processed content
         currentTour = self.beaconContent;
         //For each beacon in range
         for(int i = 0; i < [beacons count]; i++){
             currentBeacon = [beacons objectAtIndex:i];
             stringifiedMinor = [NSString stringWithFormat:@"%@", [currentBeacon minor]];
-            
             beaconIndex = [currentTour findIndexOfID:stringifiedMinor];
             //If we can find the beacon, grab the data
             if (beaconIndex != -1) {
@@ -147,8 +174,17 @@
             self.contentBeaconArray = beaconAssignment;
         }
     }
+    
+    //Update the UI with our new information
     [self performSelectorOnMainThread:@selector(updateUI:) withObject:[beacons firstObject] waitUntilDone:YES];
 }
+
+-(void) centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    //Do nothing, just satisfy the delegate
+}
+
+#pragma mark - Content processing and generation
 
 /* loadBeaconData
  * Retrieves JSON file from a source (currently local Lufthouse.JSON) and reads
@@ -156,14 +192,18 @@
  */
 -(void)loadBeaconData: (NSDictionary*) json
 {
-    NSString *tourName;
+    
     // If JSON didn't blow up
     if([json isKindOfClass:[NSDictionary class]]){
         // Create a dictionary out of the JSON
         NSDictionary *results = json;
 
+        //Array to hold all beacons associated to a tour
         NSArray *beacons;
-        
+
+        //Hold name of the tour being processed
+        NSString *tourName;
+       
         /* Arrays to hold data before storing it into tours, customers, and ulimately
          * self.beaconContent
          */
@@ -176,15 +216,10 @@
         
         //Clear customers for all incoming new customers
         
-//        if ([outterKeys count] > 1) {
-//            [NSException raise:@"Invalid number of tours" format:@"Only one tour should exist"];
-//        }
-//
         tourName = [results objectForKey:@"name"];
         beacons = [results objectForKey:@"beacons"];
         
-        //For each customer in the JSON
-        
+        //For each beacon in the tour, get all needed data
         for (NSDictionary *beacon in beacons) {
             
             [beaconIDs addObject:[NSString stringWithFormat:@"%@", [beacon objectForKey:@"minor_id"]]];
@@ -200,6 +235,8 @@
     }
 }
 
+
+#pragma mark - UI Generation and Execution
 /* updateUI
  * Gets the closest beacon and displays content of the nearest beacon
  */
@@ -212,6 +249,7 @@
     NSString *url, *htmlString, *beaconHTML;
     NSMutableArray *photoArray;
     NSMutableArray *matchedBeacons = beaconArray[0];
+
     //For each beacon we ranged and matched
     for(int i = 0; i < [matchedBeacons count]; i++) {
         //If our proximity is immediate, the beacon isn't currently on display, and the beacon is the closest
@@ -228,56 +266,57 @@
             //Transition into the next song with an audio fade
             [self doVolumeFade:url];
             
-            
-            
             //If the content is an image, load it as an image
             if(!([beaconArray[2][i] rangeOfString:@"image"].location == NSNotFound)) {
                 while ([self.navigationController topViewController] != self) {
                     [self.navigationController popViewControllerAnimated:NO];
                 }
                 beaconURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i]]];
-                htmlString = @"<style media='screen' type='text/css'> IMG.displayed {display: block; margin-left: auto;    margin-right: auto; background-color: rgb(71,77,73) } </style><html><body><img class='displayed' src='%@' height='100%%'  align='middle'></body></html>";
-                beaconHTML = [[NSString alloc] initWithFormat:htmlString,beaconURL];
+                //Center and stretch
+                htmlString = @"<style media='screen' type='text/css'> IMG.displayed {display: block; margin-left: auto;    margin-right: auto; background-color: rgb(71,77,73) } </style><html><body><img class='displayed' src='%@' width='100%%'  align='middle'></body></html>";
+                beaconHTML = [[NSString alloc] initWithFormat:htmlString, beaconURL];
+
+                //Set content for segue depending on which method is to be used
                 self.urlContentForSegue = nil;
                 self.htmlContentForSegue = beaconHTML;
+                
+                //Set the active minor so we aren't reloading this as we're on it
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
-//                self.webView.scalesPageToFit = YES;
-//                [self.webView loadHTMLString:beaconHTML baseURL:nil];
             }
             //If the content is an online video, embed it and play
             else if(!([beaconArray[2][i] rangeOfString:@"web-video"].location == NSNotFound)) {
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
+                //There's a lot more gunk with this, so we put it in another function
                 [self playVideoWithId:beaconArray[1][i]];
             }
             //If the content is a local video, load it in WebView
-            else if(!([beaconArray[2][i] rangeOfString:@"local-video"].location == NSNotFound) && !([checkBeacon.minor isEqual:self.activeMinor]) && !self.isLocalVideo) {
-//                self.isLocalVideo = true;
-//                NSNumber *activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
-//                while ([self.navigationController topViewController] != self) {
-//                    [self.navigationController popViewControllerAnimated:NO];
-//                }
-//                self.activeMinor = activeMinor;
+            else if(!([beaconArray[2][i] rangeOfString:@"local-video"].location == NSNotFound) && ![checkBeacon.minor isEqual:self.activeMinor]) {
+                //Setup the URL
                 beaconURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i]]];
+                //Set content for segue depending on which method is to be used
                 self.urlContentForSegue = beaconURL;
                 self.htmlContentForSegue = nil;
+                
+                //Set the active minor and go!
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
-//                beaconRequest = [NSURLRequest requestWithURL:beaconURL];
-//                [self.webView loadRequest:beaconRequest];
             }
             //If the content is a web page, load it
             else if(!([beaconArray[2][i] rangeOfString:@"web"].location == NSNotFound)) {
                 beaconURL = [NSURL URLWithString:beaconArray[1][i]];
+
+                //Set content for segue depending on which method is to be used
                 self.urlContentForSegue = beaconURL;
                 self.htmlContentForSegue = nil;
+                
+                //GOGOGO
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
-//                beaconRequest = [NSURLRequest requestWithURL:beaconURL];
             }
             //If the content is a photo gallery
             else if(!([beaconArray[2][i] rangeOfString:@"photo-gallery"].location == NSNotFound)) {
-                //Clear any residue
+                //Set and get ready
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 photoArray = [NSMutableArray array];
                 
@@ -296,7 +335,7 @@
                     else {
                         [photoArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", beaconArray[1][i][j]]]]];
                         //If there is a caption, add it
-                        if (![beaconArray[1][i][j + 1] isEqualToString:@"nil"]) {
+                        if (![beaconArray[1][i][j + 1] isKindOfClass:[NSNull class]]) {
                             [[photoArray lastObject] addCaption:beaconArray[1][i][j + 1]];
                         }
                     }
@@ -304,20 +343,16 @@
                 //Create the photo gallery and display it
                 [self createPhotoGallery:photoArray];
             }
+            //Else if we're creating memories
             else if(!([beaconArray[2][i] rangeOfString:@"create-story"].location == NSNotFound)) {
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 self.installationIDForSegue = [[beaconArray objectAtIndex:4] objectAtIndex:i];
+                //We go to a different place
                 [self performSegueWithIdentifier:@"tourImageToStoriesPost" sender:self];
             }
             
-//            if([beaconArray[2][i] rangeOfString:@"local-video"].location == NSNotFound) {
-//                self.isLocalVideo = false;
-//            }
-            
-            //Assert we are not on the landing image and that we can rotate here
+            //Assert we are not on the landing image
             self.hasLanded = false;
-//            if ([beaconArray[2][i] rangeOfString:@"web-video"].location == NSNotFound && [beaconArray[2][i] rangeOfString:@"photo-gallery"].location == NSNotFound)
-//                self.shouldRotate = YES;
         }
     }
     //If there are no beacons to display, go to the landing image
@@ -331,7 +366,6 @@
         self.hasLanded = true;
         self.activeMinor = 0000;
         self.shouldRotate = NO;
-        self.isLocalVideo = false;
     }
 }
 
@@ -365,11 +399,6 @@
     }
 }
 
--(void)popToThisController
-{
-        [self.navigationController popToViewController:self animated:NO];
-}
-
 /* playVideoWithId
  * Given a videoId from YouTube, play an embedded version of the video
  */
@@ -378,22 +407,15 @@
     static NSString *youTubeVideoHTML = @"<html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = 'http://www.youtube.com/player_api'; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { width:'100%%', height:'100%%', videoId:'%@' }); } </script> </body> </html>";
     //Format the html for the player
     NSString *html = [NSString stringWithFormat:youTubeVideoHTML, videoId];
+    
+    //Prep the content and segue
     self.urlContentForSegue = nil;
     self.htmlContentForSegue = html;
     [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-- (IBAction)back:(id)sender {
-    [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
-    [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+#pragma mark - MSPhotoBrowser
 
 - (void)createPhotoGallery: (NSMutableArray *) photoArray
 {
@@ -422,6 +444,7 @@
     [self.navigationController pushViewController:browser animated:NO];
 }
 
+/* MWPhotoBrowser delegate methods */
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
     return self.photos.count;
 }
@@ -436,46 +459,41 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    // This method is called when the server has determined that it
-    // has enough information to create the NSURLResponse object.
-    
-    // It can be called multiple times, for example in the case of a
-    // redirect, so each time we reset the data.
-    
-    // receivedData is an instance variable declared elsewhere.
+    //Reset data each redirect
     [self.receivedData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    // Append the new data to receivedData.
-    // receivedData is an instance variable declared elsewhere.
-    [self.receivedData appendData:data];
+    //Add new data to recievedData
+    if (data != nil) {
+        [self.receivedData appendData:data];
+    }
 }
-
 - (void)connection:(NSURLConnection *)connection
   didFailWithError:(NSError *)error
 {
-    // Release the connection and the data object
-    // by setting the properties (declared elsewhere)
-    // to nil.  Note that a real-world app usually
-    // requires the delegate to manage more than one
-    // connection at a time, so these lines would
-    // typically be replaced by code to iterate through
-    // whatever data structures you are using.
+    //In case of failure, reset everything and tell the user that connection is impossible
     connection = nil;
     self.receivedData = nil;
     
-    // inform the user
+    // Let the user know things be messed up
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    UIAlertView *connectionError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                              message:@"It looks like you either don't have an internet connection or something has gone terribly wrong; please make sure you're connected to your network provider and try again!"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+    [connectionError show];
+    connectionError = nil;
 }
+
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // do something with the data
-    // receivedData is declared as a property elsewhere
+    //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
     id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
     
@@ -484,16 +502,18 @@
         [self loadBeaconData: json];
     } else {
         NSLog(@"Error: JSON is corrupt");
+        //Tell the user something messed up
+        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                            message:@"It looks like the tour is currently unavailable; please try again later!"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [jsonError show];
+        jsonError = nil;
     }
     
     
-    // Release the connection and the data object
-    // by setting the properties (declared elsewhere)
-    // to nil.  Note that a real-world app usually
-    // requires the delegate to manage more than one
-    // connection at a time, so these lines would
-    // typically be replaced by code to iterate through
-    // whatever data structures you are using.
+    //Release data for duty's sake
     connection = nil;
     self.receivedData = nil;
 }
@@ -501,27 +521,39 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// Upon going back from this controller, we want to stop ranging for beacons
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    if (![parent isEqual:self.parentViewController]) {
+        [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+        [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    //If we're displaying web content, send the URL or HTML
     if ([[segue identifier] isEqualToString:@"tourImageToWebContent"]) {
         [self popToThisController];
         WebContentViewController *destination = [segue destinationViewController];
         destination.segueContentURL = self.urlContentForSegue;
         destination.segueContentHTML = self.htmlContentForSegue;
     }
+    //Else if we're going to create memories, prep relevant info
     else if ([[segue identifier] isEqualToString:@"tourImageToStoriesPost"]) {
         [self popToThisController];
         StoriesViewController *destination = [segue destinationViewController];
         destination.custID = self.customerID;
         destination.tourID = self.tourID;
         destination.instID = self.installationIDForSegue;
-//        [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
-//        [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
     }
-    
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+}
+
+//Helper method to not overlap content views
+-(void)popToThisController
+{
+    [self.navigationController popToViewController:self animated:NO];
 }
 
 

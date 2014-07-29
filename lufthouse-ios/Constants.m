@@ -15,13 +15,16 @@
 
 #import "Constants.h"
 
-// TODO: Get the following Cognito constants via Cognito Console
-NSString *const AWSAccountID = @"815495155938";
-NSString *const CognitoPoolID = @"us-east-1:aba01d85-ac92-4733-9d2d-fbc07b91efc6";
-NSString *const CognitoRoleAuth = nil;
-NSString *const CognitoRoleUnauth = @"arn:aws:iam::815495155938:role/Cognito_LufthouseUnauth_DefaultRole";
+/*  Contains all access information for AWS to store files
+ *  
+ */
 
-NSString *const S3BucketName = @"lufthouse-memories-audio";
+NSString *const AWSAccountID = @"911189109494";
+NSString *const CognitoPoolID = @"us-east-1:6f59216a-0041-491e-954f-853b1cc35391";
+NSString *const CognitoRoleAuth = nil;
+NSString *const CognitoRoleUnauth = @"arn:aws:iam::911189109494:role/Cognito_lufthouse_awsUnauth_DefaultRole";
+
+NSString *const S3BucketName = @"lufthouse-memories";
 
 NSString *const S3KeyUploadName = @"audio.caf";
 
