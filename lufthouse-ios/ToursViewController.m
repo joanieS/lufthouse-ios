@@ -84,7 +84,13 @@
 {
     //On selection, start downloading the landing image for the tour and pass the data to the next segue
     NSError *error;
-    NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    NSData *imageData;
+    if ([[[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row] isKindOfClass:[NSNull
+                                                                                         class]]) {
+        imageData = nil;
+    } else {
+        imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    }
     //If we don't have an image, FULL STOP
     if (imageData == nil) {
         UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"

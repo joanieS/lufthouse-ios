@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B020C101989887100D9AD79 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C0F1989887100D9AD79 /* settings.png */; };
+		9B020C1319898A6500D9AD79 /* recordButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1119898A6500D9AD79 /* recordButton.png */; };
+		9B020C1419898A6500D9AD79 /* stopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1219898A6500D9AD79 /* stopButton.png */; };
+		9B020C191989916900D9AD79 /* listenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C161989916900D9AD79 /* listenButton.png */; };
+		9B020C1A1989916900D9AD79 /* nextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C171989916900D9AD79 /* nextButton.png */; };
+		9B020C1B1989916900D9AD79 /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C181989916900D9AD79 /* pauseButton.png */; };
 		9B15E733196F1A6000FB29E6 /* testImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E732196F1A6000FB29E6 /* testImage.jpg */; };
 		9B15E735196F1BC300FB29E6 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B15E734196F1BC300FB29E6 /* back.png */; };
 		9B15E738196F267C00FB29E6 /* TourImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B15E737196F267C00FB29E6 /* TourImageViewController.m */; };
 		9B17331B1986F8D400A9FA5C /* landingR4iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1733181986F8D400A9FA5C /* landingR4iPhone.png */; };
-		9B17331C1986F8D400A9FA5C /* retinaIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1733191986F8D400A9FA5C /* retinaIcon.png */; };
-		9B17331D1986F8D400A9FA5C /* spotlightIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17331A1986F8D400A9FA5C /* spotlightIcon.png */; };
 		9B1733221987605F00A9FA5C /* settingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1733211987605F00A9FA5C /* settingsViewController.m */; };
 		9B17332E19876D6300A9FA5C /* deleteActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332419876D6300A9FA5C /* deleteActive.png */; };
 		9B17332F19876D6300A9FA5C /* deleteInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332519876D6300A9FA5C /* deleteInactive.png */; };
@@ -24,7 +28,22 @@
 		9B17333519876D6300A9FA5C /* stopActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332B19876D6300A9FA5C /* stopActive.png */; };
 		9B17333619876D6300A9FA5C /* stopInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332C19876D6300A9FA5C /* stopInactive.png */; };
 		9B17333719876D6300A9FA5C /* timer.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332D19876D6300A9FA5C /* timer.png */; };
+		9B17333A1988061E00A9FA5C /* MemoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1733391988061E00A9FA5C /* MemoriesViewController.m */; };
+		9B4D0BB9198A029000A64053 /* landingiPadLandscape1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB5198A029000A64053 /* landingiPadLandscape1x.png */; };
+		9B4D0BBA198A029000A64053 /* landingiPadLandscape2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB6198A029000A64053 /* landingiPadLandscape2x.png */; };
+		9B4D0BBB198A029000A64053 /* landingiPadPortrait1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB7198A029000A64053 /* landingiPadPortrait1x.png */; };
+		9B4D0BBC198A029000A64053 /* landingiPadPortrait2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB8198A029000A64053 /* landingiPadPortrait2x.png */; };
 		9B5DDAE71976D7E00029CBA6 /* StoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */; };
+		9B7489971989688100A3F2DC /* legalButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7489951989688100A3F2DC /* legalButton.png */; };
+		9B7489981989688100A3F2DC /* legalLufthouse.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7489961989688100A3F2DC /* legalLufthouse.png */; };
+		9B74899A19896A1500A3F2DC /* licenseBackground in Resources */ = {isa = PBXBuildFile; fileRef = 9B74899919896A1500A3F2DC /* licenseBackground */; };
+		9B7489A019896B7B00A3F2DC /* iconiPadApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B74899C19896B7B00A3F2DC /* iconiPadApp.png */; };
+		9B7489A119896B7B00A3F2DC /* iconiPhoneApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B74899D19896B7B00A3F2DC /* iconiPhoneApp.png */; };
+		9B7489A219896B7B00A3F2DC /* iconiPhoneSettings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B74899E19896B7B00A3F2DC /* iconiPhoneSettings.png */; };
+		9B7489A319896B7B00A3F2DC /* iconiPhoneSpotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B74899F19896B7B00A3F2DC /* iconiPhoneSpotlight.png */; };
+		9B7489A719896C8300A3F2DC /* iconiPadApp1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7489A419896C8300A3F2DC /* iconiPadApp1x.png */; };
+		9B7489A819896C8300A3F2DC /* iconiPadSettings1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7489A519896C8300A3F2DC /* iconiPadSettings1x.png */; };
+		9B7489A919896C8300A3F2DC /* iconiPadSpotlight1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7489A619896C8300A3F2DC /* iconiPadSpotlight1x.png */; };
 		9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770335196ED3B2001F658B /* Foundation.framework */; };
 		9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770337196ED3B2001F658B /* CoreGraphics.framework */; };
 		9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B770339196ED3B2001F658B /* UIKit.framework */; };
@@ -40,7 +59,6 @@
 		9B770365196ED3B2001F658B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B770363196ED3B2001F658B /* InfoPlist.strings */; };
 		9B770367196ED3B2001F658B /* lufthouse_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770366196ED3B2001F658B /* lufthouse_iosTests.m */; };
 		9B770373196ED896001F658B /* CustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770372196ED896001F658B /* CustomerViewController.m */; };
-		9B770375196EDE21001F658B /* Lufthouse.JSON in Resources */ = {isa = PBXBuildFile; fileRef = 9B770374196EDE21001F658B /* Lufthouse.JSON */; };
 		9B7F4FC619814420000CE70F /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FBE19814420000CE70F /* AWSiOSSDKv2.framework */; };
 		9B7F4FC719814420000CE70F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FBF19814420000CE70F /* Bolts.framework */; };
 		9B7F4FC819814420000CE70F /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC019814420000CE70F /* CSURITemplate.framework */; };
@@ -83,7 +101,6 @@
 		9B907AAD197EF04E0044BA1E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B907AAC197EF04E0044BA1E /* Constants.m */; };
 		9BC7168C1982DA1F002EA01F /* lh_tour_cell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC7168A1982DA1F002EA01F /* lh_tour_cell.png */; };
 		9BC7168D1982DA1F002EA01F /* lh_tour_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC7168B1982DA1F002EA01F /* lh_tour_title.png */; };
-		9BDB00F2197D63A900F7B8A2 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BDB00F1197D63A900F7B8A2 /* settings.png */; };
 		9BF9EBEB19702752008B73CA /* ToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEA19702752008B73CA /* ToursViewController.m */; };
 		9BF9EBF419702B1C008B73CA /* WebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEF19702B1C008B73CA /* WebContentViewController.m */; };
 		9BF9EBF519702B1C008B73CA /* LufthouseTour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBF119702B1C008B73CA /* LufthouseTour.m */; };
@@ -151,13 +168,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B020C0F1989887100D9AD79 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = SOURCE_ROOT; };
+		9B020C1119898A6500D9AD79 /* recordButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recordButton.png; path = "Recorder Icons/recordButton.png"; sourceTree = SOURCE_ROOT; };
+		9B020C1219898A6500D9AD79 /* stopButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopButton.png; path = "Recorder Icons/stopButton.png"; sourceTree = SOURCE_ROOT; };
+		9B020C161989916900D9AD79 /* listenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listenButton.png; sourceTree = "<group>"; };
+		9B020C171989916900D9AD79 /* nextButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextButton.png; sourceTree = "<group>"; };
+		9B020C181989916900D9AD79 /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
 		9B15E732196F1A6000FB29E6 /* testImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImage.jpg; sourceTree = SOURCE_ROOT; };
 		9B15E734196F1BC300FB29E6 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = SOURCE_ROOT; };
 		9B15E736196F267C00FB29E6 /* TourImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourImageViewController.h; sourceTree = "<group>"; };
 		9B15E737196F267C00FB29E6 /* TourImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourImageViewController.m; sourceTree = "<group>"; };
 		9B1733181986F8D400A9FA5C /* landingR4iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = landingR4iPhone.png; path = ../landingR4iPhone.png; sourceTree = "<group>"; };
-		9B1733191986F8D400A9FA5C /* retinaIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retinaIcon.png; sourceTree = "<group>"; };
-		9B17331A1986F8D400A9FA5C /* spotlightIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotlightIcon.png; sourceTree = "<group>"; };
 		9B1733201987605F00A9FA5C /* settingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsViewController.h; sourceTree = "<group>"; };
 		9B1733211987605F00A9FA5C /* settingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsViewController.m; sourceTree = "<group>"; };
 		9B17332419876D6300A9FA5C /* deleteActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteActive.png; sourceTree = "<group>"; };
@@ -170,9 +191,25 @@
 		9B17332B19876D6300A9FA5C /* stopActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopActive.png; sourceTree = "<group>"; };
 		9B17332C19876D6300A9FA5C /* stopInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopInactive.png; sourceTree = "<group>"; };
 		9B17332D19876D6300A9FA5C /* timer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer.png; sourceTree = "<group>"; };
+		9B1733381988061E00A9FA5C /* MemoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoriesViewController.h; sourceTree = "<group>"; };
+		9B1733391988061E00A9FA5C /* MemoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoriesViewController.m; sourceTree = "<group>"; };
+		9B4D0BB5198A029000A64053 /* landingiPadLandscape1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = landingiPadLandscape1x.png; sourceTree = SOURCE_ROOT; };
+		9B4D0BB6198A029000A64053 /* landingiPadLandscape2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = landingiPadLandscape2x.png; sourceTree = SOURCE_ROOT; };
+		9B4D0BB7198A029000A64053 /* landingiPadPortrait1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = landingiPadPortrait1x.png; sourceTree = SOURCE_ROOT; };
+		9B4D0BB8198A029000A64053 /* landingiPadPortrait2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = landingiPadPortrait2x.png; sourceTree = SOURCE_ROOT; };
 		9B5DDAE51976D7E00029CBA6 /* StoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoriesViewController.h; sourceTree = "<group>"; };
 		9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoriesViewController.m; sourceTree = "<group>"; };
-		9B770332196ED3B2001F658B /* lufthouse-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lufthouse-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B7489951989688100A3F2DC /* legalButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legalButton.png; sourceTree = SOURCE_ROOT; };
+		9B7489961989688100A3F2DC /* legalLufthouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legalLufthouse.png; sourceTree = SOURCE_ROOT; };
+		9B74899919896A1500A3F2DC /* licenseBackground */ = {isa = PBXFileReference; lastKnownFileType = file; path = licenseBackground; sourceTree = SOURCE_ROOT; };
+		9B74899C19896B7B00A3F2DC /* iconiPadApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPadApp.png; sourceTree = "<group>"; };
+		9B74899D19896B7B00A3F2DC /* iconiPhoneApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPhoneApp.png; sourceTree = "<group>"; };
+		9B74899E19896B7B00A3F2DC /* iconiPhoneSettings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPhoneSettings.png; sourceTree = "<group>"; };
+		9B74899F19896B7B00A3F2DC /* iconiPhoneSpotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPhoneSpotlight.png; sourceTree = "<group>"; };
+		9B7489A419896C8300A3F2DC /* iconiPadApp1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPadApp1x.png; sourceTree = "<group>"; };
+		9B7489A519896C8300A3F2DC /* iconiPadSettings1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPadSettings1x.png; sourceTree = "<group>"; };
+		9B7489A619896C8300A3F2DC /* iconiPadSpotlight1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconiPadSpotlight1x.png; sourceTree = "<group>"; };
+		9B770332196ED3B2001F658B /* Lufthouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lufthouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B770335196ED3B2001F658B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9B770337196ED3B2001F658B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		9B770339196ED3B2001F658B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -192,7 +229,6 @@
 		9B770366196ED3B2001F658B /* lufthouse_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lufthouse_iosTests.m; sourceTree = "<group>"; };
 		9B770371196ED896001F658B /* CustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerViewController.h; sourceTree = "<group>"; };
 		9B770372196ED896001F658B /* CustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerViewController.m; sourceTree = "<group>"; };
-		9B770374196EDE21001F658B /* Lufthouse.JSON */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Lufthouse.JSON; sourceTree = "<group>"; };
 		9B7F4FBE19814420000CE70F /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDKv2.framework; path = ../../../../../../Library/Frameworks/AWSiOSSDKv2.framework; sourceTree = "<group>"; };
 		9B7F4FBF19814420000CE70F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../../../Library/Frameworks/Bolts.framework; sourceTree = "<group>"; };
 		9B7F4FC019814420000CE70F /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSURITemplate.framework; path = ../../../../../../Library/Frameworks/CSURITemplate.framework; sourceTree = "<group>"; };
@@ -244,7 +280,6 @@
 		9B907AAC197EF04E0044BA1E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		9BC7168A1982DA1F002EA01F /* lh_tour_cell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tour_cell.png; sourceTree = "<group>"; };
 		9BC7168B1982DA1F002EA01F /* lh_tour_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tour_title.png; sourceTree = "<group>"; };
-		9BDB00F1197D63A900F7B8A2 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		9BF9EBE919702752008B73CA /* ToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToursViewController.h; sourceTree = "<group>"; };
 		9BF9EBEA19702752008B73CA /* ToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToursViewController.m; sourceTree = "<group>"; };
 		9BF9EBEE19702B1C008B73CA /* WebContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebContentViewController.h; sourceTree = "<group>"; };
@@ -397,6 +432,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B020C151989916900D9AD79 /* Playback Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				9B020C161989916900D9AD79 /* listenButton.png */,
+				9B020C171989916900D9AD79 /* nextButton.png */,
+				9B020C181989916900D9AD79 /* pauseButton.png */,
+			);
+			path = "Playback Buttons";
+			sourceTree = SOURCE_ROOT;
+		};
 		9B17332319876D6300A9FA5C /* Recorder Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,12 +459,25 @@
 			path = "Recorder Icons";
 			sourceTree = SOURCE_ROOT;
 		};
+		9B74899B19896B7B00A3F2DC /* App Icons */ = {
+			isa = PBXGroup;
+			children = (
+				9B7489A419896C8300A3F2DC /* iconiPadApp1x.png */,
+				9B7489A519896C8300A3F2DC /* iconiPadSettings1x.png */,
+				9B7489A619896C8300A3F2DC /* iconiPadSpotlight1x.png */,
+				9B74899C19896B7B00A3F2DC /* iconiPadApp.png */,
+				9B74899D19896B7B00A3F2DC /* iconiPhoneApp.png */,
+				9B74899E19896B7B00A3F2DC /* iconiPhoneSettings.png */,
+				9B74899F19896B7B00A3F2DC /* iconiPhoneSpotlight.png */,
+			);
+			path = "App Icons";
+			sourceTree = "<group>";
+		};
 		9B770329196ED3B2001F658B = {
 			isa = PBXGroup;
 			children = (
-				9B1733191986F8D400A9FA5C /* retinaIcon.png */,
-				9B17331A1986F8D400A9FA5C /* spotlightIcon.png */,
-				9BDB00F1197D63A900F7B8A2 /* settings.png */,
+				9B020C151989916900D9AD79 /* Playback Buttons */,
+				9B74899B19896B7B00A3F2DC /* App Icons */,
 				9BF9EC0019702EE8008B73CA /* MWPhotoBrowser */,
 				9BF9EBF719702EBA008B73CA /* EstimoteSDK */,
 				9B77033B196ED3B2001F658B /* lufthouse-ios */,
@@ -432,7 +490,7 @@
 		9B770333196ED3B2001F658B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B770332196ED3B2001F658B /* lufthouse-ios.app */,
+				9B770332196ED3B2001F658B /* Lufthouse.app */,
 				9B770359196ED3B2001F658B /* lufthouse-iosTests.xctest */,
 			);
 			name = Products;
@@ -498,15 +556,26 @@
 				9B5DDAE61976D7E00029CBA6 /* StoriesViewController.m */,
 				9B1733201987605F00A9FA5C /* settingsViewController.h */,
 				9B1733211987605F00A9FA5C /* settingsViewController.m */,
+				9B4D0BB5198A029000A64053 /* landingiPadLandscape1x.png */,
+				9B4D0BB6198A029000A64053 /* landingiPadLandscape2x.png */,
+				9B4D0BB7198A029000A64053 /* landingiPadPortrait1x.png */,
+				9B4D0BB8198A029000A64053 /* landingiPadPortrait2x.png */,
 				9B15E734196F1BC300FB29E6 /* back.png */,
 				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
+				9B020C1119898A6500D9AD79 /* recordButton.png */,
+				9B020C1219898A6500D9AD79 /* stopButton.png */,
+				9B7489951989688100A3F2DC /* legalButton.png */,
+				9B7489961989688100A3F2DC /* legalLufthouse.png */,
+				9B74899919896A1500A3F2DC /* licenseBackground */,
+				9B1733381988061E00A9FA5C /* MemoriesViewController.h */,
+				9B1733391988061E00A9FA5C /* MemoriesViewController.m */,
 				9B17332319876D6300A9FA5C /* Recorder Icons */,
 				9B7F4FF31981A414000CE70F /* lh_tab_w_arrow.png */,
 				9B7F4FF51981A414000CE70F /* lh_title.png */,
 				9B7F4FCE198169F6000CE70F /* landing2xiPhone.png */,
 				9B7F4FD01981739A000CE70F /* open-sans */,
 				9B15E732196F1A6000FB29E6 /* testImage.jpg */,
-				9B770374196EDE21001F658B /* Lufthouse.JSON */,
+				9B020C0F1989887100D9AD79 /* settings.png */,
 				9B77034A196ED3B2001F658B /* Main_iPad.storyboard */,
 				9B770353196ED3B2001F658B /* Images.xcassets */,
 				9B77033C196ED3B2001F658B /* Supporting Files */,
@@ -768,7 +837,7 @@
 			);
 			name = "lufthouse-ios";
 			productName = "lufthouse-ios";
-			productReference = 9B770332196ED3B2001F658B /* lufthouse-ios.app */;
+			productReference = 9B770332196ED3B2001F658B /* Lufthouse.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9B770358196ED3B2001F658B /* lufthouse-iosTests */ = {
@@ -829,25 +898,29 @@
 			files = (
 				9B17331B1986F8D400A9FA5C /* landingR4iPhone.png in Resources */,
 				9B17333019876D6300A9FA5C /* playActive.png in Resources */,
+				9B7489A919896C8300A3F2DC /* iconiPadSpotlight1x.png in Resources */,
 				9B907A9D197EE9520044BA1E /* cib-2014-06-30.json in Resources */,
-				9B17331C1986F8D400A9FA5C /* retinaIcon.png in Resources */,
 				9B7F4FE61981739A000CE70F /* OpenSans-SemiboldItalic.ttf in Resources */,
 				9B17333719876D6300A9FA5C /* timer.png in Resources */,
+				9B7489A019896B7B00A3F2DC /* iconiPadApp.png in Resources */,
 				9B7F4FE31981739A000CE70F /* OpenSans-LightItalic.ttf in Resources */,
+				9B4D0BBA198A029000A64053 /* landingiPadLandscape2x.png in Resources */,
 				9B907A9C197EE9520044BA1E /* autoscaling-2011-01-01.json in Resources */,
 				9BF9EC6919702EE8008B73CA /* README.mdown in Resources */,
-				9B17331D1986F8D400A9FA5C /* spotlightIcon.png in Resources */,
 				9B907AA9197EE9520044BA1E /* sqs-2012-11-05.json in Resources */,
+				9B7489971989688100A3F2DC /* legalButton.png in Resources */,
 				9B77034C196ED3B2001F658B /* Main_iPad.storyboard in Resources */,
 				9B907AA0197EE9520044BA1E /* ec2-2014-05-01.json in Resources */,
 				9B7F4FDE1981739A000CE70F /* OpenSans-BoldItalic.ttf in Resources */,
-				9B770375196EDE21001F658B /* Lufthouse.JSON in Resources */,
 				9B7F4FE51981739A000CE70F /* OpenSans-Semibold.ttf in Resources */,
 				9B907A9E197EE9520044BA1E /* css-2014-06-30.json in Resources */,
-				9BDB00F2197D63A900F7B8A2 /* settings.png in Resources */,
 				9B907AAA197EE9520044BA1E /* sts-2011-06-15.json in Resources */,
 				9BF9EC8819702EE8008B73CA /* MWPhotoBrowser.bundle in Resources */,
+				9B4D0BBB198A029000A64053 /* landingiPadPortrait1x.png in Resources */,
+				9B74899A19896A1500A3F2DC /* licenseBackground in Resources */,
 				9B17333319876D6300A9FA5C /* recordInactive.png in Resources */,
+				9B020C1319898A6500D9AD79 /* recordButton.png in Resources */,
+				9B020C191989916900D9AD79 /* listenButton.png in Resources */,
 				9B7F4FDD1981739A000CE70F /* OpenSans-Bold.ttf in Resources */,
 				9B907A9F197EE9520044BA1E /* dynamodb-2012-08-10.json in Resources */,
 				9B770354196ED3B2001F658B /* Images.xcassets in Resources */,
@@ -858,18 +931,26 @@
 				9B7F4FE01981739A000CE70F /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				9B907AA6197EE9520044BA1E /* s3-2006-03-01.json in Resources */,
 				9B17332F19876D6300A9FA5C /* deleteInactive.png in Resources */,
+				9B020C1419898A6500D9AD79 /* stopButton.png in Resources */,
+				9B7489A319896B7B00A3F2DC /* iconiPhoneSpotlight.png in Resources */,
 				9B17333219876D6300A9FA5C /* recordActive.png in Resources */,
+				9B7489A119896B7B00A3F2DC /* iconiPhoneApp.png in Resources */,
 				9B15E735196F1BC300FB29E6 /* back.png in Resources */,
 				9B907AA1197EE9520044BA1E /* elasticloadbalancing-2012-06-01.json in Resources */,
+				9B7489A219896B7B00A3F2DC /* iconiPhoneSettings.png in Resources */,
 				9BC7168D1982DA1F002EA01F /* lh_tour_title.png in Resources */,
+				9B4D0BB9198A029000A64053 /* landingiPadLandscape1x.png in Resources */,
 				9B907AA8197EE9520044BA1E /* sns-2010-03-31.json in Resources */,
 				9B770349196ED3B2001F658B /* Main_iPhone.storyboard in Resources */,
 				9B17333419876D6300A9FA5C /* send.png in Resources */,
+				9B4D0BBC198A029000A64053 /* landingiPadPortrait2x.png in Resources */,
 				9B770340196ED3B2001F658B /* InfoPlist.strings in Resources */,
 				9BC7168C1982DA1F002EA01F /* lh_tour_cell.png in Resources */,
 				9B17332E19876D6300A9FA5C /* deleteActive.png in Resources */,
+				9B7489A719896C8300A3F2DC /* iconiPadApp1x.png in Resources */,
 				9B7F4FE41981739A000CE70F /* OpenSans-Regular.ttf in Resources */,
 				9B7F4FDF1981739A000CE70F /* OpenSans-ExtraBold.ttf in Resources */,
+				9B020C101989887100D9AD79 /* settings.png in Resources */,
 				9BF9EC7819702EE8008B73CA /* README.md in Resources */,
 				9B17333519876D6300A9FA5C /* stopActive.png in Resources */,
 				9B17333119876D6300A9FA5C /* playInactive.png in Resources */,
@@ -877,9 +958,13 @@
 				9B7F4FE11981739A000CE70F /* OpenSans-Italic.ttf in Resources */,
 				9B7F4FCF198169F6000CE70F /* landing2xiPhone.png in Resources */,
 				9B907AA3197EE9520044BA1E /* kinesis-2013-12-02.json in Resources */,
+				9B7489981989688100A3F2DC /* legalLufthouse.png in Resources */,
 				9B907AA2197EE9520044BA1E /* email-2010-12-01.json in Resources */,
+				9B7489A819896C8300A3F2DC /* iconiPadSettings1x.png in Resources */,
+				9B020C1B1989916900D9AD79 /* pauseButton.png in Resources */,
 				9B17333619876D6300A9FA5C /* stopInactive.png in Resources */,
 				9B907AA4197EE9520044BA1E /* mobileanalytics-2014-06-30.json in Resources */,
+				9B020C1A1989916900D9AD79 /* nextButton.png in Resources */,
 				9B907AA5197EE9520044BA1E /* monitoring-2010-08-01.json in Resources */,
 				9B7F4FF81981A414000CE70F /* lh_title.png in Resources */,
 				9B7F4FF61981A414000CE70F /* lh_tab_w_arrow.png in Resources */,
@@ -926,6 +1011,7 @@
 				9BF9EC7019702EE8008B73CA /* PSTCollectionViewItemKey.m in Sources */,
 				9B15E738196F267C00FB29E6 /* TourImageViewController.m in Sources */,
 				9BF9EC7219702EE8008B73CA /* PSTCollectionViewUpdateItem.m in Sources */,
+				9B17333A1988061E00A9FA5C /* MemoriesViewController.m in Sources */,
 				9BF9EC7319702EE8008B73CA /* PSTGridLayoutInfo.m in Sources */,
 				9BF9EC6C19702EE8008B73CA /* PSTCollectionViewCell.m in Sources */,
 				9BF9EC7619702EE8008B73CA /* PSTGridLayoutSection.m in Sources */,
@@ -1091,13 +1177,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Lufthouse;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1115,13 +1201,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Lufthouse;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

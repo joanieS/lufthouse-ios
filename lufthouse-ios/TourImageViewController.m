@@ -10,6 +10,7 @@
 //For all possible routes
 #import "WebContentViewController.h"
 #import "StoriesViewController.h"
+#import "MemoriesViewController.h"
 
 @interface TourImageViewController ()
 
@@ -42,6 +43,9 @@
 @property (nonatomic, strong) NSURL *urlContentForSegue;
 @property (nonatomic, strong) NSString *htmlContentForSegue;
 @property (nonatomic, strong) NSString *installationIDForSegue;
+@property (nonatomic, strong) NSData *firstMemory;
+@property (nonatomic, strong) NSData *secondMemory;
+@property (nonatomic, strong) NSArray *memories;
 
 //Received data from URL connection
 @property (nonatomic, strong) NSMutableData *receivedData;
@@ -225,7 +229,7 @@
             [beaconIDs addObject:[NSString stringWithFormat:@"%@", [beacon objectForKey:@"minor_id"]]];
             [beaconValues addObject:[beacon objectForKey:@"content"]];
             [beaconTypes addObject:[beacon objectForKey:@"content_type"]];
-            [beaconAudio addObject:[beacon objectForKey:@"audio"]];
+            [beaconAudio addObject:[beacon objectForKey:@"audio_url"]];
             [installationIDs addObject:[beacon objectForKey:@"id"]];
         
         }
@@ -245,8 +249,8 @@
     //Get the array of nearby beacons and their content
     NSMutableArray *beaconArray = self.contentBeaconArray;
     //Variables for loading content in the UIWebView
-    NSURL *beaconURL;
-    NSString *url, *htmlString, *beaconHTML;
+    NSURL *beaconURL, *url;
+    NSString *htmlString, *beaconHTML;
     NSMutableArray *photoArray;
     NSMutableArray *matchedBeacons = beaconArray[0];
 
@@ -260,7 +264,11 @@
                 url = nil;
             }
             else { //Otherwise, play that funky music, white boy
-                url = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], [[beaconArray objectAtIndex:3] objectAtIndex:i]];
+                if ([[[beaconArray objectAtIndex:3] objectAtIndex:i] rangeOfString:@"http"].location == NSNotFound) {
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], [[beaconArray objectAtIndex:3] objectAtIndex:i]]];
+                } else {
+                    url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [[beaconArray objectAtIndex:3] objectAtIndex:i]]];
+                }
             }
             
             //Transition into the next song with an audio fade
@@ -268,10 +276,11 @@
             
             //If the content is an image, load it as an image
             if(!([beaconArray[2][i] rangeOfString:@"image"].location == NSNotFound)) {
-                while ([self.navigationController topViewController] != self) {
-                    [self.navigationController popViewControllerAnimated:NO];
+                if ([beaconArray[1][i] rangeOfString:@"http"].location == NSNotFound && [beaconArray[1][i] rangeOfString:@"www."].location == NSNotFound) {
+                    beaconURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i]]];
+                } else {
+                    beaconURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@", beaconArray[1][i]]];
                 }
-                beaconURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i]]];
                 //Center and stretch
                 htmlString = @"<style media='screen' type='text/css'> IMG.displayed {display: block; margin-left: auto;    margin-right: auto; background-color: rgb(71,77,73) } </style><html><body><img class='displayed' src='%@' width='100%%'  align='middle'></body></html>";
                 beaconHTML = [[NSString alloc] initWithFormat:htmlString, beaconURL];
@@ -344,11 +353,24 @@
                 [self createPhotoGallery:photoArray];
             }
             //Else if we're creating memories
-            else if(!([beaconArray[2][i] rangeOfString:@"create-story"].location == NSNotFound)) {
+            else if(!([beaconArray[2][i] rangeOfString:@"record-audio"].location == NSNotFound)) {
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 self.installationIDForSegue = [[beaconArray objectAtIndex:4] objectAtIndex:i];
                 //We go to a different place
                 [self performSegueWithIdentifier:@"tourImageToStoriesPost" sender:self];
+            }
+            //If we're displaying memories
+            else if(!([beaconArray[2][i] rangeOfString:@"memories"].location == NSNotFound)) {
+                //Set and get ready
+                self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
+                
+                self.memories = beaconArray[1][i];
+                self.firstMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][0]]];
+                self.secondMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][1]]];
+                
+                [self performSegueWithIdentifier:@"tourImageToMemories" sender:self];
+                
+                
             }
             
             //Assert we are not on the landing image
@@ -372,7 +394,7 @@
 /* doVolumeFade
  * Given the next song path, transition between the current and next songs with an audio fade
  */
--(void)doVolumeFade: (NSString *)nextSong
+-(void)doVolumeFade: (NSURL *)nextSong
 {
     //If a song is playing, fade out
     if (self.audioPlayer.volume > 0.1 && [self.audioPlayer isPlaying]) {
@@ -388,7 +410,7 @@
         NSError *error;
         if (nextSong != nil) {
             self.audioPlayer = nil;
-            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:[[NSData alloc] initWithContentsOfFile:nextSong] error:&error];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:nextSong error:&error];
             self.audioPlayer.numberOfLoops = 0; //Don't loop
             
             if (self.audioPlayer == nil)
@@ -546,6 +568,14 @@
         destination.custID = self.customerID;
         destination.tourID = self.tourID;
         destination.instID = self.installationIDForSegue;
+    }
+    //If we're going to display some memories
+    else if ([[segue identifier] isEqualToString:@"tourImageToMemories"]) {
+        [self popToThisController];
+        MemoriesViewController *destination = [segue destinationViewController];
+        destination.firstMemory = self.firstMemory;
+        destination.secondMemory = self.secondMemory;
+        destination.memories = self.memories;
     }
 
 }

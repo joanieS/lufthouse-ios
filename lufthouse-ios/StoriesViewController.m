@@ -69,6 +69,8 @@
     self.navBar.backBarButtonItem.enabled = NO;
     self.navBar.hidesBackButton = YES;
     
+    [self.timerDisplay setFont:[UIFont fontWithName:@"OpenSans" size:22]];
+    
     //We start off not timing
     self.isTiming = false;
 }
@@ -123,7 +125,7 @@
         
         //Enable/Disable appropriate controls
         self.playButton.enabled = YES;
-        self.stopButton.enabled = NO;
+        self.stopButton.hidden = YES;
         self.deleteButton.enabled = YES;
     } else { //If we want to record
         [self.audioRecorder record];
@@ -132,14 +134,15 @@
         
         self.playButton.enabled = NO;
         self.deleteButton.enabled = NO;
-        self.stopButton.enabled = YES;
+        self.stopButton.hidden = NO;
+        self.recordButton.hidden = YES;
     }
 }
 
 - (IBAction)stopButtonActivate:(id)sender {
-    self.stopButton.enabled = NO;
+    self.stopButton.hidden = YES;
     self.playButton.enabled = YES;
-    self.recordButton.enabled = YES;
+    self.recordButton.hidden = NO;
     self.deleteButton.enabled = YES;
     
     //If we're recording, stop
@@ -166,9 +169,10 @@
     //If we're not recording
     if (!self.audioRecorder.recording)
     {
-        self.stopButton.enabled = YES;
-        self.recordButton.enabled = NO;
+        self.stopButton.hidden = NO;
+        self.recordButton.hidden = YES;
         self.deleteButton.enabled = NO;
+        self.playButton.enabled = NO;
         
         NSError *error;
         
@@ -192,7 +196,8 @@
 
 - (IBAction)deleteButtonActivate:(id)sender {
     self.playButton.enabled = NO;
-    self.stopButton.enabled = NO;
+    self.stopButton.hidden = YES;
+    self.recordButton.hidden = NO;
     
     //Reset the label
     self.remainingTicks = 6000;

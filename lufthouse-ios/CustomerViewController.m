@@ -133,7 +133,8 @@
             if ([installation objectForKey:@"active"]) {
                 [tours addObject:[installation objectForKey:@"name"]];
                 [tourIDs addObject:[installation objectForKey:@"id"]];
-                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];
+//                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];
+                [tourLandingImages addObject:[installation objectForKey:@"image_url"]];
             }
         }
         
