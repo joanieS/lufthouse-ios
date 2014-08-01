@@ -40,6 +40,8 @@
 //For testing on devices where you want to grab a beacon no matter the proximity
 @property (nonatomic) BOOL                      testBool;
 
+@property (nonatomic) BOOL                      isDisplayingModal;
+
 @property (nonatomic, strong) NSURL *urlContentForSegue;
 @property (nonatomic, strong) NSString *htmlContentForSegue;
 @property (nonatomic, strong) NSString *installationIDForSegue;
@@ -62,7 +64,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
-    
+    self.navigationController.navigationBar.hidden = NO;
     //Set the text color to white
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
     
@@ -84,7 +86,8 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToRootUnanimated) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     //If we're using beacons that don't broadcast distance, turn this on;
-    self.testBool = true;
+    //self.testBool = true;
+    self.isDisplayingModal = false;
   
     //Grab the image from ToursViewController and display it
     UIImage *imageFromUrl = [UIImage imageWithData:self.tourLandingImageData];
@@ -120,7 +123,7 @@
     //If content hasn't been loaded
     if (self.beaconContent == nil) {
         //Setup a URL request
-        NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
+        NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
         [getCustJSON setHTTPMethod:@"GET"];
         NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
         self.receivedData = [NSMutableData dataWithCapacity: 0];
@@ -331,22 +334,22 @@
                 
                 //For each image in the gallery
                 NSMutableArray *galleryImages = beaconArray[1][i];
-                for(int j = 0; j < [galleryImages count]; j = j + 2) {
+                for(int j = 0; j < [galleryImages count]; j++) {
                     //If it's local, create a local URL
                     if ([beaconArray[1][i][j] rangeOfString:@"http"].location == NSNotFound && [beaconArray[1][i][j] rangeOfString:@"www."].location == NSNotFound) {
                         [photoArray addObject:[MWPhoto photoWithURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], beaconArray[1][i][j]]]]];
                         //If there is a caption, add it
-                        if (![beaconArray[1][i][j + 1] isEqualToString:@"nil"]) {
-                            [[photoArray lastObject] addCaption:beaconArray[1][i][j + 1]];
-                        }
+//                        if (![beaconArray[1][i][j + 1] isEqualToString:@"nil"]) {
+//                            [[photoArray lastObject] addCaption:beaconArray[1][i][j + 1]];
+//                        }
                     }
                     //If it's online, create a web url
                     else {
                         [photoArray addObject:[MWPhoto photoWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@", beaconArray[1][i][j]]]]];
                         //If there is a caption, add it
-                        if (![beaconArray[1][i][j + 1] isKindOfClass:[NSNull class]]) {
-                            [[photoArray lastObject] addCaption:beaconArray[1][i][j + 1]];
-                        }
+//                        if (![beaconArray[1][i][j + 1] isKindOfClass:[NSNull class]]) {
+//                            [[photoArray lastObject] addCaption:beaconArray[1][i][j + 1]];
+//                        }
                     }
                 }
                 //Create the photo gallery and display it
@@ -379,9 +382,7 @@
     }
     //If there are no beacons to display, go to the landing image
     if (checkBeacon == nil && self.hasLanded == false) {
-        while ([self.navigationController topViewController] != self) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        [self popToThisController];
         //Load the image, transition to no audio, set the landed option, reset the active beacon, and restrict rotation
         
         [self doVolumeFade:nil];
@@ -463,7 +464,9 @@
     
     // Present
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController pushViewController:browser animated:NO];
+    self.isDisplayingModal = true;
+    [self presentViewController:browser animated:YES completion:nil];
+//    [self.navigationController pushViewController:browser animated:NO];
 }
 
 /* MWPhotoBrowser delegate methods */
@@ -583,6 +586,9 @@
 //Helper method to not overlap content views
 -(void)popToThisController
 {
+    if (self.isDisplayingModal = true) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     [self.navigationController popToViewController:self animated:NO];
 }
 

@@ -72,7 +72,7 @@
     latLong = [NSString stringWithFormat:@"%@.json", latLong];
     
     //Format the URL request with location slug
-    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-placeholder.herokuapp.com/location/%@", latLong]]];
+    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/location/%@", latLong]]];
     [getCustJSON setHTTPMethod:@"GET"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
     self.receivedData = [NSMutableData dataWithCapacity: 0];
@@ -249,26 +249,36 @@
 {
     //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
-    
-    id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
-    
-    // If JSON didn't blow up and if it's an array (because we're expecting one)
-    if([json isKindOfClass:[NSArray class]]){
-        //Grab the results into an array and parse it
-        NSArray *results = json;
-        self.tableContent = [self loadNearbyTours:results];
+    if (self.receivedData != nil) {
         
-        //Reset the table with the appropriate info and dimensions
-        self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
-        [self.customerTableView reloadData];
+        id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
+        
+        // If JSON didn't blow up and if it's an array (because we're expecting one)
+        if([json isKindOfClass:[NSArray class]]){
+            //Grab the results into an array and parse it
+            NSArray *results = json;
+            self.tableContent = [self loadNearbyTours:results];
+            
+            //Reset the table with the appropriate info and dimensions
+            self.numberOfRows = [[self.tableContent objectAtIndex:0] count];
+            [self.customerTableView reloadData];
+        } else {
+            NSLog(@"Error: JSON is corrupt");
+            //Tell the user something messed up
+            UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                      message:@"It looks like the tour is currently unavailable; please try again later!"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+            [jsonError show];
+            jsonError = nil;
+        }
     } else {
-        NSLog(@"Error: JSON is corrupt");
-        //Tell the user something messed up
         UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                                  message:@"It looks like the tour is currently unavailable; please try again later!"
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
+                                                            message:@"It looks like something has gone wrong! Please try again later."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
         [jsonError show];
         jsonError = nil;
     }

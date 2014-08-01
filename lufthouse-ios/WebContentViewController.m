@@ -110,11 +110,12 @@
  */
 - (BOOL)shouldAutorotate {
     //If we aren't showing content but we are horizontal
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&  self.shouldRotate == NO) {
-        return YES;
-    }
-    else
-        return self.shouldRotate;
+//    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) &&  self.shouldRotate == NO) {
+//        return YES;
+//    }
+//    else
+//        return self.shouldRotate;
+    return YES;
 }
 
 #pragma  mark - Web View management
