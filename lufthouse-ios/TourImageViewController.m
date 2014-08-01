@@ -586,7 +586,7 @@
 //Helper method to not overlap content views
 -(void)popToThisController
 {
-    if (self.isDisplayingModal = true) {
+    if (self.isDisplayingModal == true) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     [self.navigationController popToViewController:self animated:NO];
