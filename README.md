@@ -12,67 +12,65 @@ This relationship is broken up into two segments which the app processes at two 
 
 Segment one contains a list of each nearby customer and their respective tours. The structure resembles the following:
 
-[
-
-    {
-        name : "Customer name",
-        id : 123456,
-        installations: [
-            { active: BOOL,
-              name: "Tour name",
-              id: 111,
-              image_url: http://www.pathto.com/myimage.png
-            },
-            { active: BOOL,
-              name: "Other tour name",
-              id: 222,
-              image_url: http://www.pathto.com/myimage.png
-            }
-        ]
-    },
-    {
-        name : "Other customer name",
-        id : 456789,
-        installations: [
-            { active: BOOL,
-              name: "Tour name",
-              id: 111,
-              image_url: http://www.pathto.com/myimage.png
-            },
-            { active: BOOL,
-              name: "Other tour name",
-              id: 222,
-              image_url: http://www.pathto.com/myimage.png
-            }
-        ]
-    }
-]
+    [
+        {
+            name : "Customer name",
+            id : 123456,
+            installations: [
+                { active: BOOL,
+                  name: "Tour name",
+                  id: 111,
+                  image_url: http://www.pathto.com/myimage.png
+                },
+                { active: BOOL,
+                  name: "Other tour name",
+                  id: 222,
+                  image_url: http://www.pathto.com/myimage.png
+                }
+            ]
+        },
+        {
+            name : "Other customer name",
+            id : 456789,
+            installations: [
+                { active: BOOL,
+                  name: "Tour name",
+                  id: 111,
+                  image_url: http://www.pathto.com/myimage.png
+                },
+                { active: BOOL,
+                  name: "Other tour name",
+                  id: 222,
+                  image_url: http://www.pathto.com/myimage.png
+                }
+            ]
+        }
+    ]
 
 This example contains all of the fields needed for loading the customer and tour selection pages.
 
 
 The second segment loads the details of the tour in a separate JSON. It should resemble the following:
 
-{
-
-    name: "Name of the tour",
-    beacons: [
-        {
-            minor_id: 12345,
-            content: "Content depending on content-type; see below",
-            content_type: "see-below",
-            audio_url: "http://www.yourpathto.com/audio.mp3",
-            id: 123
-        },
-        {
-            minor_id: 98765,
-            content: "Content depending on content-type; see below",
-            content_type: "see-below",
-            audio_url: "http://www.yourpathto.com/audio.mp3",
-            id: 456
-        }
-    ]
-}
+    {
+        name: "Name of the tour",
+        beacons: [
+            {
+                minor_id: 12345,
+                content: "Content depending on content-type; see below",
+                content_type: "see-below",
+                audio_url: "http://www.yourpathto.com/audio.mp3",
+                id: 123
+            },
+            {
+                minor_id: 98765,
+                content: "Content depending on content-type; see below",
+                content_type: "see-below",
+                audio_url: "http://www.yourpathto.com/audio.mp3",
+                id: 456
+            }
+        ]
+    }
 
 *Concerning Audio*
 
