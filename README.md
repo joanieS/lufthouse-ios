@@ -13,6 +13,7 @@ This relationship is broken up into two segments which the app processes at two 
 Segment one contains a list of each nearby customer and their respective tours. The structure resembles the following:
 
 [
+
     {
         name : "Customer name",
         id : 123456,
@@ -53,6 +54,7 @@ This example contains all of the fields needed for loading the customer and tour
 The second segment loads the details of the tour in a separate JSON. It should resemble the following:
 
 {
+
     name: "Name of the tour",
     beacons: [
         {
