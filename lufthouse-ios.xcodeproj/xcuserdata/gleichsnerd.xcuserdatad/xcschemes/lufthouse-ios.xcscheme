@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9B770331196ED3B2001F658B"
-               BuildableName = "lufthouse-ios.app"
+               BuildableName = "Lufthouse.app"
                BlueprintName = "lufthouse-ios"
                ReferencedContainer = "container:lufthouse-ios.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B770331196ED3B2001F658B"
-            BuildableName = "lufthouse-ios.app"
+            BuildableName = "Lufthouse.app"
             BlueprintName = "lufthouse-ios"
             ReferencedContainer = "container:lufthouse-ios.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B770331196ED3B2001F658B"
-            BuildableName = "lufthouse-ios.app"
+            BuildableName = "Lufthouse.app"
             BlueprintName = "lufthouse-ios"
             ReferencedContainer = "container:lufthouse-ios.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9B770331196ED3B2001F658B"
-            BuildableName = "lufthouse-ios.app"
+            BuildableName = "Lufthouse.app"
             BlueprintName = "lufthouse-ios"
             ReferencedContainer = "container:lufthouse-ios.xcodeproj">
          </BuildableReference>
