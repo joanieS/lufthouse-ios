@@ -11,6 +11,7 @@
 
 @interface ToursViewController ()
 
+
 //Property for sending data to next segue
 @property (nonatomic, strong) NSMutableArray *contentForSegue;
 
@@ -82,32 +83,58 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BOOL startBool = false;
+    NSThread *animationThread = [[NSThread alloc] initWithTarget:self selector:@selector(toggleLoadingAnimation) object:nil];
+    [animationThread start];
+//    [self performSelector:@selector(toggleLoadingAnimation) onThread:animationThread withObject:nil waitUntilDone:YES ];
     //On selection, start downloading the landing image for the tour and pass the data to the next segue
-    NSError *error;
-    NSData *imageData;
-    if ([[[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row] isKindOfClass:[NSNull
-                                                                                         class]]) {
-        imageData = nil;
-    } else {
-        imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+    while ([self.waiting isHidden]) {
+        startBool = true;
     }
-    //If we don't have an image, FULL STOP
-    if (imageData == nil) {
-        UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                                  message:@"Something has gone horribly wrong and this tour is unavailable; please try again later, though!"
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-        [imageError show];
-        imageError = nil;
+    
+    if (startBool) {
+
+        NSError *error;
+        NSData *imageData;
+        if ([[[self.tableContent objectAtIndex:3] objectAtIndex:indexPath.row] isKindOfClass:[NSNull class]]) {
+            imageData = nil;
+        } else {
+            imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:[[self.tableContent objectAtIndex:3] objectAtIndex: indexPath.row ]] options:0 error:&error];
+        }
+        //If we don't have an image, FULL STOP
+        if (imageData == nil) {
+            UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                      message:@"Something has gone horribly wrong and this tour is unavailable; please try again later, though!"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"OK"
+                                                            otherButtonTitles:nil];
+            [imageError show];
+            imageError = nil;
+            [self toggleLoadingAnimation];
+        } else {
+            //Otherwise, let's get the show on the rode!
+            NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
+            NSString *customerID = [self.tableContent objectAtIndex:4];
+            self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
+            [self toggleLoadingAnimation];
+            [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
+        }
     } else {
-        //Otherwise, let's get the show on the rode!
-        NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
-        NSString *customerID = [self.tableContent objectAtIndex:4];
-        self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
-        
-        [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
+        NSLog(@"Error: Cannot start loading animation");
     }
+}
+
+-(BOOL)toggleLoadingAnimation
+{
+    if ([self.waiting isHidden]) {
+        [self.waiting startAnimating];
+        return true;
+    } else {
+        NSLog(@"Hidden? %hhd", [self.waiting isHidden]);
+        [self.waiting stopAnimating];
+        return false;
+    }
+    return false;
 }
 
 #pragma mark - Navigation

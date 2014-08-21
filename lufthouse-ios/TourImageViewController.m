@@ -11,6 +11,8 @@
 #import "WebContentViewController.h"
 #import "StoriesViewController.h"
 #import "MemoriesViewController.h"
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 
 @interface TourImageViewController ()
 
@@ -39,6 +41,7 @@
 
 //For testing on devices where you want to grab a beacon no matter the proximity
 @property (nonatomic) BOOL                      testBool;
+@property (nonatomic) BOOL                      jsonDidFail;
 
 @property (nonatomic) BOOL                      isDisplayingModal;
 
@@ -51,6 +54,8 @@
 
 //Received data from URL connection
 @property (nonatomic, strong) NSMutableData *receivedData;
+
+@property (nonatomic, strong) ACAccountStore *store;
 
 @end
 
@@ -86,12 +91,15 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToRootUnanimated) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     //If we're using beacons that don't broadcast distance, turn this on;
-    //self.testBool = true;
+    self.testBool = true;
+    self.jsonDidFail = false;
     self.isDisplayingModal = false;
   
     //Grab the image from ToursViewController and display it
     UIImage *imageFromUrl = [UIImage imageWithData:self.tourLandingImageData];
     self.tourLandingImage.image = imageFromUrl;
+    
+    self.store = [[ACAccountStore alloc] init];
 
     //Create a bluetooth manager to check if bluetooth is on
     CBCentralManager *bluetoothManager = [[CBCentralManager alloc] init];
@@ -121,7 +129,7 @@
 - (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region
 {
     //If content hasn't been loaded
-    if (self.beaconContent == nil) {
+    if (self.beaconContent == nil && !self.jsonDidFail) {
         //Setup a URL request
         NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
         [getCustJSON setHTTPMethod:@"GET"];
@@ -437,6 +445,131 @@
     [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
     
 }
+- (IBAction)lauchPhoto:(id)sender {
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:NULL];// presentModalViewController:imagePicker animated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.tourLandingImage.image = image;
+    [self dismissViewControllerAnimated:NO completion:NULL];
+    
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        [self.store requestAccessToAccountsWithType:[self.store accountTypeWithAccountTypeIdentifier: ACAccountTypeIdentifierTwitter] options:nil completion:^(BOOL granted, NSError *error) {
+            if (!granted) {
+                NSLog(@"%@", error);
+            }
+        }];
+        
+        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        NSString *shareMessage = @"Making memories with the Lufthouse app!";
+        [tweetSheet setInitialText:[NSString stringWithFormat:@"%@",shareMessage]];
+        if (image)
+        {
+                [tweetSheet addImage:image];
+        }
+        
+        [self presentViewController:tweetSheet animated:YES completion:^(void){}];
+
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Sorry"
+                                  message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup"
+                                  delegate:self
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+-(ACAccount *)storeAccountWithAccessToken:(NSString *)token secret:(NSString *)secret
+{
+    // Each account has a credential, which is comprised of a verified token
+    //  and secret
+    
+    ACAccountCredential *credential = [[ACAccountCredential alloc] initWithOAuthToken:token tokenSecret:secret];
+    
+    //  Obtain the Twitter account type from the store
+    ACAccountType *twitterAcctType =
+    [self.store accountTypeWithAccountTypeIdentifier:
+     ACAccountTypeIdentifierTwitter];
+    
+    //  Create a new account of the intended type
+    ACAccount *newAccount =
+    [[ACAccount alloc] initWithAccountType:twitterAcctType];
+    
+    //  Attach the credential for this user
+    newAccount.username = @"lufthousetest";
+    newAccount.credential = credential;
+    NSLog(@"HEY, LISTEN!");
+    // Finally, ask the account store instance to save the account Note: that
+    // the completion handler is not guaranteed to be executed on any thread,
+    // so care should be taken if you wish to update the UI, etc.
+    __block BOOL waitingOnCompletionHandler = YES;
+    [_store saveAccount:newAccount withCompletionHandler:
+     ^(BOOL success, NSError *error) {
+         if (success) {
+             // we've stored the account!
+             NSLog(@"the account was saved!");
+             waitingOnCompletionHandler = NO;
+         }
+         else {
+             //something went wrong, check value of error
+             NSLog(@"the account was NOT saved");
+             
+             // see the note below regarding errors...
+             //  this is only for demonstration purposes
+             if ([[error domain] isEqualToString:ACErrorDomain]) {
+                  waitingOnCompletionHandler = NO;
+                 // The following error codes and descriptions are found in ACError.h
+                 switch ([error code]) {
+                     case ACErrorAccountMissingRequiredProperty:
+                         NSLog(@"Account wasn't saved because "
+                               "it is missing a required property.");
+                         break;
+                     case ACErrorAccountAuthenticationFailed:
+                         NSLog(@"Account wasn't saved because "
+                               "authentication of the supplied "
+                               "credential failed.");
+                         break;
+                     case ACErrorAccountTypeInvalid:
+                         NSLog(@"Account wasn't saved because "
+                               "the account type is invalid.");
+                         break;
+                     case ACErrorAccountAlreadyExists:
+                         NSLog(@"Account wasn't added because "
+                               "it already exists.");
+                         break;
+                     case ACErrorAccountNotFound:
+                         NSLog(@"Account wasn't deleted because"
+                               "it could not be found.");
+                         break;
+                     case ACErrorPermissionDenied:
+                         NSLog(@"Permission Denied");
+                         break;
+                     case ACErrorUnknown:
+                     default: // fall through for any unknown errors...
+                         NSLog(@"An unknown error occurred.");
+                         break;
+                 }
+             } else {
+                 // handle other error domains and their associated response codes...
+                 NSLog(@"%@", [error localizedDescription]);
+             }
+         }
+     }];
+    
+    while (waitingOnCompletionHandler) {
+        NSDate *futureTime = [NSDate dateWithTimeIntervalSinceNow:0.1];
+        [[NSRunLoop currentRunLoop] runUntilDate:futureTime];
+    }
+    
+    return newAccount;
+}
 
 #pragma mark - MSPhotoBrowser
 
@@ -520,21 +653,35 @@
 {
     //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
-    
-    // If JSON didn't blow up
-    if([json isKindOfClass:[NSDictionary class]]){
-        [self loadBeaconData: json];
+    if (self.receivedData != nil) {
+        
+        id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
+        
+        // If JSON didn't blow up
+        if([json isKindOfClass:[NSDictionary class]]){
+            [self loadBeaconData: json];
+        } else {
+            NSLog(@"Error: JSON is corrupt");
+            self.jsonDidFail = true;
+            //Tell the user something messed up
+            UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                message:@"It looks like the tour is currently unavailable; please try again later!"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [jsonError show];
+            jsonError = nil;
+        }
     } else {
-        NSLog(@"Error: JSON is corrupt");
+        NSLog(@"Error: Recieved data is nil");
         //Tell the user something messed up
-        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                            message:@"It looks like the tour is currently unavailable; please try again later!"
+        UIAlertView *dataError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                            message:@"It looks like we can't grab the tour right now; please check your internet connection and try again later!"
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
-        [jsonError show];
-        jsonError = nil;
+        [dataError show];
+        dataError = nil;
     }
     
     

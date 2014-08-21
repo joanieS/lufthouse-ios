@@ -18,4 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfTours;
 @property (weak, nonatomic) IBOutlet UITableView *toursTableView;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *waiting;
+
 @end

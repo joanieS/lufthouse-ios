@@ -138,6 +138,11 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1iH-0L-z2E">
+                                <rect key="frame" x="263" y="26" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.054901960780000002" green="0.2666666667" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.86666666670000003" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.80000000000000004" green="0.86666666670000003" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -158,6 +163,7 @@
                         <outlet property="customerName" destination="nn2-bj-Av2" id="S55-In-huI"/>
                         <outlet property="numberOfTours" destination="ntk-sf-HeQ" id="vB5-Vw-HUF"/>
                         <outlet property="toursTableView" destination="Tpd-fI-Q2X" id="bdV-En-Jq2"/>
+                        <outlet property="waiting" destination="1iH-0L-z2E" id="Fzo-5P-qF2"/>
                         <segue destination="sgm-iR-GHr" kind="push" identifier="tourToTourImage" id="Qv5-On-Nmq"/>
                     </connections>
                 </viewController>
@@ -235,6 +241,41 @@
             </objects>
             <point key="canvasLocation" x="448" y="937"/>
         </scene>
+        <!--Support View Controller - Support-->
+        <scene sceneID="6gU-5D-9ue">
+            <objects>
+                <viewController id="uk4-bK-CaY" customClass="SupportViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LMP-Cb-4Oh"/>
+                        <viewControllerLayoutGuide type="bottom" id="jCn-XY-3nd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hIQ-nN-wLb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sRt-8f-adQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="D12-K1-eh6">
+                                <rect key="frame" x="150" y="242" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Support" id="8dW-M3-4kc"/>
+                    <connections>
+                        <outlet property="waiting" destination="D12-K1-eh6" id="Zux-Vf-zta"/>
+                        <outlet property="webView" destination="sRt-8f-adQ" id="Gv3-iR-fFp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9zE-y7-giP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="1749"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="STh-Kb-Wxr">
             <objects>
@@ -247,7 +288,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground" translatesAutoresizingMaskIntoConstraints="NO" id="A1F-N7-Ztu">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="A1F-N7-Ztu">
                                 <rect key="frame" x="14" y="99" width="297" height="412"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -310,7 +351,7 @@ i. The laws of the State of California, excluding its conflicts of law rules, go
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground" translatesAutoresizingMaskIntoConstraints="NO" id="hHN-XC-i3O">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="hHN-XC-i3O">
                                 <rect key="frame" x="12" y="92" width="297" height="412"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -342,7 +383,7 @@ i. The laws of the State of California, excluding its conflicts of law rules, go
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground" translatesAutoresizingMaskIntoConstraints="NO" id="bCr-Wq-Fja">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="licenseBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="bCr-Wq-Fja">
                                 <rect key="frame" x="12" y="92" width="297" height="412"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -354,11 +395,11 @@ i. The laws of the State of California, excluding its conflicts of law rules, go
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y5D-hn-KU0">
-                                <rect key="frame" x="20" y="102" width="280" height="400"/>
+                                <rect key="frame" x="18" y="103" width="280" height="401"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">Copyright (c) 2010 Michael Waterfall michaelwaterfall@gmail.com
+                                        <string key="content">MWPhotoBrowser  Copyright (c) 2010 Michael Waterfall michaelwaterfall@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -401,6 +442,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
                                 </accessibility>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nfF-pz-QS0">
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Picture" id="cQC-Nh-YJt">
+                                        <color key="tintColor" red="0.054901960780000002" green="0.2666666667" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="lauchPhoto:" destination="sgm-iR-GHr" id="VZM-FY-9Aa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -414,7 +467,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tourLandingImage" destination="mFY-fI-5oD" id="pc5-wd-C8F"/>
                         <segue destination="lwf-Ea-cnx" kind="push" identifier="tourImageToWebContent" id="oBm-Af-k4i"/>
@@ -710,7 +763,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <image name="legalButton.png" width="2407" height="613"/>
         <image name="legalLufthouse.png" width="1314" height="1289"/>
         <image name="lh_tour_title.png" width="624" height="131"/>
-        <image name="licenseBackground" width="2437" height="3413"/>
+        <image name="licenseBackground.png" width="2437" height="3413"/>
         <image name="listenButton.png" width="1583" height="1592"/>
         <image name="nextButton.png" width="920" height="429"/>
         <image name="pauseButton.png" width="1583" height="1592"/>
