@@ -64,17 +64,43 @@
 #pragma mark - UI Setup
 -(void)viewWillAppear:(BOOL)animated
 {
-    //Everytime we get to this contoller, make sure the nav bar is white transparent
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
-    self.navigationController.navigationBar.hidden = NO;
-    //Set the text color to white
-    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
-    
-    //Reset the active minor so we can reload a beacon if we accidentally backed
-    self.activeMinor = 0000;
+    if (self.beaconManager != nil) {
+        @try {
+            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Beacon Manager not initialized");
+        }
+        @finally {
+            //Everytime we get to this contoller, make sure the nav bar is white transparent
+            NSLog(@"Nav bar setup");
+            [self.navigationController setNavigationBarHidden:NO];
+            [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+            self.navigationController.navigationBar.shadowImage = [UIImage new];
+            self.navigationController.navigationBar.translucent = YES;
+            self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+            self.navigationController.navigationBar.hidden = NO;
+            //Set the text color to white
+            [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+            
+            //Reset the active minor so we can reload a beacon if we accidentally backed
+            self.activeMinor = 0000;
+        }
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (self.beaconManager != nil) {
+        @try {
+            [self.beaconManager startMonitoringForRegion:self.beaconRegion];
+            [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Beacon Manager not initialized");
+        }
+    }
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -453,8 +479,10 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    self.tourLandingImage.image = image;
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+
     [self dismissViewControllerAnimated:NO completion:NULL];
     
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
@@ -737,6 +765,9 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     [self.navigationController popToViewController:self animated:NO];
+}
+
+- (IBAction)unwindFromConfirmationForm:(UIStoryboardSegue *)segue {
 }
 
 

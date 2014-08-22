@@ -103,22 +103,24 @@
         }
         //If we don't have an image, FULL STOP
         if (imageData == nil) {
-            UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                                      message:@"Something has gone horribly wrong and this tour is unavailable; please try again later, though!"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"OK"
-                                                            otherButtonTitles:nil];
-            [imageError show];
-            imageError = nil;
-            [self toggleLoadingAnimation];
-        } else {
+
+            imageData = [[NSData alloc] initWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/defaultTourImage.png"]];
+            //            UIAlertView *imageError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+//                                                                      message:@"Something has gone horribly wrong and this tour is unavailable; please try again later, though!"
+//                                                                     delegate:self
+//                                                            cancelButtonTitle:@"OK"
+//                                                            otherButtonTitles:nil];
+//            [imageError show];
+//            imageError = nil;
+            //[self toggleLoadingAnimation];
+        } //else {
             //Otherwise, let's get the show on the rode!
-            NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
-            NSString *customerID = [self.tableContent objectAtIndex:4];
-            self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
-            [self toggleLoadingAnimation];
-            [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
-        }
+        NSString *tourID = [[self.tableContent objectAtIndex:2] objectAtIndex: indexPath.row];
+        NSString *customerID = [self.tableContent objectAtIndex:4];
+        self.contentForSegue = [NSMutableArray arrayWithObjects: imageData, tourID, customerID, nil];
+        [self toggleLoadingAnimation];
+        [self performSegueWithIdentifier:@"tourToTourImage" sender:self];
+        //}
     } else {
         NSLog(@"Error: Cannot start loading animation");
     }
@@ -130,7 +132,6 @@
         [self.waiting startAnimating];
         return true;
     } else {
-        NSLog(@"Hidden? %hhd", [self.waiting isHidden]);
         [self.waiting stopAnimating];
         return false;
     }

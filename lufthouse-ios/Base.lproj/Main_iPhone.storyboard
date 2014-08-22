@@ -473,9 +473,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <segue destination="lwf-Ea-cnx" kind="push" identifier="tourImageToWebContent" id="oBm-Af-k4i"/>
                         <segue destination="EOE-sD-uYc" kind="push" identifier="tourImageToStoriesPost" id="qqv-9j-2Jf"/>
                         <segue destination="URz-Hl-MCk" kind="push" identifier="tourImageToMemories" id="b9d-ui-V8Z"/>
+                        <segue destination="cPY-yU-Ffl" kind="unwind" identifier="unwind" unwindAction="unwindFromConfirmationForm:" id="ZRc-eC-jHe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ugQ-OX-EGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="MCW-wR-CMc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1240" y="194"/>
         </scene>
@@ -627,11 +629,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <connections>
                         <outlet property="waiting" destination="Lpm-HW-ug9" id="8ZR-So-2Pv"/>
                         <outlet property="webView" destination="HXF-BE-r51" id="bL6-5f-Jhf"/>
+                        <segue destination="MCW-wR-CMc" kind="unwind" identifier="unwindWebContent" unwindAction="unwindFromConfirmationForm:" id="CZF-Tb-gKh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nbg-cY-nws" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="cPY-yU-Ffl" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1776" y="194"/>
+            <point key="canvasLocation" x="1800" y="194"/>
         </scene>
         <!--Memories View Controller-->
         <scene sceneID="afN-AW-h3v">
@@ -781,6 +785,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bcD-6M-ank"/>
+        <segue reference="WXV-jN-21A"/>
     </inferredMetricsTieBreakers>
 </document>

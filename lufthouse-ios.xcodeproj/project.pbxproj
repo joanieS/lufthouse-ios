@@ -98,6 +98,7 @@
 		9B907AA9197EE9520044BA1E /* sqs-2012-11-05.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A9A197EE9520044BA1E /* sqs-2012-11-05.json */; };
 		9B907AAA197EE9520044BA1E /* sts-2011-06-15.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A9B197EE9520044BA1E /* sts-2011-06-15.json */; };
 		9B907AAD197EF04E0044BA1E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B907AAC197EF04E0044BA1E /* Constants.m */; };
+		9BC0C9F519A6CC7A004DB7DB /* defaultTourImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC0C9F419A6CC7A004DB7DB /* defaultTourImage.png */; };
 		9BC7168C1982DA1F002EA01F /* lh_tour_cell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC7168A1982DA1F002EA01F /* lh_tour_cell.png */; };
 		9BC7168D1982DA1F002EA01F /* lh_tour_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC7168B1982DA1F002EA01F /* lh_tour_title.png */; };
 		9BE4046F19993519003DC7E3 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE4046E19993519003DC7E3 /* PhotoViewController.m */; };
@@ -280,6 +281,7 @@
 		9B907A9B197EE9520044BA1E /* sts-2011-06-15.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sts-2011-06-15.json"; sourceTree = "<group>"; };
 		9B907AAB197EF04E0044BA1E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9B907AAC197EF04E0044BA1E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		9BC0C9F419A6CC7A004DB7DB /* defaultTourImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultTourImage.png; sourceTree = SOURCE_ROOT; };
 		9BC7168A1982DA1F002EA01F /* lh_tour_cell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tour_cell.png; sourceTree = "<group>"; };
 		9BC7168B1982DA1F002EA01F /* lh_tour_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tour_title.png; sourceTree = "<group>"; };
 		9BE4046D19993519003DC7E3 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				9BF9EBF319702B1C008B73CA /* NavigationController.m */,
 				9B770371196ED896001F658B /* CustomerViewController.h */,
 				9B770372196ED896001F658B /* CustomerViewController.m */,
+				9BC0C9F419A6CC7A004DB7DB /* defaultTourImage.png */,
 				9BF9EBE919702752008B73CA /* ToursViewController.h */,
 				9BF9EBEA19702752008B73CA /* ToursViewController.m */,
 				9BC7168A1982DA1F002EA01F /* lh_tour_cell.png */,
@@ -937,6 +940,7 @@
 				9B17333319876D6300A9FA5C /* recordInactive.png in Resources */,
 				9B020C1319898A6500D9AD79 /* recordButton.png in Resources */,
 				9B020C191989916900D9AD79 /* listenButton.png in Resources */,
+				9BC0C9F519A6CC7A004DB7DB /* defaultTourImage.png in Resources */,
 				9B7F4FDD1981739A000CE70F /* OpenSans-Bold.ttf in Resources */,
 				9B907A9F197EE9520044BA1E /* dynamodb-2012-08-10.json in Resources */,
 				9B770354196ED3B2001F658B /* Images.xcassets in Resources */,

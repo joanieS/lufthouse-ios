@@ -57,8 +57,26 @@
                                              selector:@selector(playbackStateDidChange:)
                                                  name:@"MPAVControllerPlaybackStateChangedNotification"
                                                object:nil];
+    
+    UISwipeGestureRecognizer *swipeRight=[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesture:)];
+    [self.view addGestureRecognizer:swipeRight];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    
     [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:YES];
     
+}
+
+-(void)handleSwipeGesture:(UIGestureRecognizer *) sender
+{
+    NSUInteger touches = sender.numberOfTouches;
+
+    if (touches >=1)
+    {
+        if (sender.state == UIGestureRecognizerStateRecognized)
+        {
+            [self performSegueWithIdentifier:@"unwindWebContent" sender:self];
+        }
+    }
 }
 
 /* viewDidAppear
