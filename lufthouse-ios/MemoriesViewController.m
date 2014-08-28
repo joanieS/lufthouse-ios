@@ -51,6 +51,10 @@
     
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark - Audio (Memory) Playback
 /*  reminisce
  *  In case you missed the theme, this controller is playing back audio files of people talking about their memories, so

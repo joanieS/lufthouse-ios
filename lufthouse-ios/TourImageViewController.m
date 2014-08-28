@@ -156,27 +156,10 @@
 {
     //If content hasn't been loaded
     if (self.beaconContent == nil && !self.jsonDidFail) {
-        //Setup a URL request
-        NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
-        [getCustJSON setHTTPMethod:@"GET"];
-        NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
-        self.receivedData = [NSMutableData dataWithCapacity: 0];
-        if (!connection) {
-            //If the poop hit the oscillating aeroblade device
-            self.receivedData = nil;
-            // Inform the user that the connection failed.
-            UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                                  message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-            [serverError show];
-            serverError = nil;
-
-        } else { //We successfully got the data
-            NSLog(@"Beacon content loaded");
-        }
-    } else {
+        [self getJSONUpdate];
+    }
+    if (self.beaconContent != nil && !self.jsonDidFail){
+        
         
         ESTBeacon *currentBeacon;       //Beacon to check against
         NSString *stringifiedMinor;     //String type of currentBeacon's minor value
@@ -218,6 +201,29 @@
     
     //Update the UI with our new information
     [self performSelectorOnMainThread:@selector(updateUI:) withObject:[beacons firstObject] waitUntilDone:YES];
+}
+
+-(void) getJSONUpdate
+{
+    //Setup a URL request
+    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
+    [getCustJSON setHTTPMethod:@"GET"];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
+    self.receivedData = [NSMutableData dataWithCapacity: 0];
+    if (!connection) {
+        //If the poop hit the oscillating aeroblade device
+        self.receivedData = nil;
+        // Inform the user that the connection failed.
+        UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                              message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+        [serverError show];
+        serverError = nil;
+    } else {
+        NSLog(@"Beacon content loaded");
+    }
 }
 
 -(void) centralManagerDidUpdateState:(CBCentralManager *)central
@@ -416,7 +422,7 @@
     }
     //If there are no beacons to display, go to the landing image
     if (checkBeacon == nil && self.hasLanded == false) {
-        [self popToThisController];
+        [self popToThisController:YES];
         //Load the image, transition to no audio, set the landed option, reset the active beacon, and restrict rotation
         
         [self doVolumeFade:nil];
@@ -475,7 +481,7 @@
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.delegate = self;
-    [self presentViewController:imagePicker animated:YES completion:NULL];// presentModalViewController:imagePicker animated:YES];
+    [self presentViewController:imagePicker animated:YES completion:NULL];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -512,91 +518,6 @@
                                   otherButtonTitles:nil];
         [alertView show];
     }
-}
-
--(ACAccount *)storeAccountWithAccessToken:(NSString *)token secret:(NSString *)secret
-{
-    // Each account has a credential, which is comprised of a verified token
-    //  and secret
-    
-    ACAccountCredential *credential = [[ACAccountCredential alloc] initWithOAuthToken:token tokenSecret:secret];
-    
-    //  Obtain the Twitter account type from the store
-    ACAccountType *twitterAcctType =
-    [self.store accountTypeWithAccountTypeIdentifier:
-     ACAccountTypeIdentifierTwitter];
-    
-    //  Create a new account of the intended type
-    ACAccount *newAccount =
-    [[ACAccount alloc] initWithAccountType:twitterAcctType];
-    
-    //  Attach the credential for this user
-    newAccount.username = @"lufthousetest";
-    newAccount.credential = credential;
-    NSLog(@"HEY, LISTEN!");
-    // Finally, ask the account store instance to save the account Note: that
-    // the completion handler is not guaranteed to be executed on any thread,
-    // so care should be taken if you wish to update the UI, etc.
-    __block BOOL waitingOnCompletionHandler = YES;
-    [_store saveAccount:newAccount withCompletionHandler:
-     ^(BOOL success, NSError *error) {
-         if (success) {
-             // we've stored the account!
-             NSLog(@"the account was saved!");
-             waitingOnCompletionHandler = NO;
-         }
-         else {
-             //something went wrong, check value of error
-             NSLog(@"the account was NOT saved");
-             
-             // see the note below regarding errors...
-             //  this is only for demonstration purposes
-             if ([[error domain] isEqualToString:ACErrorDomain]) {
-                  waitingOnCompletionHandler = NO;
-                 // The following error codes and descriptions are found in ACError.h
-                 switch ([error code]) {
-                     case ACErrorAccountMissingRequiredProperty:
-                         NSLog(@"Account wasn't saved because "
-                               "it is missing a required property.");
-                         break;
-                     case ACErrorAccountAuthenticationFailed:
-                         NSLog(@"Account wasn't saved because "
-                               "authentication of the supplied "
-                               "credential failed.");
-                         break;
-                     case ACErrorAccountTypeInvalid:
-                         NSLog(@"Account wasn't saved because "
-                               "the account type is invalid.");
-                         break;
-                     case ACErrorAccountAlreadyExists:
-                         NSLog(@"Account wasn't added because "
-                               "it already exists.");
-                         break;
-                     case ACErrorAccountNotFound:
-                         NSLog(@"Account wasn't deleted because"
-                               "it could not be found.");
-                         break;
-                     case ACErrorPermissionDenied:
-                         NSLog(@"Permission Denied");
-                         break;
-                     case ACErrorUnknown:
-                     default: // fall through for any unknown errors...
-                         NSLog(@"An unknown error occurred.");
-                         break;
-                 }
-             } else {
-                 // handle other error domains and their associated response codes...
-                 NSLog(@"%@", [error localizedDescription]);
-             }
-         }
-     }];
-    
-    while (waitingOnCompletionHandler) {
-        NSDate *futureTime = [NSDate dateWithTimeIntervalSinceNow:0.1];
-        [[NSRunLoop currentRunLoop] runUntilDate:futureTime];
-    }
-    
-    return newAccount;
 }
 
 #pragma mark - MSPhotoBrowser
@@ -674,6 +595,7 @@
                                                     otherButtonTitles:nil];
     [connectionError show];
     connectionError = nil;
+    self.jsonDidFail = true;
 }
 
 
@@ -690,6 +612,7 @@
             [self loadBeaconData: json];
         } else {
             NSLog(@"Error: JSON is corrupt");
+            NSLog([NSString stringWithFormat:@"Dumping hex: %@", self.receivedData.description]);
             self.jsonDidFail = true;
             //Tell the user something messed up
             UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
@@ -710,6 +633,7 @@
                                                   otherButtonTitles:nil];
         [dataError show];
         dataError = nil;
+        self.jsonDidFail = true;
     }
     
     
@@ -734,14 +658,14 @@
 {
     //If we're displaying web content, send the URL or HTML
     if ([[segue identifier] isEqualToString:@"tourImageToWebContent"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         WebContentViewController *destination = [segue destinationViewController];
         destination.segueContentURL = self.urlContentForSegue;
         destination.segueContentHTML = self.htmlContentForSegue;
     }
     //Else if we're going to create memories, prep relevant info
     else if ([[segue identifier] isEqualToString:@"tourImageToStoriesPost"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         StoriesViewController *destination = [segue destinationViewController];
         destination.custID = self.customerID;
         destination.tourID = self.tourID;
@@ -749,7 +673,7 @@
     }
     //If we're going to display some memories
     else if ([[segue identifier] isEqualToString:@"tourImageToMemories"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         MemoriesViewController *destination = [segue destinationViewController];
         destination.firstMemory = self.firstMemory;
         destination.secondMemory = self.secondMemory;
@@ -759,12 +683,13 @@
 }
 
 //Helper method to not overlap content views
--(void)popToThisController
+-(void)popToThisController: (BOOL)animated
 {
-    if (self.isDisplayingModal = true) {
+    if (self.isDisplayingModal == true) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    [self.navigationController popToViewController:self animated:NO];
+    [self.navigationController popToViewController:self animated:animated];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)unwindFromConfirmationForm:(UIStoryboardSegue *)segue {

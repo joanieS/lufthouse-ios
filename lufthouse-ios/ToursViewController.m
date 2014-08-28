@@ -74,6 +74,7 @@
     cell.opaque = NO;
     cell.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath],@"lh_tour_cell.png"]]];
     cell.textLabel.textColor = [UIColor whiteColor];
+//    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
     //Print out the tour title
     cell.textLabel.text = [[self.tableContent objectAtIndex:1] objectAtIndex:indexPath.row];
@@ -86,8 +87,7 @@
     BOOL startBool = false;
     NSThread *animationThread = [[NSThread alloc] initWithTarget:self selector:@selector(toggleLoadingAnimation) object:nil];
     [animationThread start];
-//    [self performSelector:@selector(toggleLoadingAnimation) onThread:animationThread withObject:nil waitUntilDone:YES ];
-    //On selection, start downloading the landing image for the tour and pass the data to the next segue
+
     while ([self.waiting isHidden]) {
         startBool = true;
     }

@@ -8,6 +8,7 @@
 
 #import "CustomerViewController.h"
 #import "ToursViewController.h"     //Make content passable to next controller
+#import "CustomerTableViewCell.h"
 
 @interface CustomerViewController ()
 
@@ -59,6 +60,15 @@
     
     //Create a location manager and get the current lat/long
     self.locationManager = [[CLLocationManager alloc] init];
+    
+    [self loadCustomers];
+}
+
+-(void)loadCustomers
+{
+    NSThread *animationThread = [[NSThread alloc] initWithTarget:self selector:@selector(toggleLoadingAnimation) object:nil];
+    [animationThread start];
+    
     [self.locationManager startUpdatingLocation];
     
     CLLocationDegrees latitude = self.locationManager.location.coordinate.latitude;
@@ -76,10 +86,11 @@
     [getCustJSON setHTTPMethod:@"GET"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
     self.receivedData = [NSMutableData dataWithCapacity: 0];
-  
+    
     //  If the app fails, we need to stop and let someone know
     if (!connection) {
         // Release the receivedData object.
+        [self toggleLoadingAnimation];
         self.receivedData = nil;
         UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
                                                               message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
@@ -89,6 +100,20 @@
         [serverError show];
         serverError = nil;
     }
+}
+
+-(BOOL)toggleLoadingAnimation
+{
+    if ([self.waiting isHidden]) {
+        [self.waiting startAnimating];
+        [self.customerTableView reloadData];
+        return true;
+    } else {
+        [self.waiting stopAnimating];
+        [self.customerTableView reloadData];
+        return false;
+    }
+    return false;
 }
 
 
@@ -162,6 +187,20 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    if ((self.tableContent == nil || self.numberOfRows == 0) && !self.waiting.isAnimating) {
+        self.noContent.hidden = false;
+        self.fillerImage.hidden = false;
+    } else if (self.numberOfRows > 0 && self.numberOfRows < 3)  {
+        self.noContent.hidden = true;
+        self.fillerImage.hidden = false;
+    } else if ((self.tableContent == nil || self.numberOfRows == 0) && self.waiting.isAnimating) {
+        self.fillerImage.hidden = false;
+        self.noContent.hidden = true;
+    } else {
+        self.noContent.hidden = true;
+        self.fillerImage.hidden = true;
+    }
+    
     return self.numberOfRows;
 }
 
@@ -169,7 +208,7 @@
 {
     //Cell identifier correlates to prototype in Storyboard
     static NSString *cellIdentifier = @"tourCell";
-    UITableViewCell *cell = [tableView
+    CustomerTableViewCell *cell = [tableView
                              dequeueReusableCellWithIdentifier:cellIdentifier];
     
     //Set a clear background so we can use an image instead
@@ -180,12 +219,12 @@
     cell.backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath],@"lh_tab_w_arrow.png"]]];
     
     //Set the cell text to a blue color
-    cell.textLabel.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
+    cell.name.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
+    cell.subtitle.textColor = [UIColor colorWithRed:0/255.0f green: 87/255.0f blue: 141/255.0f alpha:1];
     
     //Print out relevant information regarting customer and his tours
-    cell.textLabel.text = [[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu tours available", (unsigned long)[self.tableContent[1][indexPath.row] count]];
+    cell.name.text = [[self.tableContent objectAtIndex:0] objectAtIndex:indexPath.row];
+    cell.subtitle.text = [NSString stringWithFormat:@"%lu tours available", (unsigned long)[self.tableContent[1][indexPath.row] count]];
 
     return cell;
 }
@@ -231,6 +270,7 @@
     //In case of failure, reset everything and tell the user that connection is impossible
     connection = nil;
     self.receivedData = nil;
+    [self toggleLoadingAnimation];
     
     // Let the user know things be messed up
     NSLog(@"Connection failed! Error - %@ %@",
@@ -249,6 +289,7 @@
 {
     //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
+
     if (self.receivedData != nil) {
         
         id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
@@ -274,18 +315,19 @@
             jsonError = nil;
         }
     } else {
-        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                            message:@"It looks like something has gone wrong! Please try again later."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [jsonError show];
-        jsonError = nil;
+//        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+//                                                            message:@"It looks like something has gone wrong! Please try again later."
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//        [jsonError show];
+//        jsonError = nil;
     }
 
     //Once we're done, reset everything to free up space
     connection = nil;
     self.receivedData = nil;
+    [self toggleLoadingAnimation];
 }
 
 
@@ -293,6 +335,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if (self.waiting.isAnimating) {
+        [self toggleLoadingAnimation];
+    }
     //If it's the right segue and we aren't be hijacked, then GOGOGOGOGO
     if ([[segue identifier] isEqualToString:@"customerToTours"]) {
         ToursViewController *destination = [segue destinationViewController];

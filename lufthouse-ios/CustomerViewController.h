@@ -16,5 +16,8 @@
 
 //Table for display
 @property (weak, nonatomic) IBOutlet UITableView *customerTableView;
+@property (weak, nonatomic) IBOutlet UIImageView *fillerImage;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *waiting;
+@property (weak, nonatomic) IBOutlet UILabel *noContent;
 
 @end

@@ -104,6 +104,8 @@
 		9BE4046F19993519003DC7E3 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE4046E19993519003DC7E3 /* PhotoViewController.m */; };
 		9BE40471199953D8003DC7E3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE40470199953D8003DC7E3 /* Social.framework */; };
 		9BE4047319996449003DC7E3 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE4047219996449003DC7E3 /* Accounts.framework */; };
+		9BF6A59119AE755E00C0D48E /* CustomerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF6A59019AE755E00C0D48E /* CustomerTableViewCell.m */; };
+		9BF6A59319AE921200C0D48E /* customerBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF6A59219AE921200C0D48E /* customerBackground.png */; };
 		9BF9A07219A575620073D2B2 /* licenseBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF9A07119A575620073D2B2 /* licenseBackground.png */; };
 		9BF9EBEB19702752008B73CA /* ToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEA19702752008B73CA /* ToursViewController.m */; };
 		9BF9EBF419702B1C008B73CA /* WebContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF9EBEF19702B1C008B73CA /* WebContentViewController.m */; };
@@ -288,6 +290,9 @@
 		9BE4046E19993519003DC7E3 /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		9BE40470199953D8003DC7E3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9BE4047219996449003DC7E3 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		9BF6A58F19AE755E00C0D48E /* CustomerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTableViewCell.h; sourceTree = "<group>"; };
+		9BF6A59019AE755E00C0D48E /* CustomerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerTableViewCell.m; sourceTree = "<group>"; };
+		9BF6A59219AE921200C0D48E /* customerBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = customerBackground.png; sourceTree = SOURCE_ROOT; };
 		9BF9A07119A575620073D2B2 /* licenseBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = licenseBackground.png; sourceTree = SOURCE_ROOT; };
 		9BF9EBE919702752008B73CA /* ToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToursViewController.h; sourceTree = "<group>"; };
 		9BF9EBEA19702752008B73CA /* ToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToursViewController.m; sourceTree = "<group>"; };
@@ -576,6 +581,9 @@
 				9B4D0BB8198A029000A64053 /* landingiPadPortrait2x.png */,
 				9B15E734196F1BC300FB29E6 /* back.png */,
 				9B770347196ED3B2001F658B /* Main_iPhone.storyboard */,
+				9BF6A58F19AE755E00C0D48E /* CustomerTableViewCell.h */,
+				9BF6A59219AE921200C0D48E /* customerBackground.png */,
+				9BF6A59019AE755E00C0D48E /* CustomerTableViewCell.m */,
 				9BE4046D19993519003DC7E3 /* PhotoViewController.h */,
 				9BE4046E19993519003DC7E3 /* PhotoViewController.m */,
 				9B020C1119898A6500D9AD79 /* recordButton.png */,
@@ -938,6 +946,7 @@
 				9B4D0BBB198A029000A64053 /* landingiPadPortrait1x.png in Resources */,
 				9BF9A07219A575620073D2B2 /* licenseBackground.png in Resources */,
 				9B17333319876D6300A9FA5C /* recordInactive.png in Resources */,
+				9BF6A59319AE921200C0D48E /* customerBackground.png in Resources */,
 				9B020C1319898A6500D9AD79 /* recordButton.png in Resources */,
 				9B020C191989916900D9AD79 /* listenButton.png in Resources */,
 				9BC0C9F519A6CC7A004DB7DB /* defaultTourImage.png in Resources */,
@@ -1057,6 +1066,7 @@
 				9B770342196ED3B2001F658B /* main.m in Sources */,
 				9BF9EC8719702EE8008B73CA /* UIImageView+WebCache.m in Sources */,
 				9BF9EC7C19702EE8008B73CA /* SDImageCache.m in Sources */,
+				9BF6A59119AE755E00C0D48E /* CustomerTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,7 +1210,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
@@ -1227,7 +1237,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
 				INFOPLIST_FILE = "lufthouse-ios/lufthouse-ios-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
