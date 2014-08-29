@@ -510,7 +510,7 @@
         }];
         
         SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-        NSString *shareMessage = @"Making memories with the Lufthouse app!";
+        NSString *shareMessage = @"Making memories at the CLE #64browns exhibit @WRHS_History with the new digital experience app @Lufthouse!";
         [tweetSheet setInitialText:[NSString stringWithFormat:@"%@",shareMessage]];
         if (image)
         {
