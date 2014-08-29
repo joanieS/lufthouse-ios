@@ -412,8 +412,9 @@
                 self.secondMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][1]]];
                 
                 [self performSegueWithIdentifier:@"tourImageToMemories" sender:self];
-                
-                
+            } else if(!([beaconArray[2][i] rangeOfString:@"photobooth"].location == NSNotFound)) {
+                self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
+                [self launchPhoto];
             }
             
             //Assert we are not on the landing image
@@ -477,11 +478,20 @@
     [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
     
 }
-- (IBAction)lauchPhoto:(id)sender {
+- (void)launchPhoto {
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     imagePicker.delegate = self;
-    [self presentViewController:imagePicker animated:YES completion:NULL];
+    [self presentViewController:imagePicker animated:YES completion:^(void){
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Photobooth"
+                                  message:@"Go ahead and take a selfie, then share it on Twitter with us!"
+                                  delegate:self
+                                  cancelButtonTitle:@"Sure!"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {

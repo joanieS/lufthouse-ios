@@ -592,28 +592,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
                                 </accessibility>
                             </imageView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfF-pz-QS0">
-                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="Picture" id="cQC-Nh-YJt">
-                                        <color key="tintColor" red="0.054901960780000002" green="0.2666666667" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="lauchPhoto:" destination="sgm-iR-GHr" id="VZM-FY-9Aa"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mFY-fI-5oD" firstAttribute="leading" secondItem="nfF-pz-QS0" secondAttribute="leading" id="1He-73-dX3"/>
-                            <constraint firstItem="nfF-pz-QS0" firstAttribute="leading" secondItem="Upc-G1-hNZ" secondAttribute="leading" id="3h4-9A-gnM"/>
-                            <constraint firstAttribute="bottom" secondItem="nfF-pz-QS0" secondAttribute="bottom" id="FcN-mf-3YH"/>
-                            <constraint firstItem="mFY-fI-5oD" firstAttribute="top" secondItem="Upc-G1-hNZ" secondAttribute="top" id="JV3-0f-8Jt"/>
-                            <constraint firstAttribute="bottom" secondItem="mFY-fI-5oD" secondAttribute="bottom" constant="-64" id="UC0-ZI-iKm"/>
-                            <constraint firstAttribute="trailing" secondItem="nfF-pz-QS0" secondAttribute="trailing" id="d1C-KA-Mze"/>
-                            <constraint firstItem="nfF-pz-QS0" firstAttribute="trailing" secondItem="mFY-fI-5oD" secondAttribute="trailing" id="pJq-1b-g8Q"/>
+                            <constraint firstItem="mFY-fI-5oD" firstAttribute="leading" secondItem="Upc-G1-hNZ" secondAttribute="leading" id="Bei-xi-v25"/>
+                            <constraint firstItem="mFY-fI-5oD" firstAttribute="top" secondItem="Upc-G1-hNZ" secondAttribute="top" id="Hq4-0u-0Wo"/>
+                            <constraint firstAttribute="trailing" secondItem="mFY-fI-5oD" secondAttribute="trailing" id="cBN-vx-FoF"/>
+                            <constraint firstAttribute="bottom" secondItem="mFY-fI-5oD" secondAttribute="bottom" constant="-64" id="nNw-lJ-Sbo"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -1036,6 +1021,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="gIU-oJ-3d3"/>
+        <segue reference="WXV-jN-21A"/>
     </inferredMetricsTieBreakers>
 </document>
