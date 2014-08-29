@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SupportViewController : UIViewController
+@interface SupportViewController : UIViewController <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *waiting;
 
 @end

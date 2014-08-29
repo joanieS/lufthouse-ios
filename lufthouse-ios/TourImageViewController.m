@@ -11,6 +11,8 @@
 #import "WebContentViewController.h"
 #import "StoriesViewController.h"
 #import "MemoriesViewController.h"
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 
 @interface TourImageViewController ()
 
@@ -39,6 +41,7 @@
 
 //For testing on devices where you want to grab a beacon no matter the proximity
 @property (nonatomic) BOOL                      testBool;
+@property (nonatomic) BOOL                      jsonDidFail;
 
 @property (nonatomic) BOOL                      isDisplayingModal;
 
@@ -52,6 +55,8 @@
 //Received data from URL connection
 @property (nonatomic, strong) NSMutableData *receivedData;
 
+@property (nonatomic, strong) ACAccountStore *store;
+
 @end
 
 @implementation TourImageViewController
@@ -59,17 +64,43 @@
 #pragma mark - UI Setup
 -(void)viewWillAppear:(BOOL)animated
 {
-    //Everytime we get to this contoller, make sure the nav bar is white transparent
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:0.5];
-    self.navigationController.navigationBar.hidden = NO;
-    //Set the text color to white
-    [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
-    
-    //Reset the active minor so we can reload a beacon if we accidentally backed
-    self.activeMinor = 0000;
+    if (self.beaconManager != nil) {
+        @try {
+            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Beacon Manager not initialized");
+        }
+        @finally {
+            //Everytime we get to this contoller, make sure the nav bar is white transparent
+            NSLog(@"Nav bar setup");
+            [self.navigationController setNavigationBarHidden:NO];
+            [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+            self.navigationController.navigationBar.shadowImage = [UIImage new];
+            self.navigationController.navigationBar.translucent = YES;
+            self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+            self.navigationController.navigationBar.hidden = NO;
+            //Set the text color to white
+            [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
+            
+            //Reset the active minor so we can reload a beacon if we accidentally backed
+            self.activeMinor = 0000;
+        }
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (self.beaconManager != nil) {
+        @try {
+            [self.beaconManager startMonitoringForRegion:self.beaconRegion];
+            [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Beacon Manager not initialized");
+        }
+    }
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -86,12 +117,15 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToRootUnanimated) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     //If we're using beacons that don't broadcast distance, turn this on;
-    //self.testBool = true;
+    self.testBool = true;
+    self.jsonDidFail = false;
     self.isDisplayingModal = false;
   
     //Grab the image from ToursViewController and display it
     UIImage *imageFromUrl = [UIImage imageWithData:self.tourLandingImageData];
     self.tourLandingImage.image = imageFromUrl;
+    
+    self.store = [[ACAccountStore alloc] init];
 
     //Create a bluetooth manager to check if bluetooth is on
     CBCentralManager *bluetoothManager = [[CBCentralManager alloc] init];
@@ -121,28 +155,11 @@
 - (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region
 {
     //If content hasn't been loaded
-    if (self.beaconContent == nil) {
-        //Setup a URL request
-        NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
-        [getCustJSON setHTTPMethod:@"GET"];
-        NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
-        self.receivedData = [NSMutableData dataWithCapacity: 0];
-        if (!connection) {
-            //If the poop hit the oscillating aeroblade device
-            self.receivedData = nil;
-            // Inform the user that the connection failed.
-            UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                                  message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-            [serverError show];
-            serverError = nil;
-
-        } else { //We successfully got the data
-            NSLog(@"Beacon content loaded");
-        }
-    } else {
+    if (self.beaconContent == nil && !self.jsonDidFail) {
+        [self getJSONUpdate];
+    }
+    if (self.beaconContent != nil && !self.jsonDidFail){
+        
         
         ESTBeacon *currentBeacon;       //Beacon to check against
         NSString *stringifiedMinor;     //String type of currentBeacon's minor value
@@ -184,6 +201,29 @@
     
     //Update the UI with our new information
     [self performSelectorOnMainThread:@selector(updateUI:) withObject:[beacons firstObject] waitUntilDone:YES];
+}
+
+-(void) getJSONUpdate
+{
+    //Setup a URL request
+    NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
+    [getCustJSON setHTTPMethod:@"GET"];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:getCustJSON delegate:self];
+    self.receivedData = [NSMutableData dataWithCapacity: 0];
+    if (!connection) {
+        //If the poop hit the oscillating aeroblade device
+        self.receivedData = nil;
+        // Inform the user that the connection failed.
+        UIAlertView *serverError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                              message:@"We're really sorry, but you're unable to connect to the server right now. Please try again soon!"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+        [serverError show];
+        serverError = nil;
+    } else {
+        NSLog(@"Beacon content loaded");
+    }
 }
 
 -(void) centralManagerDidUpdateState:(CBCentralManager *)central
@@ -372,8 +412,9 @@
                 self.secondMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][1]]];
                 
                 [self performSegueWithIdentifier:@"tourImageToMemories" sender:self];
-                
-                
+            } else if(!([beaconArray[2][i] rangeOfString:@"photobooth"].location == NSNotFound)) {
+                self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
+                [self launchPhoto];
             }
             
             //Assert we are not on the landing image
@@ -382,7 +423,7 @@
     }
     //If there are no beacons to display, go to the landing image
     if (checkBeacon == nil && self.hasLanded == false) {
-        [self popToThisController];
+        [self popToThisController:YES];
         //Load the image, transition to no audio, set the landed option, reset the active beacon, and restrict rotation
         
         [self doVolumeFade:nil];
@@ -436,6 +477,57 @@
     self.htmlContentForSegue = html;
     [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
     
+}
+- (void)launchPhoto {
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:^(void){
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Photobooth"
+                                  message:@"Go ahead and take a selfie, then share it on Twitter with us!"
+                                  delegate:self
+                                  cancelButtonTitle:@"Sure!"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+
+    [self dismissViewControllerAnimated:NO completion:NULL];
+    
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        [self.store requestAccessToAccountsWithType:[self.store accountTypeWithAccountTypeIdentifier: ACAccountTypeIdentifierTwitter] options:nil completion:^(BOOL granted, NSError *error) {
+            if (!granted) {
+                NSLog(@"%@", error);
+            }
+        }];
+        
+        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        NSString *shareMessage = @"Making memories at the CLE #64browns exhibit @WRHS_History with the new digital experience app @Lufthouse!";
+        [tweetSheet setInitialText:[NSString stringWithFormat:@"%@",shareMessage]];
+        if (image)
+        {
+                [tweetSheet addImage:image];
+        }
+        
+        [self presentViewController:tweetSheet animated:YES completion:^(void){}];
+
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Sorry"
+                                  message:@"You can't send a tweet right now, make sure your device has an internet connection and you have at least one Twitter account setup"
+                                  delegate:self
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 #pragma mark - MSPhotoBrowser
@@ -513,6 +605,7 @@
                                                     otherButtonTitles:nil];
     [connectionError show];
     connectionError = nil;
+    self.jsonDidFail = true;
 }
 
 
@@ -520,21 +613,37 @@
 {
     //Once we get all of the data, we need to make sure we want it
     NSError *error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
-    
-    // If JSON didn't blow up
-    if([json isKindOfClass:[NSDictionary class]]){
-        [self loadBeaconData: json];
+    if (self.receivedData != nil) {
+        
+        id json = [NSJSONSerialization JSONObjectWithData:self.receivedData options:0 error:&error];
+        
+        // If JSON didn't blow up
+        if([json isKindOfClass:[NSDictionary class]]){
+            [self loadBeaconData: json];
+        } else {
+            NSLog(@"Error: JSON is corrupt");
+            NSLog([NSString stringWithFormat:@"Dumping hex: %@", self.receivedData.description]);
+            self.jsonDidFail = true;
+            //Tell the user something messed up
+            UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                                message:@"It looks like the tour is currently unavailable; please try again later!"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [jsonError show];
+            jsonError = nil;
+        }
     } else {
-        NSLog(@"Error: JSON is corrupt");
+        NSLog(@"Error: Recieved data is nil");
         //Tell the user something messed up
-        UIAlertView *jsonError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
-                                                            message:@"It looks like the tour is currently unavailable; please try again later!"
+        UIAlertView *dataError = [[UIAlertView alloc] initWithTitle:@"Uh-oh!"
+                                                            message:@"It looks like we can't grab the tour right now; please check your internet connection and try again later!"
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
-        [jsonError show];
-        jsonError = nil;
+        [dataError show];
+        dataError = nil;
+        self.jsonDidFail = true;
     }
     
     
@@ -559,14 +668,14 @@
 {
     //If we're displaying web content, send the URL or HTML
     if ([[segue identifier] isEqualToString:@"tourImageToWebContent"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         WebContentViewController *destination = [segue destinationViewController];
         destination.segueContentURL = self.urlContentForSegue;
         destination.segueContentHTML = self.htmlContentForSegue;
     }
     //Else if we're going to create memories, prep relevant info
     else if ([[segue identifier] isEqualToString:@"tourImageToStoriesPost"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         StoriesViewController *destination = [segue destinationViewController];
         destination.custID = self.customerID;
         destination.tourID = self.tourID;
@@ -574,7 +683,7 @@
     }
     //If we're going to display some memories
     else if ([[segue identifier] isEqualToString:@"tourImageToMemories"]) {
-        [self popToThisController];
+        [self popToThisController:NO];
         MemoriesViewController *destination = [segue destinationViewController];
         destination.firstMemory = self.firstMemory;
         destination.secondMemory = self.secondMemory;
@@ -584,12 +693,16 @@
 }
 
 //Helper method to not overlap content views
--(void)popToThisController
+-(void)popToThisController: (BOOL)animated
 {
     if (self.isDisplayingModal == true) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    [self.navigationController popToViewController:self animated:NO];
+    [self.navigationController popToViewController:self animated:animated];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)unwindFromConfirmationForm:(UIStoryboardSegue *)segue {
 }
 
 

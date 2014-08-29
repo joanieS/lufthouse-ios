@@ -24,7 +24,7 @@
 #import "MWPhotoBrowser.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface TourImageViewController : UIViewController<ESTBeaconManagerDelegate , MWPhotoBrowserDelegate, CBCentralManagerDelegate>
+@interface TourImageViewController : UIViewController<ESTBeaconManagerDelegate , MWPhotoBrowserDelegate, CBCentralManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 //Display image for tour
 @property (strong, nonatomic) IBOutlet UIImageView *tourLandingImage;

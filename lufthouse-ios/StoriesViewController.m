@@ -61,7 +61,7 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     //Make a blue navigation bar
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0/255.0f green:87/255.0f blue:141/255.0f alpha:1.0f]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:242/255.0f green:101/255.0f blue:34/255.0f alpha:1.0f]];
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.hidden = NO;
     
@@ -73,6 +73,10 @@
     
     //We start off not timing
     self.isTiming = false;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #pragma mark - Audio Recording and Controls
