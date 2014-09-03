@@ -44,6 +44,7 @@
 @property (nonatomic) BOOL                      jsonDidFail;
 
 @property (nonatomic) BOOL                      isDisplayingModal;
+@property (nonatomic) BOOL                      hasRequestedSelfie;
 
 @property (nonatomic, strong) NSURL *urlContentForSegue;
 @property (nonatomic, strong) NSString *htmlContentForSegue;
@@ -85,7 +86,11 @@
             [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
             
             //Reset the active minor so we can reload a beacon if we accidentally backed
-            self.activeMinor = 0000;
+            if (!self.hasRequestedSelfie) {
+                self.activeMinor = 0000;
+            } else {
+                self.hasRequestedSelfie = false;
+            }
         }
     }
 }
@@ -117,9 +122,10 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToRootUnanimated) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     //If we're using beacons that don't broadcast distance, turn this on;
-    self.testBool = true;
+//    self.testBool = true;
     self.jsonDidFail = false;
     self.isDisplayingModal = false;
+    self.hasRequestedSelfie = false;
   
     //Grab the image from ToursViewController and display it
     UIImage *imageFromUrl = [UIImage imageWithData:self.tourLandingImageData];
@@ -408,11 +414,20 @@
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 
                 self.memories = beaconArray[1][i];
-                self.firstMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][0]]];
-                self.secondMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][1]]];
+                if ([self.memories count] == 0) {
+                    self.firstMemory = nil;
+                    self.secondMemory = nil;
+                } else if ([self.memories count] == 1) {
+                    self.firstMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][0]]];
+                    self.secondMemory = nil;
+                } else {
+                    self.firstMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][0]]];
+                    self.secondMemory = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:beaconArray[1][i][1]]];
+                }
                 
                 [self performSegueWithIdentifier:@"tourImageToMemories" sender:self];
             } else if(!([beaconArray[2][i] rangeOfString:@"photobooth"].location == NSNotFound)) {
+                self.hasRequestedSelfie = true;
                 self.activeMinor = [[[beaconArray objectAtIndex:0] objectAtIndex:i] minor];
                 [self launchPhoto];
             }

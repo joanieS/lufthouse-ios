@@ -914,6 +914,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVE-Al-kn0">
                                 <rect key="frame" x="56" y="110" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="CEL-kf-I3F"/>
+                                    <constraint firstAttribute="width" constant="200" id="e24-oc-lIZ"/>
+                                </constraints>
                                 <state key="normal" image="recordButton.png">
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -935,7 +939,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <action selector="sendButtonActivate:" destination="EOE-sD-uYc" eventType="touchUpInside" id="D7r-iW-Lhd"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="write a few words about your memory" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jCB-di-Tmc">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="write a few words about your memory" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jCB-di-Tmc">
                                 <rect key="frame" x="20" y="55" width="275" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -967,6 +971,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSi-Pp-Wu9">
                                 <rect key="frame" x="57" y="109" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="R42-kL-jKh"/>
+                                    <constraint firstAttribute="height" constant="200" id="nBt-Ml-5kG"/>
+                                </constraints>
                                 <state key="normal" title="Stop" image="stopButton.png">
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -974,7 +982,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <action selector="stopButtonActivate:" destination="EOE-sD-uYc" eventType="touchUpInside" id="WHY-gu-gph"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I remember when..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHK-Xg-saY">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="I remember when..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHK-Xg-saY">
                                 <rect key="frame" x="20" y="26" width="148" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -1010,30 +1018,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <color key="tintColor" red="0.59999999999999998" green="0.73725490199999999" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="dSi-Pp-Wu9" firstAttribute="centerX" secondItem="kKR-cl-1ue" secondAttribute="centerX" id="3NG-XE-Hrq"/>
+                            <constraint firstItem="JVE-Al-kn0" firstAttribute="leading" secondItem="VTY-bL-6Pa" secondAttribute="leading" constant="56" id="4Ht-Ta-rXz"/>
                             <constraint firstAttribute="trailing" secondItem="jCB-di-Tmc" secondAttribute="trailing" constant="25" id="6m9-Es-Mv8"/>
                             <constraint firstItem="aHK-Xg-saY" firstAttribute="leading" secondItem="VTY-bL-6Pa" secondAttribute="leading" constant="20" symbolic="YES" id="7B1-wx-scd"/>
+                            <constraint firstItem="kKR-cl-1ue" firstAttribute="top" secondItem="dSi-Pp-Wu9" secondAttribute="bottom" constant="10" id="8Hm-PV-dLh"/>
                             <constraint firstAttribute="bottom" secondItem="Ftm-ld-CcX" secondAttribute="bottom" constant="20" symbolic="YES" id="9gt-zU-NdJ"/>
+                            <constraint firstItem="dSi-Pp-Wu9" firstAttribute="centerX" secondItem="jCB-di-Tmc" secondAttribute="centerX" id="BQW-GW-cZc"/>
                             <constraint firstItem="Ftm-ld-CcX" firstAttribute="leading" secondItem="9HB-1c-A6m" secondAttribute="leading" id="DwM-9B-AQF"/>
-                            <constraint firstItem="dSi-Pp-Wu9" firstAttribute="leading" secondItem="VTY-bL-6Pa" secondAttribute="leading" constant="57" id="HC2-97-Pn9"/>
                             <constraint firstItem="9HB-1c-A6m" firstAttribute="leading" secondItem="VTY-bL-6Pa" secondAttribute="leading" constant="68" id="IU4-dG-b5q"/>
                             <constraint firstItem="aHK-Xg-saY" firstAttribute="leading" secondItem="jCB-di-Tmc" secondAttribute="leading" id="Jm3-HI-wdv"/>
                             <constraint firstItem="Ftm-ld-CcX" firstAttribute="trailing" secondItem="Lqq-QY-KOV" secondAttribute="trailing" id="Jor-AN-eUu"/>
-                            <constraint firstItem="JVE-Al-kn0" firstAttribute="top" secondItem="jCB-di-Tmc" secondAttribute="bottom" constant="25" id="OiX-qE-9WD"/>
-                            <constraint firstItem="kKR-cl-1ue" firstAttribute="top" secondItem="dSi-Pp-Wu9" secondAttribute="bottom" constant="10" id="S5l-EJ-HZM"/>
-                            <constraint firstItem="jCB-di-Tmc" firstAttribute="centerX" secondItem="dSi-Pp-Wu9" secondAttribute="centerX" id="Szf-kQ-j5Z"/>
                             <constraint firstItem="Ftm-ld-CcX" firstAttribute="centerX" secondItem="VTY-bL-6Pa" secondAttribute="centerX" id="Zc7-Yu-gVz"/>
                             <constraint firstItem="Lqq-QY-KOV" firstAttribute="leading" secondItem="9HB-1c-A6m" secondAttribute="trailing" constant="15" id="cT7-IV-gzp"/>
-                            <constraint firstItem="kKR-cl-1ue" firstAttribute="top" secondItem="JVE-Al-kn0" secondAttribute="bottom" constant="9" id="e0B-A3-ud7"/>
+                            <constraint firstItem="aHK-Xg-saY" firstAttribute="top" secondItem="jfY-Z5-Oyt" secondAttribute="bottom" constant="66" id="cn3-2h-sh9"/>
                             <constraint firstItem="jCB-di-Tmc" firstAttribute="top" secondItem="aHK-Xg-saY" secondAttribute="bottom" constant="8" symbolic="YES" id="fes-10-JLJ"/>
                             <constraint firstItem="9HB-1c-A6m" firstAttribute="top" secondItem="kKR-cl-1ue" secondAttribute="bottom" constant="13" id="gqN-YJ-ytZ"/>
                             <constraint firstItem="Lqq-QY-KOV" firstAttribute="top" secondItem="9HB-1c-A6m" secondAttribute="top" id="heN-gy-Ytn"/>
-                            <constraint firstItem="dSi-Pp-Wu9" firstAttribute="top" secondItem="jCB-di-Tmc" secondAttribute="bottom" constant="24" id="kL7-OG-EP0"/>
+                            <constraint firstItem="kKR-cl-1ue" firstAttribute="top" secondItem="JVE-Al-kn0" secondAttribute="bottom" constant="9" id="l8N-J2-XMH"/>
                             <constraint firstItem="Ftm-ld-CcX" firstAttribute="top" secondItem="Lqq-QY-KOV" secondAttribute="bottom" constant="8" symbolic="YES" id="pGq-zQ-aha"/>
-                            <constraint firstItem="aHK-Xg-saY" firstAttribute="top" secondItem="jfY-Z5-Oyt" secondAttribute="bottom" constant="26" id="pea-4b-7QU"/>
+                            <constraint firstItem="kKR-cl-1ue" firstAttribute="centerX" secondItem="dSi-Pp-Wu9" secondAttribute="centerX" id="q3H-lh-Th8"/>
                             <constraint firstItem="Ftm-ld-CcX" firstAttribute="top" secondItem="9HB-1c-A6m" secondAttribute="bottom" constant="8" symbolic="YES" id="u4N-0q-AF0"/>
-                            <constraint firstItem="JVE-Al-kn0" firstAttribute="leading" secondItem="VTY-bL-6Pa" secondAttribute="leading" constant="56" id="uyx-Os-nvg"/>
-                            <constraint firstAttribute="trailing" secondItem="JVE-Al-kn0" secondAttribute="trailing" constant="64" id="vVi-hx-vXb"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Ar2-1e-Jx5" appends="YES" id="lvw-HM-pvd"/>
