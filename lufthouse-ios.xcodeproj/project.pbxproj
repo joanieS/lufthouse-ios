@@ -80,6 +80,7 @@
 		9B7F4FE61981739A000CE70F /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FDB1981739A000CE70F /* OpenSans-SemiboldItalic.ttf */; };
 		9B7F4FF61981A414000CE70F /* lh_tab_w_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FF31981A414000CE70F /* lh_tab_w_arrow.png */; };
 		9B7F4FF81981A414000CE70F /* lh_title.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FF51981A414000CE70F /* lh_title.png */; };
+		9B850CCD19BFA5C200A49E07 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B850CCC19BFA5C200A49E07 /* Crashlytics.framework */; };
 		9B907A8A197EE8CA0044BA1E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */; };
 		9B907A8C197EE8D60044BA1E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A8B197EE8D60044BA1E /* libz.dylib */; };
 		9B907A9C197EE9520044BA1E /* autoscaling-2011-01-01.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B907A8D197EE9520044BA1E /* autoscaling-2011-01-01.json */; };
@@ -256,6 +257,7 @@
 		9B7F4FDB1981739A000CE70F /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		9B7F4FF31981A414000CE70F /* lh_tab_w_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tab_w_arrow.png; sourceTree = SOURCE_ROOT; };
 		9B7F4FF51981A414000CE70F /* lh_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_title.png; sourceTree = SOURCE_ROOT; };
+		9B850CCC19BFA5C200A49E07 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDKv2.framework; path = "AWS Frameworks/AWSiOSSDKv2.framework"; sourceTree = "<group>"; };
 		9B907A7A197EDDAD0044BA1E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "AWS Frameworks/Bolts.framework"; sourceTree = "<group>"; };
 		9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSURITemplate.framework; path = "AWS Frameworks/CSURITemplate.framework"; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				9B7F4FCA19814420000CE70F /* Reachability.framework in Frameworks */,
 				9B7F4FCB19814420000CE70F /* TMCache.framework in Frameworks */,
 				9B7F4FCC19814420000CE70F /* UICKeyChainStore.framework in Frameworks */,
+				9B850CCD19BFA5C200A49E07 /* Crashlytics.framework in Frameworks */,
 				9B7F4FCD19814420000CE70F /* XMLDictionary.framework in Frameworks */,
 				9B907A8C197EE8D60044BA1E /* libz.dylib in Frameworks */,
 				9B907A8A197EE8CA0044BA1E /* libsqlite3.dylib in Frameworks */,
@@ -471,7 +474,6 @@
 				9B17332B19876D6300A9FA5C /* stopActive.png */,
 				9B17332C19876D6300A9FA5C /* stopInactive.png */,
 				9B17332D19876D6300A9FA5C /* timer.png */,
-				9BA27C60198BE47A00348FF9 /* README.md */,
 			);
 			path = "Recorder Icons";
 			sourceTree = SOURCE_ROOT;
@@ -493,7 +495,6 @@
 		9B770329196ED3B2001F658B = {
 			isa = PBXGroup;
 			children = (
-				9BA27C5E198BDEA300348FF9 /* licenseBackground.png */,
 				9B020C151989916900D9AD79 /* Playback Buttons */,
 				9B74899B19896B7B00A3F2DC /* App Icons */,
 				9BF9EC0019702EE8008B73CA /* MWPhotoBrowser */,
@@ -502,6 +503,7 @@
 				9B770360196ED3B2001F658B /* lufthouse-iosTests */,
 				9B770334196ED3B2001F658B /* Frameworks */,
 				9B770333196ED3B2001F658B /* Products */,
+				9B850CCC19BFA5C200A49E07 /* Crashlytics.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -856,6 +858,7 @@
 				9B77032E196ED3B2001F658B /* Sources */,
 				9B77032F196ED3B2001F658B /* Frameworks */,
 				9B770330196ED3B2001F658B /* Resources */,
+				9B850CCB19BFA54A00A49E07 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -971,7 +974,6 @@
 				9B7489A219896B7B00A3F2DC /* iconiPhoneSettings.png in Resources */,
 				9BC7168D1982DA1F002EA01F /* lh_tour_title.png in Resources */,
 				9B4D0BB9198A029000A64053 /* landingiPadLandscape1x.png in Resources */,
-				9BA27C5F198BDEA300348FF9 /* licenseBackground.png in Resources */,
 				9B907AA8197EE9520044BA1E /* sns-2010-03-31.json in Resources */,
 				9B770349196ED3B2001F658B /* Main_iPhone.storyboard in Resources */,
 				9B17333419876D6300A9FA5C /* send.png in Resources */,
@@ -986,7 +988,6 @@
 				9BF9EC7819702EE8008B73CA /* README.md in Resources */,
 				9B17333519876D6300A9FA5C /* stopActive.png in Resources */,
 				9B17333119876D6300A9FA5C /* playInactive.png in Resources */,
-				9BA27C61198BE47A00348FF9 /* README.md in Resources */,
 				9B907AA7197EE9520044BA1E /* sdb-2009-04-15.json in Resources */,
 				9B7F4FE11981739A000CE70F /* OpenSans-Italic.ttf in Resources */,
 				9B7F4FCF198169F6000CE70F /* landing2xiPhone.png in Resources */,
@@ -1014,6 +1015,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9B850CCB19BFA54A00A49E07 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run db25d919282c0467dc1943bfff0ed615cae7992e 8ec9cc6200403d2cef55646b155461507a3e46ddc8b02f66c265924fe6dc5f6f";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9B77032E196ED3B2001F658B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1023,7 +1040,6 @@
 				9B1733221987605F00A9FA5C /* settingsViewController.m in Sources */,
 				9BF9EC7919702EE8008B73CA /* MKAnnotationView+WebCache.m in Sources */,
 				9BF9EC6119702EE8008B73CA /* MWGridViewController.m in Sources */,
-				9BA27C5D198BDCB400348FF9 /* SupportViewController.m in Sources */,
 				9BF9EC6619702EE8008B73CA /* MWZoomingScrollView.m in Sources */,
 				9BF9EBF519702B1C008B73CA /* LufthouseTour.m in Sources */,
 				9BF9EC7519702EE8008B73CA /* PSTGridLayoutRow.m in Sources */,
@@ -1211,6 +1227,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
@@ -1238,6 +1255,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";

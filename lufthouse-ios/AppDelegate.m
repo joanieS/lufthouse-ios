@@ -7,12 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import "Crashlytics/Crashlytics.h"
 
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [Crashlytics startWithAPIKey:@"db25d919282c0467dc1943bfff0ed615cae7992e"];
     //Start authentication for AWS S3 to store files. Use user info from Contstants.m
     AWSCognitoCredentialsProvider *credentialsProvider = [AWSCognitoCredentialsProvider
                                                           credentialsWithRegionType:AWSRegionUSEast1
