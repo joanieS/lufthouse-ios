@@ -1,0 +1,5 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/DACircularProgress" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/MWPhotoBrowser" "${PODS_ROOT}/Headers/Public/PSTCollectionView" "${PODS_ROOT}/Headers/Public/SDWebImage"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/DACircularProgress" -isystem "${PODS_ROOT}/Headers/Public/MBProgressHUD" -isystem "${PODS_ROOT}/Headers/Public/MWPhotoBrowser" -isystem "${PODS_ROOT}/Headers/Public/PSTCollectionView" -isystem "${PODS_ROOT}/Headers/Public/SDWebImage"
+OTHER_LDFLAGS = -ObjC -l"Pods-lufthouse-ios-DACircularProgress" -l"Pods-lufthouse-ios-MBProgressHUD" -l"Pods-lufthouse-ios-MWPhotoBrowser" -l"Pods-lufthouse-ios-PSTCollectionView" -l"Pods-lufthouse-ios-SDWebImage" -framework "AssetsLibrary" -framework "CoreGraphics" -framework "ImageIO" -framework "MapKit" -framework "MessageUI" -framework "QuartzCore" -framework "UIKit"
+PODS_ROOT = ${SRCROOT}/Pods

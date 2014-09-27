@@ -1,0 +1,29 @@
+PODS:
+  - DACircularProgress (2.2.0)
+  - MBProgressHUD (0.9)
+  - MWPhotoBrowser (1.4.1):
+    - DACircularProgress
+    - MBProgressHUD (~> 0.8)
+    - PSTCollectionView (~> 1.2)
+    - SDWebImage (~> 3.7)
+  - PSTCollectionView (1.2.3)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.7.1)
+
+DEPENDENCIES:
+  - MWPhotoBrowser (from `https://github.com/floriankrueger/MWPhotoBrowser.git`, tag `1.4.1`)
+
+EXTERNAL SOURCES:
+  MWPhotoBrowser:
+    :git: https://github.com/floriankrueger/MWPhotoBrowser.git
+    :tag: 1.4.1
+
+SPEC CHECKSUMS:
+  DACircularProgress: 3b41941891a56dc6aa17971f5322a9a38a6f446e
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  MWPhotoBrowser: b911ef23f6160a8a21676a09296b7d4190f36779
+  PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+
+COCOAPODS: 0.34.1
