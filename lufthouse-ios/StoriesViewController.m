@@ -89,14 +89,15 @@
     
     NSError *error = nil;
     
-    //Should record audio as .caf
-    NSDictionary *recordSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInt:kAudioFormatMPEG4AAC], AVFormatIDKey,
-                                    [NSNumber numberWithInt:AVAudioQualityMin], AVEncoderAudioQualityKey,
-                                    [NSNumber numberWithInt:16], AVEncoderBitRateKey,
+    //Should record audio as .wav
+    NSDictionary *recordSettings = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                    [NSNumber numberWithFloat: 16000.0],AVSampleRateKey,
+                                    [NSNumber numberWithInt: kAudioFormatLinearPCM], AVFormatIDKey,// kAudioFormatLinearPCM
+                                    [NSNumber numberWithInt:8],AVLinearPCMBitDepthKey,
                                     [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
-                                    [NSNumber numberWithFloat:8000.0], AVSampleRateKey,
-                                    [NSNumber numberWithInt:8], AVLinearPCMBitDepthKey,
+                                    [NSNumber numberWithBool:NO],AVLinearPCMIsBigEndianKey,
+                                    [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
+                                    [NSNumber numberWithInt: AVAudioQualityHigh],AVEncoderAudioQualityKey,
                                     nil];
     
     //Create an audio session for teh recorder

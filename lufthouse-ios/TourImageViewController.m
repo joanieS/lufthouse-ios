@@ -203,6 +203,7 @@
                 [beaconDictionary setValue:[currentTour getBeaconContentTypeAtIndex:beaconIndex] forKey:@"content_type"];
                 [beaconDictionary setValue:[currentTour getBeaconAudioAtIndex:beaconIndex] forKey:@"beacon_audio"];
                 [beaconDictionary setValue:[currentTour getInstallationIDAtIndex:beaconIndex] forKey:@"installation_id"];
+                // TODO - Add tweet_text here and in LufthouseTour
                 
                 NSLog(@"Beacon matched! %@", [currentBeacon minor] );
             }
