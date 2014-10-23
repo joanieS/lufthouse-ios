@@ -10,29 +10,29 @@
 	<string>lufthouse-ios</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>DC8A6C30-C647-4E71-800C-09C6039E154A</key>
-		<string>https://github.com/lufthouse/lufthouse-ios.git</string>
+		<key>EE72696FF4D7CF8EE81F42DE8548B5BC508FD373</key>
+		<string>github.com:lufthouse/lufthouse-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>lufthouse-ios.xcodeproj/project.xcworkspace</string>
+	<string>lufthouse-ios.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>DC8A6C30-C647-4E71-800C-09C6039E154A</key>
+		<key>EE72696FF4D7CF8EE81F42DE8548B5BC508FD373</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/lufthouse/lufthouse-ios.git</string>
+	<string>github.com:lufthouse/lufthouse-ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DC8A6C30-C647-4E71-800C-09C6039E154A</string>
+	<string>EE72696FF4D7CF8EE81F42DE8548B5BC508FD373</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DC8A6C30-C647-4E71-800C-09C6039E154A</string>
+			<string>EE72696FF4D7CF8EE81F42DE8548B5BC508FD373</string>
 			<key>IDESourceControlWCCName</key>
 			<string>lufthouse-ios</string>
 		</dict>

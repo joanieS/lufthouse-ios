@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58CF4F8A19F98FA70028492E /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8219F98EDD0028492E /* AWSiOSSDKv2.framework */; };
+		58CF4F8B19F98FAB0028492E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8319F98EDD0028492E /* Bolts.framework */; };
+		58CF4F8C19F98FAB0028492E /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8419F98EDD0028492E /* CSURITemplate.framework */; };
+		58CF4F8D19F98FAB0028492E /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8519F98EDD0028492E /* Mantle.framework */; };
+		58CF4F8E19F98FAB0028492E /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8619F98EDD0028492E /* Reachability.framework */; };
+		58CF4F8F19F98FAB0028492E /* TMCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8719F98EDD0028492E /* TMCache.framework */; };
+		58CF4F9019F98FAB0028492E /* UICKeyChainStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8819F98EDD0028492E /* UICKeyChainStore.framework */; };
+		58CF4F9119F98FAB0028492E /* XMLDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8919F98EDD0028492E /* XMLDictionary.framework */; };
 		9B020C101989887100D9AD79 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C0F1989887100D9AD79 /* settings.png */; };
 		9B020C1319898A6500D9AD79 /* recordButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1119898A6500D9AD79 /* recordButton.png */; };
 		9B020C1419898A6500D9AD79 /* stopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1219898A6500D9AD79 /* stopButton.png */; };
@@ -30,14 +38,6 @@
 		9B17333619876D6300A9FA5C /* stopInactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332C19876D6300A9FA5C /* stopInactive.png */; };
 		9B17333719876D6300A9FA5C /* timer.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17332D19876D6300A9FA5C /* timer.png */; };
 		9B17333A1988061E00A9FA5C /* MemoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1733391988061E00A9FA5C /* MemoriesViewController.m */; };
-		9B450D0419F97C70008A08C0 /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */; };
-		9B450D0519F97C70008A08C0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7A197EDDAD0044BA1E /* Bolts.framework */; };
-		9B450D0619F97C70008A08C0 /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */; };
-		9B450D0719F97C70008A08C0 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7C197EDDAD0044BA1E /* Mantle.framework */; };
-		9B450D0819F97C70008A08C0 /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7D197EDDAD0044BA1E /* Reachability.framework */; };
-		9B450D0919F97C70008A08C0 /* TMCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7E197EDDAD0044BA1E /* TMCache.framework */; };
-		9B450D0A19F97C70008A08C0 /* UICKeyChainStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */; };
-		9B450D0B19F97C70008A08C0 /* XMLDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */; };
 		9B4D0BB9198A029000A64053 /* landingiPadLandscape1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB5198A029000A64053 /* landingiPadLandscape1x.png */; };
 		9B4D0BBA198A029000A64053 /* landingiPadLandscape2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB6198A029000A64053 /* landingiPadLandscape2x.png */; };
 		9B4D0BBB198A029000A64053 /* landingiPadPortrait1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B4D0BB7198A029000A64053 /* landingiPadPortrait1x.png */; };
@@ -67,14 +67,6 @@
 		9B770365196ED3B2001F658B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B770363196ED3B2001F658B /* InfoPlist.strings */; };
 		9B770367196ED3B2001F658B /* lufthouse_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770366196ED3B2001F658B /* lufthouse_iosTests.m */; };
 		9B770373196ED896001F658B /* CustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B770372196ED896001F658B /* CustomerViewController.m */; };
-		9B7F4FC619814420000CE70F /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FBE19814420000CE70F /* AWSiOSSDKv2.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FC719814420000CE70F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FBF19814420000CE70F /* Bolts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FC819814420000CE70F /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC019814420000CE70F /* CSURITemplate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FC919814420000CE70F /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC119814420000CE70F /* Mantle.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FCA19814420000CE70F /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC219814420000CE70F /* Reachability.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FCB19814420000CE70F /* TMCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC319814420000CE70F /* TMCache.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FCC19814420000CE70F /* UICKeyChainStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC419814420000CE70F /* UICKeyChainStore.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9B7F4FCD19814420000CE70F /* XMLDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F4FC519814420000CE70F /* XMLDictionary.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9B7F4FCF198169F6000CE70F /* landing2xiPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FCE198169F6000CE70F /* landing2xiPhone.png */; };
 		9B7F4FDC1981739A000CE70F /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FD11981739A000CE70F /* Apache License.txt */; };
 		9B7F4FDD1981739A000CE70F /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F4FD21981739A000CE70F /* OpenSans-Bold.ttf */; };
@@ -149,6 +141,14 @@
 
 /* Begin PBXFileReference section */
 		16FA50DCB3FE871792190FCB /* Pods-lufthouse-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lufthouse-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lufthouse-ios/Pods-lufthouse-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		58CF4F8219F98EDD0028492E /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSiOSSDKv2.framework; sourceTree = "<group>"; };
+		58CF4F8319F98EDD0028492E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		58CF4F8419F98EDD0028492E /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CSURITemplate.framework; sourceTree = "<group>"; };
+		58CF4F8519F98EDD0028492E /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mantle.framework; sourceTree = "<group>"; };
+		58CF4F8619F98EDD0028492E /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reachability.framework; sourceTree = "<group>"; };
+		58CF4F8719F98EDD0028492E /* TMCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMCache.framework; sourceTree = "<group>"; };
+		58CF4F8819F98EDD0028492E /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UICKeyChainStore.framework; sourceTree = "<group>"; };
+		58CF4F8919F98EDD0028492E /* XMLDictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XMLDictionary.framework; sourceTree = "<group>"; };
 		686FEF9C3352D61EA934C3FB /* Pods-lufthouse-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lufthouse-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-lufthouse-ios/Pods-lufthouse-ios.release.xcconfig"; sourceTree = "<group>"; };
 		9B020C0F1989887100D9AD79 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = SOURCE_ROOT; };
 		9B020C1119898A6500D9AD79 /* recordButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recordButton.png; path = "Recorder Icons/recordButton.png"; sourceTree = SOURCE_ROOT; };
@@ -211,14 +211,6 @@
 		9B770366196ED3B2001F658B /* lufthouse_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = lufthouse_iosTests.m; sourceTree = "<group>"; };
 		9B770371196ED896001F658B /* CustomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerViewController.h; sourceTree = "<group>"; };
 		9B770372196ED896001F658B /* CustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerViewController.m; sourceTree = "<group>"; };
-		9B7F4FBE19814420000CE70F /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDKv2.framework; path = ../../../../../../Library/Frameworks/AWSiOSSDKv2.framework; sourceTree = "<group>"; };
-		9B7F4FBF19814420000CE70F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../../../../Library/Frameworks/Bolts.framework; sourceTree = "<group>"; };
-		9B7F4FC019814420000CE70F /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSURITemplate.framework; path = ../../../../../../Library/Frameworks/CSURITemplate.framework; sourceTree = "<group>"; };
-		9B7F4FC119814420000CE70F /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../../../../../../Library/Frameworks/Mantle.framework; sourceTree = "<group>"; };
-		9B7F4FC219814420000CE70F /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = ../../../../../../Library/Frameworks/Reachability.framework; sourceTree = "<group>"; };
-		9B7F4FC319814420000CE70F /* TMCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMCache.framework; path = ../../../../../../Library/Frameworks/TMCache.framework; sourceTree = "<group>"; };
-		9B7F4FC419814420000CE70F /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICKeyChainStore.framework; path = ../../../../../../Library/Frameworks/UICKeyChainStore.framework; sourceTree = "<group>"; };
-		9B7F4FC519814420000CE70F /* XMLDictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XMLDictionary.framework; path = ../../../../../../Library/Frameworks/XMLDictionary.framework; sourceTree = "<group>"; };
 		9B7F4FCE198169F6000CE70F /* landing2xiPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = landing2xiPhone.png; sourceTree = SOURCE_ROOT; };
 		9B7F4FD11981739A000CE70F /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		9B7F4FD21981739A000CE70F /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -234,14 +226,6 @@
 		9B7F4FF31981A414000CE70F /* lh_tab_w_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_tab_w_arrow.png; sourceTree = SOURCE_ROOT; };
 		9B7F4FF51981A414000CE70F /* lh_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lh_title.png; sourceTree = SOURCE_ROOT; };
 		9B850CCC19BFA5C200A49E07 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDKv2.framework; path = "AWS Frameworks/AWSiOSSDKv2.framework"; sourceTree = "<group>"; };
-		9B907A7A197EDDAD0044BA1E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "AWS Frameworks/Bolts.framework"; sourceTree = "<group>"; };
-		9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CSURITemplate.framework; path = "AWS Frameworks/CSURITemplate.framework"; sourceTree = "<group>"; };
-		9B907A7C197EDDAD0044BA1E /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = "AWS Frameworks/Mantle.framework"; sourceTree = "<group>"; };
-		9B907A7D197EDDAD0044BA1E /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = "AWS Frameworks/Reachability.framework"; sourceTree = "<group>"; };
-		9B907A7E197EDDAD0044BA1E /* TMCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TMCache.framework; path = "AWS Frameworks/TMCache.framework"; sourceTree = "<group>"; };
-		9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICKeyChainStore.framework; path = "AWS Frameworks/UICKeyChainStore.framework"; sourceTree = "<group>"; };
-		9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XMLDictionary.framework; path = "AWS Frameworks/XMLDictionary.framework"; sourceTree = "<group>"; };
 		9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9B907A8B197EE8D60044BA1E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9B907A8D197EE9520044BA1E /* autoscaling-2011-01-01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "autoscaling-2011-01-01.json"; sourceTree = "<group>"; };
@@ -307,41 +291,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B450D0419F97C70008A08C0 /* AWSiOSSDKv2.framework in Frameworks */,
-				9B450D0519F97C70008A08C0 /* Bolts.framework in Frameworks */,
-				9B450D0619F97C70008A08C0 /* CSURITemplate.framework in Frameworks */,
-				9B450D0719F97C70008A08C0 /* Mantle.framework in Frameworks */,
-				9B450D0819F97C70008A08C0 /* Reachability.framework in Frameworks */,
-				9B450D0919F97C70008A08C0 /* TMCache.framework in Frameworks */,
-				9B450D0A19F97C70008A08C0 /* UICKeyChainStore.framework in Frameworks */,
-				9B450D0B19F97C70008A08C0 /* XMLDictionary.framework in Frameworks */,
 				9BBC1F2E19D6619F00DA9EC2 /* libPods-lufthouse-ios-DACircularProgress.a in Frameworks */,
 				9BBC1F2F19D6619F00DA9EC2 /* libPods-lufthouse-ios-MBProgressHUD.a in Frameworks */,
 				9BBC1F3019D6619F00DA9EC2 /* libPods-lufthouse-ios-MWPhotoBrowser.a in Frameworks */,
 				9BBC1F3119D6619F00DA9EC2 /* libPods-lufthouse-ios-PSTCollectionView.a in Frameworks */,
+				58CF4F8E19F98FAB0028492E /* Reachability.framework in Frameworks */,
 				9BBC1F3219D6619F00DA9EC2 /* libPods-lufthouse-ios-SDWebImage.a in Frameworks */,
 				9BBC1F3319D6619F00DA9EC2 /* libPods-lufthouse-ios.a in Frameworks */,
 				9BE4047319996449003DC7E3 /* Accounts.framework in Frameworks */,
 				9BE40471199953D8003DC7E3 /* Social.framework in Frameworks */,
 				9B770338196ED3B2001F658B /* CoreGraphics.framework in Frameworks */,
-				9B7F4FC619814420000CE70F /* AWSiOSSDKv2.framework in Frameworks */,
-				9B7F4FC719814420000CE70F /* Bolts.framework in Frameworks */,
-				9B7F4FC819814420000CE70F /* CSURITemplate.framework in Frameworks */,
-				9B7F4FC919814420000CE70F /* Mantle.framework in Frameworks */,
-				9B7F4FCA19814420000CE70F /* Reachability.framework in Frameworks */,
-				9B7F4FCB19814420000CE70F /* TMCache.framework in Frameworks */,
-				9B7F4FCC19814420000CE70F /* UICKeyChainStore.framework in Frameworks */,
+				58CF4F8F19F98FAB0028492E /* TMCache.framework in Frameworks */,
 				9B850CCD19BFA5C200A49E07 /* Crashlytics.framework in Frameworks */,
-				9B7F4FCD19814420000CE70F /* XMLDictionary.framework in Frameworks */,
 				9B907A8C197EE8D60044BA1E /* libz.dylib in Frameworks */,
+				58CF4F8D19F98FAB0028492E /* Mantle.framework in Frameworks */,
 				9B907A8A197EE8CA0044BA1E /* libsqlite3.dylib in Frameworks */,
 				9BF9EC96197052C9008B73CA /* CoreBluetooth.framework in Frameworks */,
 				9BF9EC94197052BE008B73CA /* CoreLocation.framework in Frameworks */,
 				9BF9EC92197052B2008B73CA /* SystemConfiguration.framework in Frameworks */,
+				58CF4F8B19F98FAB0028492E /* Bolts.framework in Frameworks */,
+				58CF4F9019F98FAB0028492E /* UICKeyChainStore.framework in Frameworks */,
 				9BF9EC90197052A0008B73CA /* Security.framework in Frameworks */,
 				9BF9EC8E19705295008B73CA /* CFNetwork.framework in Frameworks */,
+				58CF4F8C19F98FAB0028492E /* CSURITemplate.framework in Frameworks */,
 				9BF9EC8C1970528B008B73CA /* AVFoundation.framework in Frameworks */,
+				58CF4F8A19F98FA70028492E /* AWSiOSSDKv2.framework in Frameworks */,
 				9BF9EC8A19705280008B73CA /* AssetsLibrary.framework in Frameworks */,
+				58CF4F9119F98FAB0028492E /* XMLDictionary.framework in Frameworks */,
 				9B77033A196ED3B2001F658B /* UIKit.framework in Frameworks */,
 				9BF9EBFF19702EBA008B73CA /* libEstimoteSDK.a in Frameworks */,
 				9B770336196ED3B2001F658B /* Foundation.framework in Frameworks */,
@@ -361,6 +337,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58CF4F8119F98E4E0028492E /* AWS Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				58CF4F8219F98EDD0028492E /* AWSiOSSDKv2.framework */,
+				58CF4F8319F98EDD0028492E /* Bolts.framework */,
+				58CF4F8419F98EDD0028492E /* CSURITemplate.framework */,
+				58CF4F8519F98EDD0028492E /* Mantle.framework */,
+				58CF4F8619F98EDD0028492E /* Reachability.framework */,
+				58CF4F8719F98EDD0028492E /* TMCache.framework */,
+				58CF4F8819F98EDD0028492E /* UICKeyChainStore.framework */,
+				58CF4F8919F98EDD0028492E /* XMLDictionary.framework */,
+			);
+			name = "AWS Frameworks";
+			path = AWSFrameworks;
+			sourceTree = "<group>";
+		};
 		992B7C312D35F7CA02DD215E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -513,6 +505,7 @@
 		9B770334196ED3B2001F658B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58CF4F8119F98E4E0028492E /* AWS Frameworks */,
 				9BBC1F2819D6619F00DA9EC2 /* libPods-lufthouse-ios-DACircularProgress.a */,
 				9BBC1F2919D6619F00DA9EC2 /* libPods-lufthouse-ios-MBProgressHUD.a */,
 				9BBC1F2A19D6619F00DA9EC2 /* libPods-lufthouse-ios-MWPhotoBrowser.a */,
@@ -521,24 +514,8 @@
 				9BBC1F2D19D6619F00DA9EC2 /* libPods-lufthouse-ios.a */,
 				9BE4047219996449003DC7E3 /* Accounts.framework */,
 				9BE40470199953D8003DC7E3 /* Social.framework */,
-				9B7F4FBE19814420000CE70F /* AWSiOSSDKv2.framework */,
-				9B7F4FBF19814420000CE70F /* Bolts.framework */,
-				9B7F4FC019814420000CE70F /* CSURITemplate.framework */,
-				9B7F4FC119814420000CE70F /* Mantle.framework */,
-				9B7F4FC219814420000CE70F /* Reachability.framework */,
-				9B7F4FC319814420000CE70F /* TMCache.framework */,
-				9B7F4FC419814420000CE70F /* UICKeyChainStore.framework */,
-				9B7F4FC519814420000CE70F /* XMLDictionary.framework */,
 				9B907A8B197EE8D60044BA1E /* libz.dylib */,
 				9B907A89197EE8CA0044BA1E /* libsqlite3.dylib */,
-				9B907A79197EDDAD0044BA1E /* AWSiOSSDKv2.framework */,
-				9B907A7A197EDDAD0044BA1E /* Bolts.framework */,
-				9B907A7B197EDDAD0044BA1E /* CSURITemplate.framework */,
-				9B907A7C197EDDAD0044BA1E /* Mantle.framework */,
-				9B907A7D197EDDAD0044BA1E /* Reachability.framework */,
-				9B907A7E197EDDAD0044BA1E /* TMCache.framework */,
-				9B907A7F197EDDAD0044BA1E /* UICKeyChainStore.framework */,
-				9B907A80197EDDAD0044BA1E /* XMLDictionary.framework */,
 				9BF9EC95197052C9008B73CA /* CoreBluetooth.framework */,
 				9BF9EC93197052BE008B73CA /* CoreLocation.framework */,
 				9BF9EC91197052B2008B73CA /* SystemConfiguration.framework */,
@@ -668,8 +645,8 @@
 				9B77032E196ED3B2001F658B /* Sources */,
 				9B77032F196ED3B2001F658B /* Frameworks */,
 				9B770330196ED3B2001F658B /* Resources */,
-				9B850CCB19BFA54A00A49E07 /* ShellScript */,
 				2702A835C32025F485D656A8 /* Copy Pods Resources */,
+				9B850CCB19BFA54A00A49E07 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1029,8 +1006,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/AWS",
-					Frameworks,
+					"$(PROJECT_DIR)/AWSFrameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
@@ -1041,7 +1017,6 @@
 					"$(PROJECT_DIR)/lufthouse-ios/EstimoteSDK",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lufthouse;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1061,8 +1036,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/AWS",
-					Frameworks,
+					"$(PROJECT_DIR)/AWSFrameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lufthouse-ios/lufthouse-ios-Prefix.pch";
@@ -1074,7 +1048,6 @@
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Lufthouse;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1085,7 +1058,7 @@
 		9B77036E196ED3B2001F658B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/lufthouse-ios.app/lufthouse-ios";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Lufthouse.app/Lufthouse";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1107,7 +1080,7 @@
 		9B77036F196ED3B2001F658B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/lufthouse-ios.app/lufthouse-ios";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Lufthouse.app/Lufthouse";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
