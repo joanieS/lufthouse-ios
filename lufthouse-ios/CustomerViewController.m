@@ -155,7 +155,9 @@
         for (int i = 0; i < [installations count]; i++) {
             //Select an installation, and if it's active, grab it's name, id, and landing image
             installation = [installations objectAtIndex:i];
-            if ([installation objectForKey:@"active"]) {
+            id isActive = [installation objectForKey:@"active"];
+            BOOL active = [isActive boolValue];
+            if (active) {
                 [tours addObject:[installation objectForKey:@"name"]];
                 [tourIDs addObject:[installation objectForKey:@"id"]];
 //                [tourLandingImages addObject:@"http://s3.roosterteeth.com/images/BoomLiger5092c30963da3.jpg"];

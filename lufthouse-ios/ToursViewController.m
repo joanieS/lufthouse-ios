@@ -46,6 +46,7 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0/255.0f green:87/255.0f blue:141/255.0f alpha:1.0f]];
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.hidden = NO;
+    self.navigationItem.hidesBackButton = NO;
     self.contentForSegue = nil;
 }
 
