@@ -83,7 +83,7 @@
 - (void)initAudioRecorder
 {
     //Create a file to write audio to
-    self.audioPath = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:@"audio"] stringByAppendingPathExtension:@"caf"];
+    self.audioPath = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:@"audio"] stringByAppendingPathExtension:@"wav"];
     //Make a URL equivalent for the recorder
     NSURL *soundURL = [[NSURL alloc] initFileURLWithPath:self.audioPath];
     
@@ -226,7 +226,7 @@
         
         //Rename file to slug with title text
         oldPathName = self.audioPath;
-        newPathName = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:self.postTextField.text] stringByAppendingPathExtension:@"caf"];
+        newPathName = [[[NSString stringWithFormat:@"%@", NSTemporaryDirectory()] stringByAppendingPathComponent:self.postTextField.text] stringByAppendingPathExtension:@"wav"];
         if ([fileMgr fileExistsAtPath:oldPathName]) {
             [fileMgr moveItemAtPath: oldPathName toPath:newPathName error:&error];
         }
@@ -235,7 +235,7 @@
         self.uploadRequest = [AWSS3TransferManagerUploadRequest new];
         self.uploadRequest.bucket = S3BucketName;
         //Puts file in folders separated by customer, tour, and beacon
-        self.uploadRequest.key = [NSString stringWithFormat:@"%@/%@/%@/%@.caf", self.custID, self.tourID, self.instID, [self.postTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
+        self.uploadRequest.key = [NSString stringWithFormat:@"%@/%@/%@/%@.wav", self.custID, self.tourID, self.instID, [self.postTextField.text stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
         self.uploadRequest.body = [[NSURL alloc] initFileURLWithPath:newPathName];
         
         //Set the timer display to a smaller font to display status messages

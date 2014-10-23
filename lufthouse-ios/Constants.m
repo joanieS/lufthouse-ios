@@ -26,7 +26,7 @@ NSString *const CognitoRoleUnauth = @"arn:aws:iam::911189109494:role/Cognito_luf
 
 NSString *const S3BucketName = @"lufthouse-memories";
 
-NSString *const S3KeyUploadName = @"audio.caf";
+NSString *const S3KeyUploadName = @"audio.wav";
 
 
 NSString *const StatusLabelReady = @"Ready";
