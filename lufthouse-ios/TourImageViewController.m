@@ -74,7 +74,7 @@
             [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
         }
         @catch (NSException *exception) {
-            NSLog([NSString stringWithFormat:@"%@\n%@", exception.description, @"Beacon Manager not initialized"]);
+            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
         }
         @finally {
             //Everytime we get to this contoller, make sure the nav bar is white transparent
@@ -83,6 +83,19 @@
             self.activeMinor = 0000;
         }
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.beaconManager != nil) {
+        @try {
+            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
+        }
+    }
+    [super viewWillDisappear:animated];
 }
 
 -(void)setNavBarToTransparentAndVisible
@@ -174,8 +187,8 @@
 {
     ESTBeacon *currentBeacon;       //Beacon to check against
     NSString *stringifiedMinor;     //String type of currentBeacon's minor value
-    NSDictionary *beaconDictionary;
-    NSMutableArray *beaconAssignment;
+    NSMutableDictionary *beaconDictionary;
+    NSMutableArray *beaconAssignment = [NSMutableArray array];
     
     //If content hasn't been loaded
     if (self.beaconContent == nil && !self.jsonDidFail) {
@@ -183,7 +196,7 @@
     }
     if (self.beaconContent != nil && !self.jsonDidFail){
         
-        beaconDictionary = [NSDictionary new];
+        beaconDictionary = [[NSMutableDictionary alloc] init];
         
         //Create array containing all relevant information about the matched beacon and its content
         NSInteger beaconIndex = -1; //Establish an impossible index
@@ -204,16 +217,17 @@
                 [beaconDictionary setValue:[currentTour getBeaconAudioAtIndex:beaconIndex] forKey:@"beacon_audio"];
                 [beaconDictionary setValue:[currentTour getInstallationIDAtIndex:beaconIndex] forKey:@"installation_id"];
                 // TODO - Add tweet_text here and in LufthouseTour
+                [beaconAssignment addObject:currentBeacon];
                 
                 NSLog(@"Beacon matched! %@", [currentBeacon minor] );
             }
         }
         //If we found a matched beacon, then set it up for loading
-        NSMutableArray *matchedBeacons = beaconAssignment[0];
-        if ([matchedBeacons count] > 0) {
+//        NSMutableArray *matchedBeacons = beaconAssignment[0];
+//        if ([matchedBeacons count] > 0) {
             self.contentBeaconArray = beaconAssignment;
             self.displayBeaconContent = beaconDictionary;
-        }
+//        }
     }
     
     //Update the UI with our new information
@@ -222,6 +236,12 @@
 
 -(void) getJSONUpdate
 {
+    if (self.receivedData != nil) {
+        NSLog(@"we are already talking to server, don't ask again");
+        return ;
+    }
+    
+    
     //Setup a URL request
     NSMutableURLRequest *getCustJSON = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://lufthouse-cms.herokuapp.com/customers/%@/installations/%@.json", self.customerID, self.tourID]]];
     [getCustJSON setHTTPMethod:@"GET"];
@@ -322,7 +342,7 @@
             if ([self contentIsLocal:[beaconDictionary objectForKey:@"audio_url"]]) {
                 audioUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], [beaconDictionary objectForKey:@"audio_url"]]];
             } else {
-                audioUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [beaconDictionary objectForKey:@"audio_url"]]];
+                audioUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@", [beaconDictionary objectForKey:@"beacon_audio"]]];
             }
         }
         
@@ -499,7 +519,10 @@
         NSError *error;
         if (nextSong != nil) {
             self.audioPlayer = nil;
-            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:nextSong error:&error];
+
+            NSData * data = [NSData dataWithContentsOfURL:nextSong];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+//            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:nextSong error:&error];
             self.audioPlayer.numberOfLoops = 0; //Don't loop
             
             if (self.audioPlayer == nil)
@@ -688,7 +711,7 @@
             [self loadBeaconData: json];
         } else {
             NSLog(@"Error: JSON is corrupt");
-            NSLog([NSString stringWithFormat:@"Dumping hex: %@", self.receivedData.description]);
+            NSLog(@"Dumping hex: %@", self.receivedData.description);
             [self createErrorPopupWithMessage :@"Uh-oh!"
                                    bodyMessage:@"It looks like the tour is currently unavailable; please try again later!"];
             self.jsonDidFail = true;
@@ -698,7 +721,7 @@
         //Tell the user something messed up
         [self createErrorPopupWithMessage:@"Uh-oh!"
                               bodyMessage:@"It looks like we can't grab the tour right now; please check your internet connection and try again later!"];
-        self.jsonDidFail = true;
+//        self.jsonDidFail = true;
     }
     
     
