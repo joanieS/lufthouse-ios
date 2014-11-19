@@ -60,6 +60,9 @@
     
     //Create a location manager and get the current lat/long
     self.locationManager = [[CLLocationManager alloc] init];
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
     
     [self loadCustomers];
 }

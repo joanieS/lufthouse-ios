@@ -28,6 +28,12 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © Lufthouse. All rights reserved.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>We will use your location to find nearby places of interest.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We will use your location to find nearby places of interest.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Regular.ttf</string>
