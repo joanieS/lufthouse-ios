@@ -189,6 +189,7 @@
     NSString *stringifiedMinor;     //String type of currentBeacon's minor value
     NSMutableDictionary *beaconDictionary;
     NSMutableArray *beaconAssignment = [NSMutableArray array];
+    beacons = [beacons sortedArrayUsingSelector:@selector(distance)];
     
     //If content hasn't been loaded
     if (self.beaconContent == nil && !self.jsonDidFail) {
@@ -205,7 +206,7 @@
         //Grab the tour from the processed content
         currentTour = self.beaconContent;
         //For each beacon in range
-        for(int i = 0; i < [beacons count]; i++){
+        for(int i = beacons.count-1; i >= 0; i--){
             currentBeacon = [beacons objectAtIndex:i];
             stringifiedMinor = [NSString stringWithFormat:@"%@", [currentBeacon minor]];
             beaconIndex = [currentTour findIndexOfID:stringifiedMinor];
@@ -220,6 +221,8 @@
                 [beaconAssignment addObject:currentBeacon];
                 
                 NSLog(@"Beacon matched! %@", [currentBeacon minor] );
+                
+                break;
             }
         }
         //If we found a matched beacon, then set it up for loading
@@ -227,11 +230,12 @@
 //        if ([matchedBeacons count] > 0) {
             self.contentBeaconArray = beaconAssignment;
             self.displayBeaconContent = beaconDictionary;
+        NSLog(@"loaded content: %@", beaconDictionary);
 //        }
     }
     
     //Update the UI with our new information
-    [self performSelectorOnMainThread:@selector(updateUI:) withObject:[beacons firstObject] waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(updateUI:) withObject:currentBeacon waitUntilDone:YES];
 }
 
 -(void) getJSONUpdate
@@ -494,10 +498,15 @@
 
 -(BOOL) beaconShouldBeDisplayed:(ESTBeacon *)checkBeacon
 {
-    if((self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate) && ![checkBeacon.minor isEqual:self.activeMinor] && [checkBeacon.minor isEqual:[[self.displayBeaconContent objectForKey:@"beacon"] minor]])
+    BOOL nearby = (self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate);
+    BOOL isCurrentBeacon = [checkBeacon.minor isEqual:self.activeMinor];
+    BOOL isCurrentlyLoadedContent = [checkBeacon.minor isEqual:[[self.displayBeaconContent objectForKey:@"beacon"] minor]];
+    
+    if (nearby && !isCurrentBeacon && isCurrentlyLoadedContent) {
         return true;
-    else
+    } else {
         return false;
+    }
 }
 
 /* doVolumeFade

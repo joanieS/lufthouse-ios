@@ -37,6 +37,15 @@
     [self reminisce];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    self.isTiming = false;
+    if (self.countdownTimer) {
+        [self.countdownTimer invalidate];
+    }
+}
+
 
 /*  createRealTitle
  *  Helper method to pull the title from the url and replace underscores in the slug with spaces
@@ -83,17 +92,22 @@
     
     NSError *error;
     if (self.currentMemoryIndex < [self.memories count]) {
-        self.audioPlayer = nil;
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithData:self.firstMemory error:&error];
+        AVAudioPlayer *myAudioPlayer = [[AVAudioPlayer alloc] initWithData:self.firstMemory error:&error];;
+        self.audioPlayer = myAudioPlayer;
         self.audioPlayer.delegate = self;
         self.audioPlayer.numberOfLoops = 0; //Don't loop
         
         //If everything went fine, play the audio and start a visual countdown
-        if (self.audioPlayer == nil)
+        if (self.audioPlayer == nil) {
             NSLog(@"%@", [error description]);
-        else
+        } else {
             [self doCountdown:self.audioPlayer.duration*100];
-            [self.audioPlayer play];
+            if (self.audioPlayer == myAudioPlayer) {
+                [self.audioPlayer play];
+            } else {
+                NSLog(@"Nope nope nope");
+            }
+        }
     }
 }
 
