@@ -211,16 +211,18 @@
         NSMutableArray *eligibleBeacons = [NSMutableArray array];
         [beacons enumerateObjectsUsingBlock:^(ESTBeacon *beacon, NSUInteger idx, BOOL *stop) {
             if ([currentTour findIndexOfID:[NSString stringWithFormat:@"%@", [beacon minor]]] > -1) {
-                if ([beacon.distance integerValue] == -1) {
+                CSTMovingAverage *avg = self.averages[beacon.minor];
+                // FIXME: clean this up!
+                if (!avg && [beacon.distance integerValue] == -1) {
                     return;
                 }
-                
-                CSTMovingAverage *avg = self.averages[beacon.minor];
                 if (!avg) {
                     avg = [[CSTMovingAverage alloc] initWithSize:5];
                     self.averages[beacon.minor] = avg;
                 }
-                [avg addSample:[beacon.distance integerValue]];
+                if ([beacon.distance integerValue] > -1) {
+                    [avg addSample:[beacon.distance integerValue]];
+                }
                 beacon.distance = @([avg movingAverage]);
                 [eligibleBeacons addObject:beacon];
             }
@@ -377,7 +379,6 @@
         //Transition into the next song with an audio fade
         [self doVolumeFade:audioUrl];
         
-        self.activeMinor = [[beaconDictionary objectForKey:@"beacon"] minor];
         //Associate an integer value to each content type
         switch ([self getIntegerForContentType:[beaconDictionary valueForKey:@"content_type"]]) {
             case 0: //image
@@ -524,15 +525,18 @@
 
 -(BOOL) beaconShouldBeDisplayed:(ESTBeacon *)checkBeacon
 {
-    BOOL nearby = (self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate);
-    BOOL isCurrentBeacon = [checkBeacon.minor isEqual:self.activeMinor];
-    BOOL isCurrentlyLoadedContent = [checkBeacon.minor isEqual:[[self.displayBeaconContent objectForKey:@"beacon"] minor]];
-    BOOL recentlyChanged = self.lastChanged && [self.lastChanged timeIntervalSinceNow] < 2;
-    
-    if (nearby && !isCurrentBeacon && isCurrentlyLoadedContent && !recentlyChanged) {
-        return true;
-    } else {
-        return false;
+    @synchronized(self) {
+        BOOL nearby = (self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate);
+        BOOL isCurrentBeacon = [checkBeacon.minor isEqual:self.activeMinor];
+        BOOL isCurrentlyLoadedContent = [checkBeacon.minor isEqual:[[self.displayBeaconContent objectForKey:@"beacon"] minor]];
+        BOOL recentlyChanged = self.lastChanged && [self.lastChanged timeIntervalSinceNow] < 2;
+        
+        if (nearby && !isCurrentBeacon && isCurrentlyLoadedContent && !recentlyChanged) {
+            self.activeMinor = checkBeacon.minor;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
