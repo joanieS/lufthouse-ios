@@ -14,12 +14,10 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 
-@interface TourImageViewController ()
+#import "CSTBeaconManager.h"
+#import "CSTMovingAverage.h"
 
-//Responsible for finding and tracking beacons in range
-@property (nonatomic, strong) ESTBeacon         *beacon;
-@property (nonatomic, strong) ESTBeaconManager  *beaconManager;
-@property (nonatomic, strong) ESTBeaconRegion   *beaconRegion;
+@interface TourImageViewController ()
 
 //Keeps track of beacon currently being displayed
 @property (nonatomic, strong) NSNumber          *activeMinor;
@@ -27,6 +25,9 @@
 //Contains all information regarding beacons in range and their content
 @property (nonatomic, strong) NSMutableArray    *contentBeaconArray;
 @property (nonatomic, strong) NSDictionary      *displayBeaconContent;
+
+@property (nonatomic, strong) NSMutableDictionary *averages;
+@property (nonatomic, strong) NSDate *lastChanged;
 
 //Contains all information from the loaded JSON
 @property (nonatomic, strong) LufthouseTour    *beaconContent;
@@ -64,37 +65,55 @@
 
 @implementation TourImageViewController
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder]) != nil) {
+        [self setup];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) != nil) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup {
+    self.averages = [NSMutableDictionary dictionary];
+}
 
 #pragma mark - UI Setup
 -(void)viewWillAppear:(BOOL)animated
 {
-    if (self.beaconManager != nil) {
-        @try {
-            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
-            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
-        }
-        @finally {
+//    if (self.beaconManager != nil) {
+//        @try {
+//            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+//            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+//        }
+//        @catch (NSException *exception) {
+//            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
+//        }
+//        @finally {
             //Everytime we get to this contoller, make sure the nav bar is white transparent
             [self setNavBarToTransparentAndVisible];
             //Reset the active minor so we can reload a beacon if we accidentally backed
             self.activeMinor = 0000;
-        }
-    }
+//        }
+//    }
+    [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    if (self.beaconManager != nil) {
-        @try {
-            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
-            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
-        }
-    }
+//    if (self.beaconManager != nil) {
+//        @try {
+//            [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
+//            [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+//        }
+//        @catch (NSException *exception) {
+//            NSLog(@"%@\n%@", exception.description, @"Beacon Manager not initialized");
+//        }
+//    }
     [super viewWillDisappear:animated];
 }
 
@@ -111,17 +130,18 @@
     [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    if (self.beaconManager != nil) {
-        @try {
-            [self.beaconManager startMonitoringForRegion:self.beaconRegion];
-            [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Beacon Manager not initialized");
-        }
-    }
+-(void)viewDidAppear:(BOOL)animated {
+    [self addBeaconManagerListeners];
+}
+
+- (void)addBeaconManagerListeners {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(beaconManagerDidRangeBeacons:)
+                                                 name:@"CSTBeaconManagerDidRangeBeacons" object:nil];
+}
+
+- (void)removeBeaconManagerListeners {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -136,24 +156,6 @@
     self.isDisplayingModal = false;
 }
 
--(void) createBeaconManager
-{
-    //Establish a beacon manager
-    self.beaconManager = [[ESTBeaconManager alloc] init];
-    self.beaconManager.delegate = self;
-    
-    // Create a region to search for beacons
-    self.beaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID identifier:@"RegionIdentifier"];
-    @try {
-        [self.beaconManager startMonitoringForRegion:self.beaconRegion];
-        [self.beaconManager startRangingBeaconsInRegion:self.beaconRegion];
-    } @catch (NSException *exception) {
-        NSLog(@"%@", exception.reason);
-        [self createErrorPopupWithMessage:@"Uh-oh!"
-                              bodyMessage:@"It looks like your bluetooth is either off or not cooperating. Please make sure it's on and try again!"];
-    }
-}
-
 #pragma mark - BLE Beacon setup
 - (void)viewDidLoad
 {
@@ -166,11 +168,9 @@
     self.tourLandingImage.image = imageFromUrl;
     self.store = [[ACAccountStore alloc] init];
     
-    //Create a bluetooth manager to check if bluetooth is on
-    CBCentralManager *bluetoothManager = [[CBCentralManager alloc] init];
-    bluetoothManager = nil;
-
-    [self createBeaconManager];
+    //Create a beacon manager to check if bluetooth is on
+    CSTBeaconManager *beaconManager = [CSTBeaconManager sharedManager];
+    beaconManager = nil;
 }
 
 - (void)createErrorPopupWithMessage:(NSString *)titleMessage bodyMessage:(NSString *) bodyMessage
@@ -183,13 +183,18 @@
     [alertView show];
 }
 
-- (void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region
+- (void)beaconManagerDidRangeBeacons:(NSNotification *)notification
 {
+    NSArray *beacons = notification.userInfo[@"beacons"];
     ESTBeacon *currentBeacon;       //Beacon to check against
     NSString *stringifiedMinor;     //String type of currentBeacon's minor value
     NSMutableDictionary *beaconDictionary;
     NSMutableArray *beaconAssignment = [NSMutableArray array];
-    beacons = [beacons sortedArrayUsingSelector:@selector(distance)];
+    
+    [beacons enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        ESTBeacon *beacon = obj;
+        NSLog(@"beacon: %@ - %@ - %ld", beacon.minor, beacon.distance, beacon.rssi);
+    }];
     
     //If content hasn't been loaded
     if (self.beaconContent == nil && !self.jsonDidFail) {
@@ -202,12 +207,29 @@
         //Create array containing all relevant information about the matched beacon and its content
         NSInteger beaconIndex = -1; //Establish an impossible index
         //Current tour you'll be experiencing
-        LufthouseTour *currentTour;
-        //Grab the tour from the processed content
-        currentTour = self.beaconContent;
+        LufthouseTour *currentTour = self.beaconContent;
+        NSMutableArray *eligibleBeacons = [NSMutableArray array];
+        [beacons enumerateObjectsUsingBlock:^(ESTBeacon *beacon, NSUInteger idx, BOOL *stop) {
+            if ([currentTour findIndexOfID:[NSString stringWithFormat:@"%@", [beacon minor]]] > -1) {
+                if ([beacon.distance integerValue] == -1) {
+                    return;
+                }
+                
+                CSTMovingAverage *avg = self.averages[beacon.minor];
+                if (!avg) {
+                    avg = [[CSTMovingAverage alloc] initWithSize:5];
+                    self.averages[beacon.minor] = avg;
+                }
+                [avg addSample:[beacon.distance integerValue]];
+                beacon.distance = @([avg movingAverage]);
+                [eligibleBeacons addObject:beacon];
+            }
+        }];
+        beacons = [eligibleBeacons sortedArrayUsingSelector:@selector(distance)];
         //For each beacon in range
-        for(int i = beacons.count-1; i >= 0; i--){
+        for(int i = (int)beacons.count-1; i >= 0; i--){
             currentBeacon = [beacons objectAtIndex:i];
+            NSLog(@"saw beacon: %@", currentBeacon.minor);
             stringifiedMinor = [NSString stringWithFormat:@"%@", [currentBeacon minor]];
             beaconIndex = [currentTour findIndexOfID:stringifiedMinor];
             //If we can find the beacon, grab the data
@@ -261,11 +283,6 @@
     } else {
         NSLog(@"Beacon content loaded");
     }
-}
-
--(void) centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    //Do nothing, just satisfy the delegate
 }
 
 #pragma mark - Content processing and generation
@@ -337,6 +354,13 @@
 
     //If our proximity is immediate, the beacon isn't currently on display, and the beacon is the closest
     if([self beaconShouldBeDisplayed:checkBeacon]) {
+//        self.lastChanged = [NSDate date];
+        
+//        if (self.navigationController.topViewController != self) {
+//            [self.navigationController popToViewController:self animated:YES];
+//            [self performSelectorOnMainThread:@selector(updateUI:) withObject:checkBeacon waitUntilDone:YES];
+//            return;
+//        }
         
         //If there is no audio to play, then send no audio
         if ([[beaconDictionary objectForKey:@"audio_url"] isKindOfClass:[NSNull class]]) {
@@ -370,11 +394,13 @@
                 self.htmlContentForSegue = beaconHTML;
                 
                 //Set the active minor so we aren't reloading this as we're on it
+
                 [self performSegueWithIdentifier:@"tourImageToWebContent" sender:self];
                 break;
                 
             case 1: //web-video
                 //There's a lot more gunk with this, so we put it in another function
+                
                 [self playVideoWithId:[beaconDictionary objectForKey:@"content"]];
                 break;
                 
@@ -501,8 +527,9 @@
     BOOL nearby = (self.testBool || [checkBeacon proximity] == CLProximityNear || [checkBeacon proximity] == CLProximityImmediate);
     BOOL isCurrentBeacon = [checkBeacon.minor isEqual:self.activeMinor];
     BOOL isCurrentlyLoadedContent = [checkBeacon.minor isEqual:[[self.displayBeaconContent objectForKey:@"beacon"] minor]];
+    BOOL recentlyChanged = self.lastChanged && [self.lastChanged timeIntervalSinceNow] < 2;
     
-    if (nearby && !isCurrentBeacon && isCurrentlyLoadedContent) {
+    if (nearby && !isCurrentBeacon && isCurrentlyLoadedContent && !recentlyChanged) {
         return true;
     } else {
         return false;
@@ -559,12 +586,12 @@
 }
 - (void)launchPhoto {
     UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
-    UIImageView * overlay = [[UIImageView alloc] initWithFrame:imagePicker.view.frame];
-    overlay.image = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"overlay.png"]];
+//    UIImageView * overlay = [[UIImageView alloc] initWithFrame:imagePicker.view.frame];
+//    overlay.image = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"overlay.png"]];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     imagePicker.delegate = self;
-    imagePicker.cameraOverlayView = overlay;
+//    imagePicker.cameraOverlayView = overlay;
     [self presentViewController:imagePicker animated:YES completion:^(void){
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:@"Photobooth"
@@ -746,8 +773,7 @@
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
     if (![parent isEqual:self.parentViewController]) {
-        [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
-        [self.beaconManager stopRangingBeaconsInRegion:self.beaconRegion];
+        [self removeBeaconManagerListeners];
     }
 }
 

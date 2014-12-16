@@ -13,18 +13,13 @@
 /* JSON Parsing */
 #import <Foundation/NSJSONSerialization.h>
 
-/* Estimote managing */
-#import "ESTBeacon.h"
-#import "ESTBeaconManager.h"
-#import "ESTBeaconRegion.h"
-
 /* Parsing and storing information */
 #import "LufthouseTour.h"
 
 #import "MWPhotoBrowser.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface TourImageViewController : UIViewController<ESTBeaconManagerDelegate , MWPhotoBrowserDelegate, CBCentralManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface TourImageViewController : UIViewController<MWPhotoBrowserDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 //Display image for tour
 @property (strong, nonatomic) IBOutlet UIImageView *tourLandingImage;

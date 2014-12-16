@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58A57EC91A3FEFD800EFE6DA /* CSTMovingAverage.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A57EC81A3FEFD800EFE6DA /* CSTMovingAverage.m */; };
 		58CF4F8A19F98FA70028492E /* AWSiOSSDKv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8219F98EDD0028492E /* AWSiOSSDKv2.framework */; };
 		58CF4F8B19F98FAB0028492E /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8319F98EDD0028492E /* Bolts.framework */; };
 		58CF4F8C19F98FAB0028492E /* CSURITemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8419F98EDD0028492E /* CSURITemplate.framework */; };
@@ -15,6 +16,7 @@
 		58CF4F8F19F98FAB0028492E /* TMCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8719F98EDD0028492E /* TMCache.framework */; };
 		58CF4F9019F98FAB0028492E /* UICKeyChainStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8819F98EDD0028492E /* UICKeyChainStore.framework */; };
 		58CF4F9119F98FAB0028492E /* XMLDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CF4F8919F98EDD0028492E /* XMLDictionary.framework */; };
+		58F19AD41A3FB39C00CA028B /* CSTBeaconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F19AD31A3FB39C00CA028B /* CSTBeaconManager.m */; };
 		9B020C101989887100D9AD79 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C0F1989887100D9AD79 /* settings.png */; };
 		9B020C1319898A6500D9AD79 /* recordButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1119898A6500D9AD79 /* recordButton.png */; };
 		9B020C1419898A6500D9AD79 /* stopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B020C1219898A6500D9AD79 /* stopButton.png */; };
@@ -141,6 +143,8 @@
 
 /* Begin PBXFileReference section */
 		16FA50DCB3FE871792190FCB /* Pods-lufthouse-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lufthouse-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lufthouse-ios/Pods-lufthouse-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		58A57EC71A3FEFD800EFE6DA /* CSTMovingAverage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTMovingAverage.h; sourceTree = "<group>"; };
+		58A57EC81A3FEFD800EFE6DA /* CSTMovingAverage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTMovingAverage.m; sourceTree = "<group>"; };
 		58CF4F8219F98EDD0028492E /* AWSiOSSDKv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AWSiOSSDKv2.framework; sourceTree = "<group>"; };
 		58CF4F8319F98EDD0028492E /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		58CF4F8419F98EDD0028492E /* CSURITemplate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CSURITemplate.framework; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 		58CF4F8719F98EDD0028492E /* TMCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TMCache.framework; sourceTree = "<group>"; };
 		58CF4F8819F98EDD0028492E /* UICKeyChainStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UICKeyChainStore.framework; sourceTree = "<group>"; };
 		58CF4F8919F98EDD0028492E /* XMLDictionary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XMLDictionary.framework; sourceTree = "<group>"; };
+		58F19AD21A3FB39C00CA028B /* CSTBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTBeaconManager.h; sourceTree = "<group>"; };
+		58F19AD31A3FB39C00CA028B /* CSTBeaconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTBeaconManager.m; sourceTree = "<group>"; };
 		686FEF9C3352D61EA934C3FB /* Pods-lufthouse-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lufthouse-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-lufthouse-ios/Pods-lufthouse-ios.release.xcconfig"; sourceTree = "<group>"; };
 		9B020C0F1989887100D9AD79 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = SOURCE_ROOT; };
 		9B020C1119898A6500D9AD79 /* recordButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recordButton.png; path = "Recorder Icons/recordButton.png"; sourceTree = SOURCE_ROOT; };
@@ -353,6 +359,17 @@
 			path = AWSFrameworks;
 			sourceTree = "<group>";
 		};
+		58F19AD11A3FB34400CA028B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				58F19AD21A3FB39C00CA028B /* CSTBeaconManager.h */,
+				58F19AD31A3FB39C00CA028B /* CSTBeaconManager.m */,
+				58A57EC71A3FEFD800EFE6DA /* CSTMovingAverage.h */,
+				58A57EC81A3FEFD800EFE6DA /* CSTMovingAverage.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		992B7C312D35F7CA02DD215E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,6 +552,7 @@
 		9B77033B196ED3B2001F658B /* lufthouse-ios */ = {
 			isa = PBXGroup;
 			children = (
+				58F19AD11A3FB34400CA028B /* Helpers */,
 				9B0C999519F00E300021D07F /* Settings */,
 				9B0C999419F00BEC0021D07F /* View Controllers */,
 				9B0C999719F00E890021D07F /* Elements */,
@@ -681,8 +699,9 @@
 		9B77032A196ED3B2001F658B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = CST;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = Lufthouse;
+				ORGANIZATIONNAME = Castable;
 				TargetAttributes = {
 					9B770331196ED3B2001F658B = {
 						DevelopmentTeam = DFGF9BP3Z2;
@@ -853,6 +872,8 @@
 			files = (
 				9B1733221987605F00A9FA5C /* settingsViewController.m in Sources */,
 				9BF9EBF519702B1C008B73CA /* LufthouseTour.m in Sources */,
+				58A57EC91A3FEFD800EFE6DA /* CSTMovingAverage.m in Sources */,
+				58F19AD41A3FB39C00CA028B /* CSTBeaconManager.m in Sources */,
 				9BF9EBEB19702752008B73CA /* ToursViewController.m in Sources */,
 				9B770373196ED896001F658B /* CustomerViewController.m in Sources */,
 				9B15E738196F267C00FB29E6 /* TourImageViewController.m in Sources */,
